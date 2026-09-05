@@ -1,0 +1,25 @@
+<div class="error-page">
+  <div class="error-card">
+    <div class="error-icon-wrap tone-warning">
+      <i class="ri-server-line"></i>
+    </div>
+
+    <div class="error-code">500</div>
+    <h1 class="error-title">Something went wrong on our end</h1>
+    <p class="error-desc">
+      The server ran into an unexpected error while processing your request.
+      Please try again shortly.
+    </p>
+
+    <div class="error-actions">
+      <button class="error-btn primary" (click)="reload()">
+        <i class="ri-refresh-line"></i> Try Again
+      </button>
+      <button class="error-btn secondary" (click)="goDashboard()">
+        <i class="ri-home-4-line"></i> Dashboard
+      </button>
+    </div>
+
+    <div class="error-brand">BORS IT SOLUTIONS</div>
+  </div>
+</div>

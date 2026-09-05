@@ -1,0 +1,249 @@
+<div class="panel">
+
+  <div class="page-title-block">
+    <div>
+      <h1>All Products</h1>
+    </div>
+    <!-- FIX: routerLink navigate panradhukku badhila, right-side panel open pannum -->
+    <button type="button" class="btn btn-success-custom btn-sm" (click)="openAddPanel()">
+      <i class="ri-add-line me-1"></i> Add Product
+    </button>
+  </div>
+
+  <!-- Filter row: flatpickr date range + ng-select category -->
+  <form [formGroup]="filterForm">
+
+    <div class="row g-3 mb-3">
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Category</label>
+        <ng-select class="custom-ng-select" [items]="categoryOptions" bindLabel="name" bindValue="id"
+          formControlName="category" [clearable]="false">
+        </ng-select>
+      </div>
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Brand</label>
+        <ng-select class="custom-ng-select" [items]="brandOptions" bindLabel="name" bindValue="id"
+          formControlName="brand" [clearable]="false">
+        </ng-select>
+      </div>
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Unit</label>
+        <ng-select class="custom-ng-select" [items]="umoOptions" bindLabel="name" bindValue="id" formControlName="unit"
+          [clearable]="false">
+        </ng-select>
+      </div>
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Gst</label>
+        <ng-select class="custom-ng-select" [items]="taxOptions" bindLabel="name" bindValue="id" formControlName="gst"
+          [clearable]="false">
+        </ng-select>
+      </div>
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Color</label>
+        <ng-select class="custom-ng-select" [items]="colorOptions" bindLabel="name" bindValue="id"
+          formControlName="color" [clearable]="false">
+        </ng-select>
+      </div>
+
+    </div>
+
+    <div class="row align-items-end mb-3">
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Records</label>
+        <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+          [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+          [clearable]="false">
+        </ng-select>
+      </div>
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Search</label>
+        <div class="search-box">
+          <input type="text" class="form-control" placeholder="Search Product..." [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearch()" [ngModelOptions]="{standalone:true}">
+          <i *ngIf="!searchTerm" class="ri-search-line search-icon"></i>
+          <button *ngIf="searchTerm" type="button" class="clear-btn" (click)="clearSearch()">
+            <i class="ri-close-circle-fill"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-lg-1 col-md-1">
+        <button class="btn btn-primary-custom w-100" type="button" (click)="viewProducts()">
+          <i class="ri-eye-line me-2"></i>
+          View
+        </button>
+      </div>
+
+      <div class="col-lg-1 col-md-1">
+        <button class="btn btn-soft w-100" type="button" (click)="clearFilter()">
+          <i class="ri-filter-off-line me-2"></i>
+          Clear
+        </button>
+      </div>
+
+      <div class="export-actions justify-content-end col-lg-1 col-md-1 ms-auto ps-3">
+        <div class="export-actions">
+          <button class="btn-icon-sm" title="Export Excel" (click)="exportExcel()">
+            <i class="ri-file-excel-2-line"></i>
+          </button>
+          <button class="btn-icon-sm" title="Export PDF" (click)="exportPdf()">
+            <i class="ri-file-pdf-2-line"></i>
+          </button>
+          <button class="btn-icon-sm" title="Print" (click)="printList()">
+            <i class="ri-printer-line"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+
+  <div class="col-lg-12 col-md-2 ">
+
+    <div class="table-common-wrap">
+      <table class="table-common">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th style="min-width:70px">Image</th>
+            <th style="min-width:180px">Product</th>
+            <th style="min-width:180px">ProductCode</th>
+            <th style="min-width:160px">ProductId</th>
+            <th style="min-width:180px">SKU</th>
+            <th style="min-width:160px">Barcode</th>
+            <th style="min-width:180px">CategoryName</th>
+            <th style="min-width:180px">BrandName</th>
+            <th style="min-width:180px">UnitName</th>
+            <th style="min-width:180px">Warranty_Period</th>
+            <th style="min-width:180px">GST_%</th>
+            <th style="min-width:180px">PurchasePrice</th>
+            <th style="min-width:180px">MRP</th>
+            <th style="min-width:180px">SellingPrice</th>
+            <th style="min-width:180px">CurrentStock</th>
+            <th style="min-width:180px">MinimumStock</th>
+            <th style="min-width:180px">MaximumStock</th>
+            <th style="min-width:180px">CreatedBy</th>
+            <th style="min-width:180px">CreatedDate</th>
+            <th style="min-width:180px">IsActive</th>
+            <th style="min-width:180px">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of searchList; let i=index">
+            <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+            <td>
+              <img *ngIf="p.Product_Image || p.ProdImgUrl" [src]="p.Product_Image || p.ProdImgUrl" alt=""
+                style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
+              <span *ngIf="!(p.Product_Image || p.ProdImgUrl)" class="text-muted small">No image</span>
+            </td>
+            <td>{{ p.Product_Name }}</td>
+            <td>{{ p.Product_Code }}</td>
+            <td>{{ p.ProductId }}</td>
+            <td>{{ p.SKU }}</td>
+            <td>{{ p.Barcode }}</td>
+            <td>{{ p.Product_Category }}</td>
+            <td>{{ p.Brand_Name }}</td>
+            <td>{{ p.Product_UOM }}</td>
+            <td>{{ p.Warranty_Period }}</td>
+            <td>{{ p.Gst_Per }}</td>
+            <td>{{ p.Purchase_Price }}</td>
+            <td>{{ p.MRP }}</td>
+            <td>{{ p.Selling_Price }}</td>
+            <td>{{ p.CurrentStock }}</td>
+            <td>{{ p.Minimum_Stock }}</td>
+            <td>{{ p.Maximum_Stock }}</td>
+            <td>{{ p.Created_By }}</td>
+            <td>{{ p.Created_On }}</td>
+
+            <td>
+              <span class="status-pill status-dot" [ngClass]="{
+                  'active-status': p.Is_Active === 'A',
+                  'inactive-status': p.Is_Active === 'D'
+                }" [title]="p.Is_Active === 'A' ? 'Active' : 'Inactive'">
+                {{ p.Is_Active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td>
+              <div class="action-btns">
+                <!-- FIX: navigate panradhukku badhila, right side panel open pannum -->
+                <button class="btn-icon-sm edit" title="Edit" (click)="editProduct(p.Product_Code)">
+                  <i class="ri-edit-line"></i>
+                </button>
+                <button class="btn-icon-sm delete" title="Delete" (click)="deleteProduct(p)">
+                  <i class="ri-delete-bin-line"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="!filteredData.length">
+            <td colspan="9">
+              <div class="empty-state">
+                <img src="img/no-data.png" alt="" height="70">
+                <h5 class="text-black">No Products Found!</h5>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-bar" *ngIf="totalRecords">
+      <div class="text-muted mt-2 ">
+        Showing
+        <strong>{{ startRecord }}</strong>
+        to
+        <strong>{{ endRecord }}</strong>
+        of
+        <strong>{{ totalRecords }}</strong>
+        entries
+      </div>
+
+      <div class="page-btns">
+        <button (click)="goToPage(page - 1)" [disabled]="page === 1"><i class="ri-arrow-left-double-line"></i><i
+            class="ri-arrow-left-double-line"></i></button>
+        <button (click)="goToPage(page - 1)" [disabled]="page === 1"><i class="ri-arrow-left-double-line"></i></button>
+
+        <button *ngFor="let p of getPageNumbers()" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
+
+        <button (click)="goToPage(page + 1)" [disabled]="page === totalPages"><i
+            class="ri-arrow-right-double-line"></i></button>
+        <button (click)="goToPage(page + 1)" [disabled]="page === totalPages"><i
+            class="ri-arrow-right-double-line"></i><i class="ri-arrow-right-double-line"></i></button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= Right Side Slide Panel (Add / Edit Product) ================= -->
+<div class="side-panel-overlay" *ngIf="showPanel" (click)="closePanel()"></div>
+
+<div class="side-panel" [class.open]="showPanel">
+
+  <!-- "<" close button -- panel oda left-center edge la stick aagi irukum -->
+  <button type="button" class="side-panel-close-btn" (click)="closePanel()" title="Close">
+    <i class="ri-arrow-right-s-line"></i>
+  </button>
+
+  <div class="side-panel-body" *ngIf="showPanel">
+
+    <app-add-product *ngIf="panelMode === 'add'" [isPanelMode]="true" (saved)="onPanelSaved()"
+      (cancelled)="closePanel()">
+    </app-add-product>
+
+    <app-update-products *ngIf="panelMode === 'edit'" [isPanelMode]="true" [productCode]="selectedProductCode"
+      (updated)="onPanelSaved()" (cancelled)="closePanel()">
+    </app-update-products>
+
+  </div>
+
+</div>

@@ -1,0 +1,559 @@
+<!-- all-orders.html -->
+
+
+<div class="panel">
+<div class="page-title-block">
+
+    <div>
+        <h1>All Orders</h1>
+    </div>
+
+    <button class="btn btn-success-custom btn-sm" (click)="refresh()">
+        <i class="ri-refresh-line me-1"></i>
+        Refresh
+    </button>
+
+</div>
+    <!-- ===========================
+       FILTER AREA
+  ============================ -->
+
+    <div class="row align-items-end mb-3">
+
+        <!-- Records -->
+        <div class="col-lg-2">
+            <label class="form-label-custom">Records</label>
+
+            <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+                [clearable]="false">
+            </ng-select>
+        </div>
+
+        <!-- Search -->
+        <div class="col-lg-3">
+            <label class="form-label-custom">Search</label>
+
+            <div class="search-box">
+                <input class="form-control" placeholder="Search anything in orders..." [(ngModel)]="searchText"
+                    (ngModelChange)="onSearch()" [ngModelOptions]="{standalone:true}">
+                <i *ngIf="!searchText" class="ri-search-line search-icon"></i>
+
+                <button *ngIf="searchText" type="button" class="clear-btn" (click)="clearSearch()">
+                    <i class="ri-close-circle-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="col-lg-3">
+            <label class="form-label-custom">Order Status</label>
+
+            <ng-select class="custom-ng-select" [items]="statusOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="statusFilter" [ngModelOptions]="{standalone:true}" (change)="onStatusFilterChange()"
+                [clearable]="false">
+            </ng-select>
+        </div>
+
+        <div class="export-actions justify-content-end mb-3 col-lg-4">
+            <button class="btn-icon-sm" title="Export Excel" (click)="exportExcel()">
+                <i class="ri-file-excel-2-line"></i>
+            </button>
+            <button class="btn-icon-sm" title="Export PDF" (click)="exportPdf()">
+                <i class="ri-file-pdf-2-line"></i>
+            </button>
+            <button class="btn-icon-sm" title="Print" (click)="printList()">
+                <i class="ri-printer-line"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ===========================
+       TABLE
+  ============================ -->
+
+    <div class="table-common-wrap">
+
+        <table class="table-common">
+
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th style="min-width:140px">Order Code</th>
+                    <th style="min-width:160px">Customer Code</th>
+                    <th style="min-width:160px">Customer</th>
+                    <th style="min-width:140px">GSTIN Number</th>
+                    <th style="min-width:120px">Payment Method</th>
+                    <th style="min-width:150px">Payment Amount</th>
+                    <th style="min-width:120px">Total Amount</th>
+                    <th style="min-width:150px">Order Status</th>
+                    <th style="min-width:170px">Changed By</th>
+                    <th style="min-width:160px">Created On</th>
+                    <th style="min-width:130px">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let o of searchList; let i=index">
+
+                    <td>{{ (page-1)*pageSize+i+1 }}</td>
+
+                    <td><span class="order-code-chip">{{o.Order_Code}}</span></td>
+
+                    <td><span class="Customer-code-chip">{{o.Customer_Code}}</span></td>
+
+                    <td>
+                        <div class="cell-stack">
+                            <strong>{{o.Customer_Name || '—'}}</strong>
+                            <span class="cell-sub">{{o.Customer_Code}}</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span *ngIf="o.GSTIN_Number" class="mono-text">{{o.GSTIN_Number}}</span>
+                        <span *ngIf="!o.GSTIN_Number" class="cell-sub">—</span>
+                    </td>
+
+                    <td>
+                        <span class="method-pill" [ngClass]="'method-' + (o.Payment_Method | lowercase)">
+                            {{o.Payment_Method}}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="cell-stack">
+                            <span>{{o.Payment_Amount}}</span>
+                            <span *ngIf="o.Payment_Method === 'COD'">
+                                <span class="status-pill payment-mini-pill" [ngClass]="paymentStatusClass(o.Payment_Status)">
+                                    {{o.Payment_Status === 'PAID' ? 'Paid' : 'Pending'}}
+                                </span>
+                            </span>
+                        </div>
+                    </td>
+
+                    <td><strong class="amount-text">₹{{o.Total_Amount}}</strong></td>
+
+                    <td>
+                        <span class="status-pill" [ngClass]="statusClass(o.Order_Status)">
+                            {{o.Order_Status}}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="cell-stack" *ngIf="o.Changed_By_Name; else noChangeYet">
+                            <div class="changed-by-row">
+                                <span class="avatar-chip">{{ (o.Changed_By_Name || '?') | slice:0:1 }}</span>
+                                <div class="cell-stack">
+                                    <strong>{{o.Changed_By_Name}}</strong>
+                                    <span class="cell-sub">{{o.Changed_By}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template #noChangeYet>
+                            <span class="cell-sub">—</span>
+                        </ng-template>
+                    </td>
+
+                    <td>{{o.Created_On }}</td>
+
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon-sm action-btn-view" title="View" (click)="openView(o)">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                            <button class="btn-icon-sm action-btn-edit" title="Edit Status" (click)="openEdit(o)">
+                                <i class="ri-edit-line"></i>
+                            </button>
+                            <button class="btn-icon-sm action-btn-payment" title="Mark Payment Received"
+                                *ngIf="canMarkPayment(o)" (click)="openPayment(o)">
+                                <i class="ri-cash-line"></i>
+                            </button>
+                        </div>
+                    </td>
+
+                </tr>
+
+                <tr *ngIf="searchList.length==0">
+                    <td colspan="11">
+                        <div class="empty-state">
+                            <img src="img/no-data.png" height="70">
+                            <h5 class="text-black">No Orders Found!</h5>
+                            <p class="text-muted mb-0">Try clearing the search or status filter.</p>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ===========================
+       PAGINATION
+  ============================ -->
+
+    <div class="pagination-bar" *ngIf="totalRecords">
+
+        <div class="text-muted mt-2 p-6">
+            Showing <strong>{{startRecord}}</strong> to <strong>{{endRecord}}</strong> of
+            <strong>{{totalRecords}}</strong> entries
+        </div>
+
+        <div class="page-btns">
+            <button (click)="goToPage(page-1)" [disabled]="page==1">
+                <i class="ri-arrow-left-double-line"></i><i class="ri-arrow-left-double-line"></i>
+            </button>
+            <button (click)="goToPage(page-1)" [disabled]="page==1">
+                <i class="ri-arrow-left-double-line"></i>
+            </button>
+            <button *ngFor="let p of getPageNumbers()" [class.active]="p==page" (click)="goToPage(p)">
+                {{p}}
+            </button>
+            <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+                <i class="ri-arrow-right-double-line"></i>
+            </button>
+            <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+                <i class="ri-arrow-right-double-line"></i><i class="ri-arrow-right-double-line"></i>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+   VIEW ORDER MODAL
+============================ -->
+
+<div class="modal-overlay view-modal-overlay" *ngIf="showViewModal" (click)="closeView()">
+
+    <div class="modal-box modal-box-lg modal-enter-top modal-scroll-clean" (click)="$event.stopPropagation()">
+
+        <!-- Gradient Header -->
+        <div class="view-header" [ngClass]="statusClass(viewOrder?.Order_Status)">
+
+            <button class="modal-close-btn" (click)="closeView()"><i class="ri-close-line"></i></button>
+
+            <span class="view-header-eyebrow">Order</span>
+            <h4 class="view-header-code">{{viewOrder?.Order_Code}}</h4>
+
+            <div class="view-header-meta">
+                <span class="status-pill status-pill-lg" [ngClass]="statusClass(viewOrder?.Order_Status)">
+                    {{viewOrder?.Order_Status}}
+                </span>
+                <span class="view-header-date">
+                    <i class="ri-calendar-line"></i>
+                    <ng-container *ngIf="viewOrder?.Created_On; else noDateTpl">
+                        Placed {{viewOrder?.Created_On | date:'dd MMM yyyy, hh:mm a'}}
+                    </ng-container>
+                    <ng-template #noDateTpl>Order date unavailable</ng-template>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="modal-body">
+
+            <!-- Summary Cards -->
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <span class="summary-icon"><i class="ri-user-3-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">Customer</span>
+                        <strong>{{viewOrder?.Customer_Name || '—'}}</strong>
+                        <span class="cell-sub">{{viewOrder?.Customer_Code}}</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <span class="summary-icon"><i class="ri-bank-card-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">Payment</span>
+                        <strong>{{viewOrder?.Payment_Method}}</strong>
+                        <span class="cell-sub">{{viewOrder?.Payment_Amount}}</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <span class="summary-icon"><i class="ri-money-rupee-circle-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">Order Total</span>
+                        <strong class="amount-text">₹{{viewOrder?.Total_Amount}}</strong>
+                    </div>
+                </div>
+
+                <div class="summary-card" *ngIf="viewOrder?.Payment_Method === 'COD'; else gstinCard">
+                    <span class="summary-icon"><i class="ri-cash-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">COD Payment</span>
+                        <span class="status-pill" [ngClass]="paymentStatusClass(viewOrder?.Payment_Status)">
+                            {{viewOrder?.Payment_Status === 'PAID' ? 'Received' : 'Not Collected Yet'}}
+                        </span>
+                    </div>
+                </div>
+
+                <ng-template #gstinCard>
+                    <div class="summary-card" *ngIf="viewOrder?.GSTIN_Number">
+                        <span class="summary-icon"><i class="ri-file-list-3-line"></i></span>
+                        <div class="cell-stack">
+                            <span class="summary-label">GSTIN</span>
+                            <strong class="mono-text">{{viewOrder?.GSTIN_Number}}</strong>
+                        </div>
+                    </div>
+                </ng-template>
+
+            </div>
+
+            <!-- Delivery + Last updated -->
+            <div class="info-row">
+
+                <div class="info-block">
+                    <span class="summary-label"><i class="ri-map-pin-line me-1"></i>Delivery Address</span>
+                    <p class="info-text">
+                        {{viewOrder?.Delivery_Address}},
+                        {{viewOrder?.City}}, {{viewOrder?.State}} - {{viewOrder?.Pincode}}
+                    </p>
+                </div>
+
+                <div class="info-block" *ngIf="viewOrder?.Changed_By_Name">
+                    <span class="summary-label"><i class="ri-user-settings-line me-1"></i>Last Updated By</span>
+                    <div class="changed-by-row">
+                        <span class="avatar-chip avatar-chip-lg">{{ (viewOrder?.Changed_By_Name || '?') | slice:0:1
+                            }}</span>
+                        <div class="cell-stack">
+                            <strong>{{viewOrder?.Changed_By_Name}}</strong>
+                            <span class="cell-sub">{{viewOrder?.Changed_By}} &middot; {{viewOrder?.Updated_On | date:'dd MMM, hh:mm a'}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Items — shown as small product cards (image, name, description, rating) -->
+            <h6 class="section-title"><i class="ri-shopping-bag-3-line me-1"></i>Items ({{viewItems.length}})</h6>
+
+            <ng-container *ngIf="!viewLoading; else itemsLoadingTpl">
+
+                <div class="items-grid" *ngIf="viewItems.length > 0">
+
+                    <div class="item-card" *ngFor="let it of viewItems">
+
+                        <div class="item-card-image">
+                            <div class="item-image-frame">
+                                <img *ngIf="itemImage(it)" [src]="itemImage(it)" [alt]="it.Product_Name">
+                                <i *ngIf="!itemImage(it)" class="ri-image-2-line"></i>
+                            </div>
+                            <span class="item-image-badge" *ngIf="it.Quantity > 0">
+                                Qty {{it.Quantity}}
+                            </span>
+                        </div>
+
+                        <div class="item-card-body">
+
+                            <strong class="item-card-name" [title]="it.Product_Name">{{it.Product_Name}}</strong>
+
+                            <p class="item-card-desc" *ngIf="it.Product_Description" [title]="it.Product_Description">
+                                {{it.Product_Description}}
+                            </p>
+
+                            <div class="item-card-rating" *ngIf="it.Star_Rating">
+                                <i class="ri-star-fill" *ngFor="let s of filledStars(it.Star_Rating)"></i>
+                                <i class="ri-star-line" *ngFor="let s of emptyStars(it.Star_Rating)"></i>
+                                <span class="rating-value">{{it.Star_Rating}}</span>
+                            </div>
+
+                            <div class="item-card-footer">
+                                <span class="item-card-qty">Qty {{it.Quantity}} &times; ₹{{it.Selling_Price}}</span>
+                                <strong class="item-card-subtotal">₹{{it.Subtotal || (it.Quantity *
+                                    it.Selling_Price)}}</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="empty-inline" *ngIf="viewItems.length==0">
+                    <i class="ri-inbox-line"></i> No items
+                </div>
+
+            </ng-container>
+
+            <ng-template #itemsLoadingTpl>
+                <div class="inline-loading">
+                    <div class="spinner spinner-sm"></div>
+                    Loading items...
+                </div>
+            </ng-template>
+
+            <!-- Status Timeline -->
+            <h6 class="section-title"><i class="ri-route-line me-1"></i>Status History</h6>
+
+            <ng-container *ngIf="!viewLoading; else historyLoadingTpl">
+
+                <ul class="timeline-pro">
+
+                    <li *ngFor="let h of viewHistory; let last = last" [ngClass]="statusClass(h.Order_Status)">
+
+                        <span class="timeline-icon">
+                            <i [ngClass]="statusIcon(h.Order_Status)"></i>
+                        </span>
+
+                        <div class="timeline-content">
+
+                            <div class="timeline-top-row">
+                                <span class="status-pill" [ngClass]="statusClass(h.Order_Status)">
+                                    {{h.Order_Status}}
+                                </span>
+                                <span class="timeline-date">{{h.Changed_On | date:'dd MMM yyyy, hh:mm a'}}</span>
+                            </div>
+
+                            <div class="timeline-by" *ngIf="h.Changed_By_Name">
+                                <i class="ri-user-line"></i>
+                                {{h.Changed_By_Name}} <span class="cell-sub">({{h.Changed_By}})</span>
+                            </div>
+
+                            <p class="timeline-remarks" *ngIf="h.Remarks">
+                                <i class="ri-chat-3-line"></i> {{h.Remarks}}
+                            </p>
+
+                        </div>
+
+                    </li>
+
+                    <li *ngIf="viewHistory.length==0" class="empty-inline">
+                        <i class="ri-history-line"></i> No history yet
+                    </li>
+
+                </ul>
+
+            </ng-container>
+
+            <ng-template #historyLoadingTpl>
+                <div class="inline-loading">
+                    <div class="spinner spinner-sm"></div>
+                    Loading status history...
+                </div>
+            </ng-template>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+   EDIT STATUS MODAL
+============================ -->
+
+<div class="modal-overlay" *ngIf="showEditModal" (click)="closeEdit()">
+
+    <div class="modal-box modal-box-sm modal-enter-top modal-scroll-clean" (click)="$event.stopPropagation()">
+
+        <div class="modal-head modal-head-plain">
+            <div>
+                <h5>Update Status</h5>
+                <span class="order-code-chip">{{editOrder?.Order_Code}}</span>
+            </div>
+
+            <button type="button" class="edit-modal-close" title="Close" aria-label="Close" (click)="closeEdit()">
+                <i class="ri-close-circle-fill"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="current-status-row">
+                <span class="summary-label">Current Status</span>
+                <span class="status-pill status-pill-lg" [ngClass]="statusClass(editOrder?.Order_Status)">
+                    {{editOrder?.Order_Status}}
+                </span>
+            </div>
+
+            <label class="form-label-custom mt-3">New Status</label>
+
+            <ng-select class="custom-ng-select" [items]="editStatusOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="editNewStatus" [ngModelOptions]="{standalone:true}" [clearable]="false">
+            </ng-select>
+
+            <label class="form-label-custom mt-3">Remarks (optional)</label>
+
+            <textarea class="form-control" rows="3" maxlength="255" [(ngModel)]="editRemarks"
+                [ngModelOptions]="{standalone:true}" placeholder="Any note for this status change..."></textarea>
+            <span class="char-count">{{editRemarks.length}}/255</span>
+
+            <div class="updating-as-row">
+                <i class="ri-shield-user-line"></i>
+                Updating as <strong>{{currentAdminLabel}}</strong>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-soft" (click)="closeEdit()">Cancel</button>
+            <button class="btn btn-primary-custom" [disabled]="editSaving || !editNewStatus" (click)="saveStatus()">
+                <i class="ri-loader-4-line spin-icon" *ngIf="editSaving"></i>
+                <i class="ri-save-3-line" *ngIf="!editSaving"></i>
+                {{editSaving ? 'Saving...' : 'Save Changes'}}
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+   MARK PAYMENT RECEIVED MODAL
+============================ -->
+
+<div class="modal-overlay" *ngIf="showPaymentModal" (click)="closePayment()">
+
+    <div class="modal-box modal-box-sm modal-enter-top modal-scroll-clean" (click)="$event.stopPropagation()">
+
+        <div class="modal-head modal-head-plain">
+            <div>
+                <h5>Mark COD Payment Received</h5>
+                <span class="order-code-chip">{{paymentTarget?.Order_Code}}</span>
+            </div>
+
+            <button type="button" class="edit-modal-close" title="Close" aria-label="Close" (click)="closePayment()">
+                <i class="ri-close-circle-fill"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="current-status-row">
+                <span class="summary-label">Amount to Collect</span>
+                <strong class="amount-text">₹{{paymentTarget?.Total_Amount}}</strong>
+            </div>
+
+            <p class="mt-3" style="font-size:13px;color:#6b7280;">
+                Customer <strong>{{paymentTarget?.Customer_Name}}</strong> kitta irundhu cash வாங்கியாச்சா
+                confirm pண்ணுங்க. Idha panna aparam, undo panna mudiyathு.
+            </p>
+
+            <div class="updating-as-row">
+                <i class="ri-shield-user-line"></i>
+                Marking as <strong>{{currentAdminLabel}}</strong>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-soft" (click)="closePayment()">Cancel</button>
+            <button class="btn btn-success-custom" [disabled]="paymentSaving" (click)="confirmPayment()">
+                <i class="ri-loader-4-line spin-icon" *ngIf="paymentSaving"></i>
+                <i class="ri-checkbox-circle-line" *ngIf="!paymentSaving"></i>
+                {{paymentSaving ? 'Saving...' : 'Yes, Cash Received'}}
+            </button>
+        </div>
+
+    </div>
+
+</div>

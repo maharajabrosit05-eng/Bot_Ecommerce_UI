@@ -1,0 +1,218 @@
+<div class="panel">
+
+  <div class="page-title-block">
+    <div>
+      <h1>Masters</h1>
+      <!-- <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb> -->
+    </div>
+    <button class="btn btn-primary-custom btn-sm" (click)="openAddModal()">
+      <i class="ri-add-line me-1"></i> Add {{ activeTab.label }}
+    </button>
+  </div>
+
+  <!-- ================= Master switch buttons: Category / Sub Category / Brand / UOM / HSN ================= -->
+  <div class="master-tabs">
+    <button type="button" class="master-tab-btn" [class]="'master-tab-btn tab-' + tab.key"
+      [class.active]="tab.key === activeTab?.key" *ngFor="let tab of tabs" (click)="selectTab(tab)">
+
+      <i [class]="tab.icon"></i>
+
+      {{ tab.label }}
+
+    </button>
+
+<div class="search-box">
+  <input type="text" class="form-control" placeholder="Search {{ activeTab.nameLabel }}..." [(ngModel)]="searchTerm"
+    (ngModelChange)="onSearch()" />
+  <i *ngIf="!searchTerm" class="ri-search-line search-icon"></i>
+  <button *ngIf="searchTerm" type="button" class="clear-btn" (click)="clearSearch()">
+    <i class="ri-close-circle-fill"></i>
+  </button>
+</div>
+
+
+    <div class="export-actions justify-content-end col-lg-1 col-md-1 ms-auto ps-3">
+      <div class="export-actions">
+        <button class="btn-icon-sm" title="Export Excel" (click)="exportExcel()">
+          <i class="ri-file-excel-2-line"></i>
+        </button>
+
+        <button class="btn-icon-sm" title="Export PDF" (click)="exportPdf()">
+          <i class="ri-file-pdf-2-line"></i>
+        </button>
+
+        <button class="btn-icon-sm" title="Print" (click)="printList()">
+          <i class="ri-printer-line"></i>
+        </button>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+  <div class="table-common-wrap">
+    <table class="table-common">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th *ngFor="let col of activeTab.columns">{{ col.header }}</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of filteredList; let i = index">
+          <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+
+          <td *ngFor="let col of activeTab.columns">
+            <ng-container *ngIf="activeTab.key === 'group' && col.field === 'Category_Code'; else plainCell">
+              {{ getCategoryName(row[col.field]) }}
+            </ng-container>
+            <ng-template #plainCell>{{ row[col.field] }}</ng-template>
+          </td>
+
+          <td>
+            <span class="status-pill status-dot" [ngClass]="{
+              'active-status': row.Is_Active === 'A' || row.Is_Active === 'Y',
+              'inactive-status': row.Is_Active !== 'A' && row.Is_Active !== 'Y'
+            }">
+              {{ (row.Is_Active === 'A' || row.Is_Active === 'Y') ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+
+          <td>
+            <button class="btn-icon-sm edit me-1" title="Edit" (click)="openEditModal(row)"><i
+                class="ri-edit-line"></i></button>
+            <button class="btn-icon-sm delete" title="Delete" (click)="deleteMaster(row)"><i
+                class="ri-delete-bin-line"></i></button>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredList.length === 0">
+          <td [attr.colspan]="activeTab.columns.length + 3">
+
+            <div class="empty-state">
+
+              <img src="img/no-data.png" alt="" height="70">
+              <h5 class="text-black">No {{ activeTab.label }} Found!</h5>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="pagination-bar" *ngIf="totalRecords">
+
+    <div class="text-muted mt-2 ">
+      Showing
+      <strong>{{ startRecord }}</strong>
+      to
+      <strong>{{ endRecord }}</strong>
+      of
+      <strong>{{ totalRecords }}</strong>
+      entries
+    </div>
+
+     <span class="text-black ">
+      <strong class="mt-5">
+        Total {{ activeTab.label }}:
+        <span style="color:red">
+          {{ totalRecords | number:'1.2-2' }}
+
+
+        </span>
+      </strong>
+    </span> 
+
+     <div class="page-btns">
+      <button (click)="goToPage(page - 1)" [disabled]="page === 1"><i class="ri-arrow-left-s-line"></i></button>
+      <button *ngFor="let p of getPageNumbers()" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
+      <button (click)="goToPage(page + 1)" [disabled]="page === totalPages"><i
+          class="ri-arrow-right-s-line"></i></button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= Add / Edit Modal (dynamic per active master) ================= -->
+<div class="custom-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+
+<div class="custom-modal" *ngIf="showModal">
+  <form [formGroup]="masterForm" (ngSubmit)="saveMaster()" novalidate>
+    <div class="custom-modal-head">
+      <h5>{{ isEditMode ? 'Edit' : 'Add' }} {{ activeTab.label }}</h5>
+      <button type="button" class="btn-icon-sm" (click)="closeModal()"><i class="ri-close-line"></i></button>
+    </div>
+
+    <div class="custom-modal-body">
+
+      <!-- Name field (Category_Name / Group_Name / Brand_Name / Uom_Name / Hsn) -->
+      <div class="mb-3">
+        <label class="form-label-custom">{{ activeTab.nameLabel }} <span class="text-danger">*</span></label>
+        <input #nameInput type="text" class="form-input-custom" formControlName="name"
+          placeholder="Enter {{ activeTab.nameLabel }}" />
+        <div class="text-danger small mt-1" *ngIf="f['name'].invalid && f['name'].touched">
+          {{ activeTab.nameLabel }} is required
+        </div>
+      </div>
+
+      <!-- Dynamic extra fields per master (Short Name, Display Order, GST %, Parent Category...) -->
+      <div class="mb-3" *ngFor="let field of activeTab.fields">
+        <label class="form-label-custom">
+          {{ field.label }} <span class="text-danger" *ngIf="field.required">*</span>
+        </label>
+
+        <ng-select *ngIf="field.type === 'select'" class="custom-ng-select" [items]="getFieldOptions(field)"
+          bindLabel="name" bindValue="id" [clearable]="false" placeholder="Select {{ field.label }}"
+          [formControlName]="field.key">
+        </ng-select>
+
+        <input *ngIf="field.type === 'text'" type="text" class="form-input-custom" [formControlName]="field.key"
+          placeholder="Enter {{ field.label }}" />
+
+        <input *ngIf="field.type === 'number'" type="number" class="form-input-custom" [formControlName]="field.key"
+          placeholder="Enter {{ field.label }}" />
+
+        <div class="text-danger small mt-1" *ngIf="field.required && f[field.key].invalid && f[field.key].touched">
+          {{ field.label }} is required
+        </div>
+      </div>
+
+      <!-- Status (ON/OFF toggle switch) -->
+      <div class="mb-1">
+        <label class="form-label-custom">Status</label>
+
+        <div class="status-toggle-wrap">
+
+          <button type="button" class="status-toggle-btn" [class.on]="masterForm.get('status')?.value === 'A'"
+            (click)="toggleStatus()">
+
+            <span class="status-toggle-text on-text">
+              ON
+            </span>
+
+            <span class="status-toggle-thumb"></span>
+
+            <span class="status-toggle-text off-text">
+              OFF
+            </span>
+
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="custom-modal-footer">
+      <button type="button" class="btn btn-soft" (click)="closeModal()">Cancel</button>
+      <button type="submit" class="btn btn-primary-custom">{{ isEditMode ? 'Update' : 'Save' }}</button>
+    </div>
+  </form>
+</div>

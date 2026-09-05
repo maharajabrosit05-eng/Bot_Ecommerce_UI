@@ -1,0 +1,13 @@
+/* ============================================================
+   Page-specific styles (if any) go here.
+   Shared/common styles (status-tabs, tables, buttons, modals)
+   are in shared/styles/_common.scss.
+   ============================================================ */
+
+/* Give the toolbar search box a proper width so the search icon
+   sits on the right (like menu-access) instead of collapsing
+   its content to the left. */
+.toolbar-row .search-box {
+  width: 280px;
+  max-width: 100%;
+}

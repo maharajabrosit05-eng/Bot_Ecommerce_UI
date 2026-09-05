@@ -1,0 +1,270 @@
+    <!-- ===================== KPI CARDS ===================== -->
+    <div class="row g-3 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="stock-kpi-card kpi-indigo">
+                <div class="kpi-icon"><i class="ri-box-3-line"></i></div>
+                <div>
+                    <h3>{{ totalProducts }}</h3>
+                    <p>Total Products</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="stock-kpi-card kpi-cyan">
+                <div class="kpi-icon"><i class="ri-stack-line"></i></div>
+                <div>
+                    <h3>{{ totalStockQty }}</h3>
+                    <p>Total Stock Qty</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="stock-kpi-card kpi-amber">
+                <div class="kpi-icon"><i class="ri-error-warning-line"></i></div>
+                <div>
+                    <h3>{{ lowStockCount }}</h3>
+                    <p>Low Stock</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="stock-kpi-card kpi-danger">
+                <div class="kpi-icon"><i class="ri-close-circle-line"></i></div>
+                <div>
+                    <h3>{{ outOfStockCount }}</h3>
+                    <p>Out of Stock</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== FILTER ROW ===================== -->
+    <div class="row align-items-end mb-3 g-3">
+
+        <div class="col-lg-2 col-md-3 col-sm-6">
+            <label class="form-label-custom">Location</label>
+            <ng-select class="custom-ng-select" [items]="locationOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="locationFilter" [ngModelOptions]="{standalone:true}" (change)="onFilterChange()"
+                [clearable]="false">
+            </ng-select>
+        </div>
+
+        <div class="col-lg-2 col-md-3 col-sm-6">
+            <label class="form-label-custom">Records</label>
+            <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+                [clearable]="false">
+            </ng-select>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-8">
+            <label class="form-label-custom">Search</label>
+            <div class="search-box">
+                <input type="text" class="form-control" placeholder="Search Product / Code..." [(ngModel)]="searchTerm"
+                    (ngModelChange)="onSearch()" [ngModelOptions]="{standalone:true}">
+                <i *ngIf="!searchTerm" class="ri-search-line search-icon"></i>
+                <button *ngIf="searchTerm" type="button" class="clear-btn" (click)="clearSearch()">
+                    <i class="ri-close-circle-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-8">
+            <button *ngFor="let tab of statusTabs" type="button" class="status-tab-btn"
+                [class.selected]="statusFilter === tab.id" [ngClass]="{
+          'all-tab': tab.id === 'all',
+          'active-tab': tab.id === 'low',
+          'inactive-tab': tab.id === 'out'
+        }" (click)="onStatusTab(tab.id)">
+                {{ tab.label }}
+            </button>
+        </div>
+
+        <!-- <div class="col-lg-1 col-md-2 col-sm-4">
+      <button class="btn btn-soft w-100" type="button" (click)="clearFilter()">
+        <i class="ri-filter-off-line me-2"></i>Clear
+      </button>
+    </div> -->
+
+    </div>
+
+    <!-- ===================== TABLE ===================== -->
+    <div class="col-lg-12">
+        <div class="table-common-wrap">
+            <table class="table-common">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th style="min-width:70px">Image</th>
+                        <th style="min-width:180px">Product</th>
+                        <th style="min-width:150px">Product Code</th>
+                        <th style="min-width:140px">SKU</th>
+                        <!-- <th style="min-width:140px">Location</th> -->
+                        <th style="min-width:120px">Current Stock</th>
+                        <th style="min-width:110px">Min Stock</th>
+                        <th style="min-width:110px">Max Stock</th>
+                        <th style="min-width:120px">Status</th>
+                        <th style="min-width:120px">Updated By</th>
+                        <th style="min-width:160px">Updated On</th>
+                        <th style="min-width:150px">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let s of searchList; let i=index">
+                        <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+                        <td>
+                            <img class="stock-thumb" [src]="getProductImageSrc(s.Product_Image || s.ProdImgUrl)"
+                                (error)="onImageError($event)" alt="">
+                        </td>
+                        <td class="cell-left"><strong>{{ s.Product_Name }}</strong></td>
+                        <td>{{ s.Product_Code }}</td>
+                     
+                        <td>{{ s.SKU }}</td>
+                        
+                        <!-- <td>
+                            <span class="location-chip"><i class="ri-map-pin-line"></i> {{ s.Location_Name }}</span>
+                        </td> -->
+                        <td><span class="qty-badge">{{ s.Stock_Qty }}</span></td>
+                        <td>{{ s.Minimum_Stock }}</td>
+                        <td>{{ s.Maximum_Stock }}</td>
+                        <td>
+                            <span class="stock-status-pill" [ngClass]="{
+                  'stock-ok': getStockStatus(s) === 'ok',
+                  'stock-low': getStockStatus(s) === 'low',
+                  'stock-out': getStockStatus(s) === 'out'
+                }">
+                                <i class="ri-checkbox-circle-fill" *ngIf="getStockStatus(s) === 'ok'"></i>
+                                <i class="ri-error-warning-fill" *ngIf="getStockStatus(s) === 'low'"></i>
+                                <i class="ri-close-circle-fill" *ngIf="getStockStatus(s) === 'out'"></i>
+                                {{ getStockStatus(s) === 'ok' ? 'In Stock' : (getStockStatus(s) === 'low' ? 'Low Stock'
+                                : 'Out of Stock') }}
+                            </span>
+                        </td>
+                           <td>{{ s.Updated_By }}</td>
+                        <td>{{ s.Updated_On ? (s.Updated_On | date:'dd-MM-yyyy hh:mm a') : '—' }}</td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="btn-icon-sm add-stock" title="Add Stock" (click)="openAddStockPanel(s)">
+                                    <i class="ri-add-circle-line"></i>
+                                </button>
+                                <button class="btn-icon-sm reduce-stock" title="Reduce Stock"
+                                    (click)="openReduceStockPanel(s)">
+                                    <i class="ri-subtract-line"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="!filteredData.length">
+                        <td colspan="12">
+                            <div class="empty-state">
+                               <img src="img/no-data.png" alt="">
+                                <h5 class="text-black">No Stock Records Found!</h5>
+                                <p class="empty-state-sub">Try changing filters or add new stock.</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-bar" *ngIf="totalRecords">
+            <div class="text-muted mt-2">
+                Showing <strong>{{ startRecord }}</strong> to <strong>{{ endRecord }}</strong> of
+                <strong>{{ totalRecords }}</strong> entries
+            </div>
+
+            <div class="page-btns">
+                <button (click)="goToPage(page - 1)" [disabled]="page === 1"><i
+                        class="ri-arrow-left-double-line"></i></button>
+                <button *ngFor="let p of getPageNumbers()" [class.active]="p === page" (click)="goToPage(p)">{{ p
+                    }}</button>
+                <button (click)="goToPage(page + 1)" [disabled]="page === totalPages"><i
+                        class="ri-arrow-right-double-line"></i></button>
+            </div>
+        </div>
+    </div>
+
+
+<!-- ===================== Add / Reduce Stock — TOP MODAL ===================== -->
+<div class="custom-modal-backdrop" *ngIf="showModal" (click)="closePanel()"></div>
+
+<div class="custom-modal stock-modal" *ngIf="showModal">
+
+    <div class="custom-modal-head" [ngClass]="panelMode === 'add' ? 'mode-add' : 'mode-reduce'">
+        <div class="modal-head-title">
+            <i [class]="panelMode === 'add' ? 'ri-add-circle-line' : 'ri-subtract-line'"></i>
+            <h5>{{ panelMode === 'add' ? 'Add Stock' : 'Reduce Stock' }}</h5>
+        </div>
+        <button type="button" class="modal-close-btn" (click)="closePanel()" title="Close">
+            <i class="ri-close-line"></i>
+        </button>
+    </div>
+
+    <div class="custom-modal-body">
+        <form [formGroup]="stockForm" (ngSubmit)="submitStock()">
+
+            <div class="mb-3">
+                <label class="form-label-custom">Product <span class="req">*</span></label>
+                <ng-select class="custom-ng-select" [items]="productOptions" bindLabel="name" bindValue="id"
+                    formControlName="Product_Code" placeholder="Select Product" [clearable]="false">
+                </ng-select>
+                <div class="field-err"
+                    *ngIf="stockForm.get('Product_Code')?.invalid && stockForm.get('Product_Code')?.touched">
+                    Product is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label-custom">Location <span class="req">*</span></label>
+                <input type="text" class="form-input-custom" formControlName="Location_Code" placeholder="e.g. WH-01">
+                <div class="field-err"
+                    *ngIf="stockForm.get('Location_Code')?.invalid && stockForm.get('Location_Code')?.touched">
+                    Location is required.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label-custom">Quantity <span class="req">*</span></label>
+                <div class="qty-stepper">
+                    <button type="button" class="qty-btn" (click)="decrementQty()">
+                        <i class="ri-subtract-line"></i>
+                    </button>
+                    <!-- FIX: readonly remove pannitten -- ippo manual ah type panna
+               mudiyum. Blur aagumbodhu invalid value (empty/0/negative) na
+               1 ku auto-correct aagum (onQtyBlur). -->
+                    <input type="number" class="qty-input" formControlName="Qty" min="1" (blur)="onQtyBlur()">
+                    <button type="button" class="qty-btn" (click)="incrementQty()">
+                        <i class="ri-add-line"></i>
+                    </button>
+                </div>
+                <div class="field-err" *ngIf="stockForm.get('Qty')?.invalid && stockForm.get('Qty')?.touched">
+                    Enter a valid quantity.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label-custom">Updated By</label>
+                <div class="readonly-user-field">
+                    <i class="ri-user-3-line"></i>
+                    <span>{{ loggedInUserName }}</span>
+                </div>
+                <input type="hidden" formControlName="Updated_By">
+            </div>
+
+        </form>
+    </div>
+
+    <div class="custom-modal-footer">
+        <button type="button" class="btn-soft" (click)="closePanel()">Cancel</button>
+        <button type="button" [class]="panelMode === 'add' ? 'btn-success-custom' : 'btn-danger-custom'"
+            [disabled]="saving" (click)="submitStock()">
+            <i class="ri-loader-4-line spin" *ngIf="saving"></i>
+            {{ saving ? 'Saving...' : (panelMode === 'add' ? 'Add Stock' : 'Reduce Stock') }}
+        </button>
+    </div>
+
+</div>

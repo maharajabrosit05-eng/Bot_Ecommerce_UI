@@ -1,0 +1,2245 @@
+:root{
+
+/*==================================
+BACKGROUND
+==================================*/
+
+--bg:#f5f7fb;
+--card:#ffffff;
+
+/*==================================
+TEXT
+==================================*/
+
+--text:#1e293b;
+--muted:#64748b;
+
+/*==================================
+BORDER
+==================================*/
+
+--border:#e2e8f0;
+
+/*==================================
+PRIMARY
+==================================*/
+
+--primary:#4f46e5;
+--primary-dark:#4338ca;
+
+/*==================================
+SUCCESS
+==================================*/
+
+--success:#059669;
+--success-dark:#047857;
+
+/*==================================
+DANGER
+==================================*/
+
+--danger:#e11d48;
+--danger-dark:#be123c;
+
+/*==================================
+WARNING
+==================================*/
+
+--warning:#d97706;
+--warning-dark:#b45309;
+
+/*==================================
+INFO
+==================================*/
+
+--info:#0e7490;
+--info-dark:#155e75;
+
+/*==================================
+RADIUS
+==================================*/
+
+--radius:8px;
+--radius-sm:6px;
+
+/*==================================
+SHADOW
+==================================*/
+
+--shadow-sm:0 2px 8px rgba(15,23,42,.06);
+
+--shadow-md:0 12px 30px rgba(15,23,42,.08);
+
+}
+
+:root{
+
+/*==================================
+BACKGROUND
+==================================*/
+
+--bg:#f5f7fb;
+--card:#ffffff;
+
+/*==================================
+TEXT
+==================================*/
+
+--text:#1e293b;
+--muted:#64748b;
+
+/*==================================
+BORDER
+==================================*/
+
+--border:#e2e8f0;
+
+/*==================================
+PRIMARY
+==================================*/
+
+--primary:#4f46e5;
+--primary-dark:#4338ca;
+
+/*==================================
+SUCCESS
+==================================*/
+
+--success:#059669;
+--success-dark:#047857;
+
+/*==================================
+DANGER
+==================================*/
+
+--danger:#e11d48;
+--danger-dark:#be123c;
+
+/*==================================
+WARNING
+==================================*/
+
+--warning:#d97706;
+--warning-dark:#b45309;
+
+/*==================================
+INFO
+==================================*/
+
+--info:#0e7490;
+--info-dark:#155e75;
+
+/*==================================
+RADIUS
+==================================*/
+
+--radius:8px;
+--radius-sm:6px;
+
+/*==================================
+SHADOW
+==================================*/
+
+--shadow-sm:0 2px 8px rgba(15,23,42,.06);
+
+--shadow-md:0 12px 30px rgba(15,23,42,.08);
+
+}
+/*==========================================================
+COMMON ICON BUTTON
+==========================================================*/
+
+.btn-icon-sm{
+
+    width:36px;
+    height:36px;
+
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+
+    border-radius:0px;
+
+    border:none;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+
+}
+
+/*==========================================================
+ACTION BUTTONS GROUP (Edit + Delete oru row la)
+==========================================================*/
+.action-btns{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    white-space:nowrap;
+}
+
+.btn-icon-sm i{
+
+    font-size:16px;
+
+}
+
+/*==========================================================
+EXPORT BUTTONS
+==========================================================*/
+
+.export-actions{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+}
+
+.export-actions .btn-icon-sm:nth-child(1){
+
+    background:#059669;
+    color:#fff;
+
+}
+
+.export-actions .btn-icon-sm:nth-child(1):hover{
+
+    background:#047857;
+    transform:translateY(-2px);
+
+}
+
+.export-actions .btn-icon-sm:nth-child(2){
+
+    background:#e11d48;
+    color:#fff;
+
+}
+
+.export-actions .btn-icon-sm:nth-child(2):hover{
+
+    background:#be123c;
+    transform:translateY(-2px);
+
+}
+
+.export-actions .btn-icon-sm:nth-child(3){
+
+    background:#0369a1;
+    color:#fff;
+
+}
+
+.export-actions .btn-icon-sm:nth-child(3):hover{
+
+    background:#075985;
+    transform:translateY(-2px);
+
+}
+
+/*==========================================================
+EDIT BUTTON
+==========================================================*/
+
+.btn-icon-sm.edit{
+
+    background:#4f46e5;
+    color:#fff;
+
+}
+
+.btn-icon-sm.edit:hover{
+
+    background:#4338ca;
+    transform:translateY(-2px);
+
+}
+
+/*==========================================================
+DELETE BUTTON
+==========================================================*/
+
+.btn-icon-sm.delete{
+
+    background:#e11d48;
+    color:#fff;
+
+}
+
+.btn-icon-sm.delete:hover{
+
+    background:#be123c;
+    transform:translateY(-2px);
+
+}
+
+/*============================================================
+TABLE WRAPPER
+------------------------------------------------------------
+- overflow-x: extra columns irundha, wrapper kulla horizontal
+  scroll varum (page overall ah scroll aagathu).
+- max-height + overflow-y: rows athigama irundha, wrapper kulla
+  vertical scroll varum, header sticky ah nikkum — screen size
+  edhachu, table ellame correct ah fit aagum.
+============================================================*/
+
+.table-common-wrap{
+
+    overflow-x:auto;
+
+    overflow-y:auto;
+
+    max-height:calc(100vh - 340px);
+
+    min-height:120px;
+
+    border:1px solid #e2e8f0;
+
+    border-radius:0px;
+
+    background:#fff;
+
+    box-shadow:0 2px 10px rgba(15,23,42,.05);
+
+}
+
+/*============================================================
+TABLE
+============================================================*/
+
+table.table-common{
+
+    width:100%;
+
+    min-width:900px;
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+    font-size:13px;
+
+}
+
+/*============================================================
+TABLE HEADER  (sticky — vertical scroll pannum bodhu header
+eppovum thெrியum, alignment center ah irukkum)
+============================================================*/
+
+/* sticky header — vertical scroll pannum bodhu header eppovum theriyum */
+table.table-common thead th{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:3;
+
+    background:#312e81;
+
+    color:#ffffff;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    letter-spacing:.3px;
+
+    text-transform:uppercase;
+
+    text-align:center;
+
+    padding:12px 14px;
+
+    border:1px solid #43407a;
+
+    border-bottom:2px solid #1e1b4b;
+
+    white-space:nowrap;
+
+}
+
+table.table-common thead th:first-child{
+    text-align:center;
+}
+
+/*============================================================
+TABLE BODY
+------------------------------------------------------------
+Ella cell um center ah align aagum (numbers/status/actions
+ellame nadu nadula, konjam space kammiya, crisp ah irukanum-nu
+kekkarathukku). Text-heavy column (name/description mari
+irukura first few columns) mattum left ah venumna, andha
+specific <td> la .cell-left class podunga.
+============================================================*/
+
+table.table-common tbody td{
+
+    padding:9px 14px;
+
+    border:1px solid #eef1f6;
+
+    color:#334155;
+
+    font-size:13px;
+
+    line-height:1.35;
+
+    text-align:center;
+
+    vertical-align:middle;
+
+    white-space:nowrap;
+
+}
+
+table.table-common tbody td.cell-left,
+table.table-common tbody td:nth-child(2){
+
+    text-align:left;
+
+}
+
+table.table-common tbody td.cell-wrap{
+
+    white-space:normal;
+
+    word-break:break-word;
+
+}
+
+/*============================================================
+ROW COLORS
+============================================================*/
+
+table.table-common tbody tr:nth-child(even){
+
+    background:#f8fafc;
+
+}
+
+table.table-common tbody tr:nth-child(odd){
+
+    background:#ffffff;
+
+}
+
+/*============================================================
+ROW HOVER
+============================================================*/
+
+table.table-common tbody tr:hover{
+
+    background:#eff6ff;
+
+    transition:.25s;
+
+}
+
+/*============================================================
+SEARCH BOX
+============================================================*/
+
+.search-box{
+
+    position:relative;
+    width:100%;
+
+}
+
+.search-box .form-control{
+
+    height:36px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:0px;
+
+    padding-left:14px;
+
+    padding-right:40px;
+
+    font-size:13px;
+
+}
+
+.search-box .form-control:focus{
+
+    border-color:#4f46e5;
+
+    box-shadow:0 0 0 .15rem rgba(79,70,229,.15);
+
+}
+
+/* search-input (used by Masters / Control Panel pages) inside .search-box
+   — same right padding so the icon doesn't overlap the typed text */
+.search-box .search-input{
+
+    padding-left:14px;
+
+    padding-right:40px;
+
+}
+
+.search-icon{
+
+    position:absolute;
+
+    right:13px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#94a3b8;
+
+    font-size:15px;
+
+}
+
+.clear-btn{
+
+    position:absolute;
+
+    right:7px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:24px;
+    height:24px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#f1f5f9;
+
+    color:#64748b;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.clear-btn:hover{
+
+    background:#e11d48;
+
+    color:#fff;
+
+}
+
+/*============================================================
+STATUS BADGE
+============================================================*/
+
+.status-pill{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:78px;
+
+    height:28px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+.active-status{
+
+    background:#d1fae5;
+
+    color:#047857;
+
+    border:1px solid #6ee7b7;
+
+}
+
+.inactive-status{
+
+    background:#ffe4e6;
+
+    color:#be123c;
+
+    border:1px solid #fda4af;
+
+}
+
+/*
+  .status-dot — compact circular LETTER badge, used specifically for
+  Is_Active columns ('A' = Active, 'D' = Inactive). Ella table layum
+  is_active eppovum 'A'/'D' nu compact ah kaatanum-nu itha use pannurom
+  (the wider .status-pill above stays as-is for other pill badges like
+  order-status "Won/Pending" that show full words).
+*/
+.status-dot{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    min-width:126px;
+
+    height:26px;
+
+    padding:0 12px;
+
+    border-radius:13px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    line-height:1;
+
+    cursor:default;
+
+}
+
+/*============================================================
+PAGINATION
+============================================================*/
+
+.pagination-bar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:15px;
+
+    padding-top:15px;
+
+    border-top:1px solid #e5e7eb;
+
+}
+
+.page-btns{
+
+    display:flex;
+
+    gap:6px;
+
+}
+
+.page-btns button{
+
+    width:34px;
+
+    height:30px;
+    padding: 2px;
+
+    border:1px solid #d1d5db;
+
+    background:#fff;
+
+    color:#475569;
+
+    border-radius:3px;
+
+    transition:.25s;
+
+}
+
+.page-btns button:hover{
+
+    background:#4f46e5;
+
+    color:#fff;
+
+    border-color:#4f46e5;
+
+}
+
+.page-btns button.active{
+
+    background:#4f46e5;
+
+    color:#fff;
+
+    border-color:#4f46e5;
+
+}
+
+.page-btns button:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+}
+
+/*============================================================
+SHOWING TEXT
+============================================================*/
+
+.text-muted{
+
+    font-size:12px;
+
+    color:#64748b !important;
+
+}
+
+.text-muted strong{
+
+    color:#0f172a;
+
+    font-size:12px;
+
+}
+
+/*============================================================
+EMPTY STATE
+============================================================*/
+
+.empty-state{
+
+    padding:45px 20px;
+
+    text-align:center;
+
+}
+
+.empty-state img{
+
+    height:70px;
+
+    opacity:.9;
+
+}
+
+.empty-state h5{
+
+    margin-top:12px;
+
+    font-size:15px;
+
+    color:#64748b;
+
+    font-weight:600;
+
+}
+
+/*============================================================
+PAGE TITLE
+============================================================*/
+
+.page-title-block{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:18px;
+
+    padding-bottom:12px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.page-title-block h1{
+
+    margin:0;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+    letter-spacing:.3px;
+
+}
+
+/*============================================================
+COMMON PANEL
+============================================================*/
+
+.panel{
+
+    background:#ffffff;
+
+    border:1px solid #e2e8f0;
+
+    border-radius:0px;
+
+    padding:18px;
+
+    box-shadow:0 2px 12px rgba(15,23,42,.05);
+
+}
+
+/*============================================================
+FORM LABEL
+============================================================*/
+
+.form-label-custom{
+
+    display:block;
+
+    margin-bottom:6px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    color:#475569;
+
+}
+
+/*============================================================
+TEXTBOX
+============================================================*/
+
+.form-control{
+
+    height:38px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:0px;
+
+    font-size:13px;
+
+    color:#1e293b;
+
+    transition:.25s;
+
+}
+
+.form-control:hover{
+
+    border-color:#818cf8;
+
+}
+
+.form-control:focus{
+
+    border-color:#4f46e5;
+
+    box-shadow:0 0 0 .15rem rgba(79,70,229,.15);
+
+}
+
+/*============================================================
+CUSTOM INPUT
+============================================================*/
+
+.form-input-custom{
+
+    width:100%;
+
+    height:38px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:0px;
+
+    padding:0 12px;
+
+    font-size:13px;
+
+    transition:.25s;
+
+}
+
+.form-input-custom:hover{
+
+    border-color:#818cf8;
+
+}
+
+.form-input-custom:focus{
+
+    outline:none;
+
+    border-color:#4f46e5;
+
+    box-shadow:0 0 0 .15rem rgba(79,70,229,.15);
+
+}
+
+/*============================================================
+NG SELECT
+============================================================*/
+
+.ng-select.custom-ng-select .ng-select-container{
+
+    min-height:38px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:0px;
+
+    font-size:13px;
+
+    transition:.25s;
+
+}
+
+.ng-select.custom-ng-select.ng-select-focused .ng-select-container{
+
+    border-color:#4f46e5;
+
+    box-shadow:0 0 0 .15rem rgba(79,70,229,.15);
+
+}
+
+.ng-select.custom-ng-select:hover .ng-select-container{
+
+    border-color:#818cf8;
+
+}
+
+/*==========================================================
+SIDEBAR
+==========================================================*/
+
+.sidebar{
+
+    background:#0f172a;
+
+    color:#cbd5e1;
+
+    border-right:1px solid #1e293b;
+
+}
+
+.sidebar-logo{
+
+    height:70px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-bottom:1px solid #1e293b;
+
+    background:#111827;
+
+}
+
+.sidebar-logo img{
+
+    height:42px;
+
+}
+
+.sidebar-menu{
+
+    padding:12px 0;
+
+}
+
+.sidebar-menu li{
+
+    list-style:none;
+
+    margin:3px 10px;
+
+}
+
+.sidebar-menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    height:42px;
+
+    padding:0 16px;
+
+    border-radius:0px;
+
+    color:#cbd5e1;
+
+    text-decoration:none;
+
+    transition:.25s;
+
+    font-size:13px;
+
+    font-weight:500;
+
+}
+
+.sidebar-menu a i{
+
+    font-size:18px;
+
+    width:22px;
+
+}
+
+.sidebar-menu a:hover{
+
+    background:#1e293b;
+
+    color:#fff;
+
+}
+
+.sidebar-menu a.active{
+
+    background:#4f46e5;
+
+    color:#fff;
+
+    font-weight:600;
+
+}
+
+/*==========================================================
+TOP HEADER
+==========================================================*/
+
+.top-header{
+
+    height:64px;
+
+    background:#ffffff;
+
+    border-bottom:1px solid #e2e8f0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 22px;
+
+    box-shadow:0 2px 8px rgba(15,23,42,.05);
+
+}
+
+.top-header .title{
+
+    font-size:18px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+}
+
+.top-header-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.notification-btn{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:10%;
+
+    border:none;
+
+    background:#f8fafc;
+
+    color:#475569;
+
+    transition:.25s;
+
+}
+
+.notification-btn:hover{
+
+    background:#4f46e5;
+
+    color:#fff;
+
+}
+
+.user-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.user-profile img{
+
+    width:40px;
+
+    height:40px;
+
+    border-radius:50%;
+
+    border:2px solid #e2e8f0;
+
+}
+
+.user-profile h6{
+
+    margin:0;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+.user-profile span{
+
+    font-size:11px;
+
+    color:#64748b;
+
+}
+
+.dashboard-card{
+
+    background:#fff;
+
+    border:1px solid #e2e8f0;
+
+    border-radius:10px;
+
+    padding:18px;
+
+    transition:.3s;
+
+    box-shadow:0 2px 8px rgba(15,23,42,.05);
+
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(15,23,42,.10);
+
+}
+
+.dashboard-card h3{
+
+    margin:0;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+}
+
+.dashboard-card p{
+
+    margin:6px 0 0;
+
+    font-size:13px;
+
+    color:#64748b;
+
+}
+
+.card-blue{
+
+    border-left:5px solid #4f46e5;
+
+}
+
+.card-green{
+
+    border-left:5px solid #059669;
+
+}
+
+.card-orange{
+
+    border-left:5px solid #d97706;
+
+}
+
+.card-red{
+
+    border-left:5px solid #e11d48;
+
+}
+
+/*==========================================================
+MASTER TABS
+==========================================================*/
+
+.master-tabs{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    padding-bottom:14px;
+
+    margin-bottom:18px;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.master-tab-btn{
+
+    height:36px;
+
+    padding:0 18px;
+
+    border:1px solid #dbe3ee;
+
+    border-radius:6px;
+
+    background:#ffffff;
+
+    color:#475569;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.master-tab-btn i{
+
+    font-size:15px;
+
+}
+
+.master-tab-btn:hover{
+
+    border-color:#4f46e5;
+
+    color:#4f46e5;
+
+    background:#f8fbff;
+
+}
+
+.master-tab-btn.active{
+
+    background:#4f46e5;
+
+    border-color:#4f46e5;
+
+    color:#fff;
+
+}
+
+/*==========================================================
+MODAL BACKDROP
+==========================================================*/
+
+.custom-modal-backdrop{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(15,23,42,.45);
+
+    backdrop-filter:blur(2px);
+
+    z-index:1040;
+
+    animation:fadeBackdrop .25s ease;
+
+}
+
+/*==========================================================
+MODAL
+==========================================================*/
+
+.custom-modal{
+
+    position:fixed;
+
+    top:8%;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:100%;
+
+    max-width:520px;
+
+    background:#ffffff;
+
+    border-radius:10px;
+
+    border:1px solid #e2e8f0;
+
+    box-shadow:0 20px 45px rgba(15,23,42,.18);
+
+    overflow:hidden;
+
+    z-index:1050;
+
+    animation:modalEnter .28s ease;
+
+}
+
+/*==========================================================
+HEADER
+==========================================================*/
+
+.custom-modal-head{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    height:58px;
+
+    padding:0 18px;
+
+    background:#f8fafc;
+
+    border-bottom:1px solid #e2e8f0;
+
+}
+
+.custom-modal-head h5{
+
+    margin:0;
+
+    font-size:16px;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+/*==========================================================
+BODY
+==========================================================*/
+
+.custom-modal-body{
+
+    padding:18px;
+
+    max-height:70vh;
+
+    overflow:auto;
+
+    background:#fff;
+
+}
+
+/*==========================================================
+FOOTER
+==========================================================*/
+
+.custom-modal-footer{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:10px;
+
+    padding:14px 18px;
+
+    border-top:1px solid #e2e8f0;
+
+    background:#f8fafc;
+
+}
+
+/*==========================================================
+COMMON BUTTONS  (global — ella pages layum color varum)
+==========================================================*/
+
+/*------------------------------------
+PRIMARY BUTTON
+------------------------------------*/
+.btn-primary-custom{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:40px;
+    padding:0 22px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+    box-shadow:0 4px 12px rgba(79,70,229,.35);
+}
+
+.btn-primary-custom i{
+    font-size:16px;
+}
+
+.btn-primary-custom:hover{
+    background:linear-gradient(135deg,#4338ca,#6d28d9);
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(79,70,229,.45);
+}
+
+.btn-primary-custom:active{
+    transform:translateY(0);
+    box-shadow:0 2px 6px rgba(79,70,229,.3);
+}
+
+.btn-primary-custom:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/*------------------------------------
+SUCCESS BUTTON
+------------------------------------*/
+.btn-success-custom{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:40px;
+    padding:0 22px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:linear-gradient(135deg,#059669,#10b981);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+    box-shadow:0 4px 12px rgba(5,150,105,.35);
+}
+
+.btn-success-custom i{
+    font-size:16px;
+}
+
+.btn-success-custom:hover{
+    background:linear-gradient(135deg,#047857,#059669);
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(5,150,105,.45);
+}
+
+.btn-success-custom:active{
+    transform:translateY(0);
+    box-shadow:0 2px 6px rgba(5,150,105,.3);
+}
+
+.btn-success-custom:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/*------------------------------------
+DANGER BUTTON
+------------------------------------*/
+.btn-danger-custom{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:40px;
+    padding:0 22px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:linear-gradient(135deg,#e11d48,#f43f5e);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+    box-shadow:0 4px 12px rgba(225,29,72,.35);
+}
+
+.btn-danger-custom i{
+    font-size:16px;
+}
+
+.btn-danger-custom:hover{
+    background:linear-gradient(135deg,#be123c,#e11d48);
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(225,29,72,.45);
+}
+
+.btn-danger-custom:active{
+    transform:translateY(0);
+    box-shadow:0 2px 6px rgba(225,29,72,.3);
+}
+
+.btn-danger-custom:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/*------------------------------------
+WARNING BUTTON
+------------------------------------*/
+.btn-warning-custom{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:40px;
+    padding:0 22px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:linear-gradient(135deg,#d97706,#f59e0b);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+    box-shadow:0 4px 12px rgba(217,119,6,.35);
+}
+
+.btn-warning-custom i{
+    font-size:16px;
+}
+
+.btn-warning-custom:hover{
+    background:linear-gradient(135deg,#b45309,#d97706);
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(217,119,6,.45);
+}
+
+.btn-warning-custom:active{
+    transform:translateY(0);
+    box-shadow:0 2px 6px rgba(217,119,6,.3);
+}
+
+.btn-warning-custom:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/*------------------------------------
+INFO BUTTON
+------------------------------------*/
+.btn-info-custom{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:40px;
+    padding:0 22px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:linear-gradient(135deg,#0e7490,#06b6d4);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+    box-shadow:0 4px 12px rgba(14,116,144,.35);
+}
+
+.btn-info-custom i{
+    font-size:16px;
+}
+
+.btn-info-custom:hover{
+    background:linear-gradient(135deg,#155e75,#0e7490);
+    color:#fff;
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(14,116,144,.45);
+}
+
+.btn-info-custom:active{
+    transform:translateY(0);
+    box-shadow:0 2px 6px rgba(14,116,144,.3);
+}
+
+.btn-info-custom:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/*------------------------------------
+SOFT (CANCEL / RESET / CLEAR) BUTTON
+------------------------------------*/
+.btn-soft{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    height:40px;
+    padding:0 22px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    background:#f1f5f9;
+    color:#475569;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    transition:all .25s ease;
+}
+
+.btn-soft i{
+    font-size:16px;
+}
+
+.btn-soft:hover{
+    background:#e2e8f0;
+    color:#1e293b;
+    border-color:#94a3b8;
+    transform:translateY(-1px);
+}
+
+.btn-soft:active{
+    transform:translateY(0);
+}
+
+.btn-soft:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    transform:none;
+}
+
+/*------------------------------------
+MODAL FOOTER BUTTON SIZING
+------------------------------------*/
+.custom-modal-footer .btn-primary-custom,
+.custom-modal-footer .btn-success-custom,
+.custom-modal-footer .btn-danger-custom,
+.custom-modal-footer .btn-warning-custom,
+.custom-modal-footer .btn-info-custom,
+.custom-modal-footer .btn-soft{
+    min-width:110px;
+}
+
+/*==========================================================
+ANIMATION
+==========================================================*/
+
+@keyframes modalEnter{
+
+from{
+
+opacity:0;
+
+transform:translate(-50%,-30px) scale(.97);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translate(-50%,0) scale(1);
+
+}
+
+}
+
+@keyframes fadeBackdrop{
+
+from{
+
+opacity:0;
+
+}
+
+to{
+
+opacity:1;
+
+}
+
+}
+
+/* Toggle switch 5px bigger */
+.active-toggle-row .toggle-larger.form-check-input {
+  width: 45px;               /* default 40px + 5px */
+  height: 21px;              /* default 20px + 5px */
+  margin-top: 0;
+  cursor: pointer;
+}
+
+/* Thumb (round knob) kooda 5px bigger */
+.active-toggle-row .toggle-larger.form-check-input::before {
+  width: 21px;               /* default 16px + 5px */
+  height: 21px;              /* default 16px + 5px */
+  transform: translate(0, 1.5px);   /* keezh alignment */
+}
+
+.active-toggle-row .toggle-larger.form-check-input:checked::before {
+  transform: translate(24px, 1.5px); /* checked move (+5px) */
+}
+
+/*==========================================================
+STATUS TABS  (Active / Inactive / Show All)
+==========================================================*/
+.status-tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.status-tab-btn {
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.status-tab-btn.selected {
+  color: #fff;
+  border-color: transparent;
+}
+
+.status-tab-btn.active-tab.selected {
+  background: #059669;
+}
+
+.status-tab-btn.inactive-tab.selected {
+  background: #e11d48;
+}
+
+.status-tab-btn.all-tab.selected {
+  background: #4f46e5;
+}
+
+/*==========================================================
+ACCESS TABLE  (Menu Access - switch columns)
+==========================================================*/
+table.access-table {
+  min-width: 1200px;
+}
+
+table.access-table th,
+table.access-table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+table.access-table th:nth-child(1),
+table.access-table td:nth-child(1),
+table.access-table th:nth-child(2),
+table.access-table td:nth-child(2) {
+  text-align: left;
+  white-space: nowrap;
+}
+
+/* Column header with its own "Check All" toggle */
+.col-check-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.col-check-head span {
+  font-size: 11px;
+}
+
+.col-check-head small {
+  font-size: 9px;
+  font-weight: 400;
+  text-transform: none;
+  color: #cbd5e1;
+  letter-spacing: 0;
+}
+
+/* Bootstrap form-switch - app theme primary color oda match pannurom */
+.form-check.form-switch {
+  display: flex;
+  justify-content: center;
+}
+
+.form-check.form-switch .form-check-input {
+  width: 2.4em;
+  height: 1.3em;
+  cursor: pointer;
+}
+
+.form-check.form-switch .form-check-input:checked {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+}
+
+
+:host{
+  --primary:#3b82f6;
+  --primary-dark:#1d4ed8;
+  --text:#ffffff;
+  --border:rgba(255,255,255,.15);
+  --danger:#ef4444;
+
+  display:block;
+  font-family:'Inter',sans-serif;
+}
+
+/* ===========================
+   VIDEO BACKGROUND
+=========================== */
+
+.video-bg{
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  overflow:hidden;
+}
+
+.video-bg video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(.45);
+}
+
+/* ===========================
+   OVERLAY
+=========================== */
+
+// .overlay{
+//   position:fixed;
+//   inset:0;
+//   background:
+//   linear-gradient(
+//       rgba(5,10,25,.55),
+//       rgba(5,10,25,.55)
+//   );
+//   z-index:-2;
+// }
+
+/* ===========================
+   PAGE
+=========================== */
+
+.login-page{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+/* ===========================
+   CARD
+=========================== */
+
+.login-card{
+
+  width:100%;
+  max-width:430px;
+
+  padding:45px 35px;
+
+  background:rgba(15,23,42,.72);
+
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+
+  border:1px solid rgba(255,255,255,.15);
+
+  border-radius:24px;
+
+  box-shadow:
+  0 30px 80px rgba(0,0,0,.45);
+
+  animation:cardUp .8s ease;
+}
+
+@keyframes cardUp{
+
+from{
+opacity:0;
+transform:translateY(40px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+/* ===========================
+   BRAND
+=========================== */
+
+.brand{
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+gap:15px;
+
+margin-bottom:15px;
+
+}
+
+.brand-mark{
+
+width:75px;
+height:75px;
+
+background:#fff;
+
+border-radius:18px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow:hidden;
+
+box-shadow:0 10px 30px rgba(0,0,0,.35);
+
+}
+
+.brand-mark img{
+
+width:100%;
+height:100%;
+object-fit:contain;
+
+}
+
+.brand span{
+
+font-size:24px;
+font-weight:800;
+color:#fff;
+
+text-shadow:0 3px 10px rgba(0,0,0,.4);
+
+}
+
+.brand span b{
+
+color:#5b8cff;
+
+}
+
+/* ===========================
+   SUB TITLE
+=========================== */
+
+.sub{
+
+text-align:center;
+
+font-size:14px;
+
+margin-bottom:28px;
+
+color:#d1d5db;
+
+}
+
+/* ===========================
+   ERROR
+=========================== */
+
+.error-banner{
+
+background:rgba(239,68,68,.18);
+
+border:1px solid rgba(239,68,68,.35);
+
+padding:12px;
+
+border-radius:10px;
+
+color:#fff;
+
+font-size:13px;
+
+margin-bottom:18px;
+
+}
+
+/* ===========================
+   FORM
+=========================== */
+
+.field{
+
+margin-bottom:20px;
+
+}
+
+.field label{
+
+display:block;
+
+margin-bottom:8px;
+
+font-size:14px;
+
+font-weight:700;
+
+color:#fff;
+
+}
+
+.field input{
+
+width:100%;
+
+height:52px;
+
+padding:0 16px;
+
+background:rgba(255,255,255,.08);
+
+border:1px solid rgba(255,255,255,.15);
+
+border-radius:12px;
+
+color:#fff;
+
+font-size:15px;
+
+transition:.35s;
+
+}
+
+.field input::placeholder{
+
+color:#cbd5e1;
+
+}
+
+.field input:focus{
+
+outline:none;
+
+background:rgba(255,255,255,.13);
+
+border-color:#60a5fa;
+
+box-shadow:
+0 0 0 4px rgba(59,130,246,.18);
+
+}
+
+/* ===========================
+   PASSWORD
+=========================== */
+
+.pass-wrap{
+
+position:relative;
+
+}
+
+.pass-wrap input{
+
+padding-right:50px;
+
+}
+
+.pass-wrap i{
+
+position:absolute;
+
+right:18px;
+
+top:50%;
+
+transform:translateY(-50%);
+
+font-size:18px;
+
+cursor:pointer;
+
+color:#fff;
+
+}
+
+/* ===========================
+   BUTTON
+=========================== */
+
+.submit-btn{
+
+width:100%;
+
+height:54px;
+
+border:none;
+
+border-radius:14px;
+
+background:linear-gradient(
+90deg,
+#3b82f6,
+#040e2e
+);
+
+font-size:16px;
+
+font-weight:700;
+
+color:#fff;
+
+cursor:pointer;
+
+transition:.35s;
+
+}
+
+.submit-btn:hover{
+
+transform:translateY(-3px);
+
+box-shadow:
+
+0 15px 30px rgba(59,130,246,.45);
+
+}
+
+.submit-btn:disabled{
+
+opacity:.7;
+
+cursor:not-allowed;
+
+}
+
+/* ===========================
+   SPINNER
+=========================== */
+
+.spin{
+
+animation:spin 1s linear infinite;
+
+}
+
+@keyframes spin{
+
+to{
+transform:rotate(360deg);
+}
+
+}
+
+/* ===========================
+   ERROR TEXT
+=========================== */
+
+.field-err{
+
+margin-top:6px;
+
+font-size:12px;
+
+color:#ffb4b4;
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media(max-width:768px){
+
+.login-card{
+
+max-width:360px;
+
+padding:35px 25px;
+
+}
+
+.brand{
+
+flex-direction:column;
+
+}
+
+.brand span{
+
+font-size:20px;
+
+}
+
+.brand-mark{
+
+width:65px;
+height:65px;
+
+}
+
+}
+
+/* ============================================================
+   FIX: ng-select dynamic scroll-host marker (global fallback)
+   ------------------------------------------------------------
+   update-products.ts la irundhu vera components (e.g. All Products
+   parent offcanvas) mela class add pannalam, adhu ippo Angular
+   ViewEncapsulation-ku veliya poyiduchu -- so global ah um idha
+   define pannurom, safety ku.
+   ============================================================ */
+
+.ng-select-scroll-host {
+  position: relative;
+}

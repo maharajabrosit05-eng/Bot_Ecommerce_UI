@@ -1,0 +1,810 @@
+/* ============================================================
+   UPDATE PRODUCT — PREMIUM PROFESSIONAL UI (SHARP EDGE)
+   ------------------------------------------------------------
+   Product Details  -> Indigo
+   Description      -> Cyan
+   Pricing          -> Emerald
+   Stock Details    -> Amber
+   ============================================================ */
+
+
+/* ============================================================
+   PAGE TITLE
+   ============================================================ */
+
+.page-title-block {
+  margin-bottom: 22px;
+
+  h1 {
+    margin: 0;
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: #172033;
+
+    background: linear-gradient(90deg, #312e81, #4f46e5, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+
+/* ============================================================
+   PANEL MODE TITLE
+   ============================================================ */
+
+h5.mb-3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  margin-bottom: 20px !important;
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  color: #1e293b;
+  font-size: 1.05rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+
+  i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+    border-radius: 0px;
+
+    background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+    color: #4f46e5;
+    font-size: 17px;
+  }
+}
+
+
+/* ============================================================
+   LOADING PANEL
+   ============================================================ */
+
+.panel.loading-panel,
+div.panel:has(.ri-loader-4-line) {
+  text-align: center;
+  padding: 45px 20px;
+
+  background: linear-gradient(145deg, #ffffff, #f8faff);
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.06);
+
+  &::before,
+  &::after {
+    display: none;
+  }
+
+  .ri-loader-4-line {
+    color: #4f46e5;
+    font-size: 28px;
+  }
+
+  p {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+}
+
+
+/* ============================================================
+   COMMON PANEL
+   ============================================================ */
+
+.panel {
+  --panel-accent: #6366f1;
+  --panel-accent-soft: #a5b4fc;
+
+  position: relative;
+
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 0px;
+
+  background: linear-gradient(145deg, #ffffff 0%, #fcfdff 65%, #f8faff 100%);
+
+  box-shadow:
+    0 2px 5px rgba(15, 23, 42, 0.025),
+    0 8px 25px rgba(15, 23, 42, 0.045);
+
+  padding: 24px 26px 28px;
+  margin-bottom: 22px;
+
+  overflow: hidden;
+  isolation: isolate;
+
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+
+  /* LEFT COLOR STRIPE */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+
+    background: linear-gradient(180deg, var(--panel-accent), var(--panel-accent-soft));
+    opacity: 0.95;
+    border-radius: 0px;
+  }
+
+  /* TOP LIGHT */
+  &::after {
+    content: "";
+    position: absolute;
+    top: -90px;
+    right: -90px;
+    width: 190px;
+    height: 190px;
+    border-radius: 0;
+
+    background: radial-gradient(
+      circle,
+      color-mix(in srgb, var(--panel-accent) 10%, transparent),
+      transparent 70%
+    );
+
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--panel-accent) 22%, #e2e8f0);
+
+    box-shadow:
+      0 5px 10px rgba(15, 23, 42, 0.035),
+      0 15px 35px rgba(15, 23, 42, 0.07);
+  }
+}
+
+
+/* ============================================================
+   SECTION 1 — PRODUCT DETAILS (INDIGO)
+   ============================================================ */
+
+form > .panel:nth-child(1) {
+  --panel-accent: #4f46e5;
+  --panel-accent-soft: #818cf8;
+
+  background: linear-gradient(145deg, #ffffff 0%, #fafaff 55%, #f5f3ff 100%);
+}
+
+
+/* ============================================================
+   SECTION 2 — DESCRIPTION (CYAN)
+   ============================================================ */
+
+form > .panel:nth-child(2) {
+  --panel-accent: #0891b2;
+  --panel-accent-soft: #67e8f9;
+
+  background: linear-gradient(145deg, #ffffff 0%, #f8fdff 60%, #ecfeff 100%);
+}
+
+
+/* ============================================================
+   SECTION 3 — PRICING (EMERALD)
+   ============================================================ */
+
+form > .panel:nth-child(3) {
+  --panel-accent: #059669;
+  --panel-accent-soft: #6ee7b7;
+
+  background: linear-gradient(145deg, #ffffff 0%, #f7fffc 60%, #ecfdf5 100%);
+}
+
+
+/* ============================================================
+   SECTION 4 — STOCK (AMBER)
+   ============================================================ */
+
+form > .panel:nth-child(4) {
+  --panel-accent: #d97706;
+  --panel-accent-soft: #fbbf24;
+
+  background: linear-gradient(145deg, #ffffff 0%, #fffdf7 60%, #fffbeb 100%);
+}
+
+
+/* ============================================================
+   SECTION HEAD
+   ============================================================ */
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-bottom: 22px;
+  padding-bottom: 15px;
+
+  border-bottom: 1px dashed #e5e7eb;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 0;
+
+    color: #1e293b;
+    font-size: 1rem;
+    font-weight: 750;
+    letter-spacing: -0.01em;
+
+    i {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 38px;
+      height: 38px;
+      border-radius: 0;
+
+      font-size: 1.08rem;
+      flex-shrink: 0;
+
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+  }
+
+  &:hover h3 i {
+    transform: translateY(-1px) rotate(-2deg);
+  }
+}
+
+
+/* ============================================================
+   SECTION ICON COLORS
+   ============================================================ */
+
+form > .panel:nth-child(1) .panel-head h3 i {
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  color: #4338ca;
+  box-shadow: 0 5px 12px rgba(79, 70, 229, 0.13);
+}
+
+form > .panel:nth-child(2) .panel-head h3 i {
+  background: linear-gradient(135deg, #ecfeff, #cffafe);
+  color: #0e7490;
+  box-shadow: 0 5px 12px rgba(8, 145, 178, 0.13);
+}
+
+form > .panel:nth-child(3) .panel-head h3 i {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  color: #047857;
+  box-shadow: 0 5px 12px rgba(5, 150, 105, 0.13);
+}
+
+form > .panel:nth-child(4) .panel-head h3 i {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  color: #b45309;
+  box-shadow: 0 5px 12px rgba(217, 119, 6, 0.13);
+}
+
+
+/* ============================================================
+   LABEL
+   ============================================================ */
+
+.form-label-custom {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+
+  margin-bottom: 7px;
+
+  color: #475569;
+  font-size: 0.80rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+
+  .text-danger {
+    color: #ef4444 !important;
+    font-weight: 800;
+  }
+
+  .text-muted {
+    color: #94a3b8 !important;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+}
+
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+
+.form-control {
+  width: 100%;
+  min-height: 41px;
+
+  padding: 9px 13px;
+
+  border: 1.5px solid #dfe4ec;
+  border-radius: 0px;
+
+  background: linear-gradient(180deg, #ffffff, #fafbfe);
+
+  color: #1e293b;
+  font-size: 0.86rem;
+  font-weight: 500;
+
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.025);
+
+  transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+
+  &::placeholder {
+    color: #a1a9b8;
+    font-weight: 400;
+  }
+
+  &:hover {
+    border-color: #b9c2d3;
+    background: #ffffff;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: #ffffff;
+
+    box-shadow:
+      0 0 0 3px rgba(99, 102, 241, 0.10),
+      0 4px 12px rgba(99, 102, 241, 0.06);
+  }
+
+  &:disabled {
+    background: repeating-linear-gradient(
+      135deg,
+      #f7f8fb,
+      #f7f8fb 8px,
+      #f0f2f6 8px,
+      #f0f2f6 16px
+    );
+
+    color: #8992a3;
+    border-color: #e5e7eb;
+    cursor: not-allowed;
+  }
+}
+
+
+/* ============================================================
+   TEXTAREA / NUMBER
+   ============================================================ */
+
+textarea.form-control {
+  min-height: 105px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+input.form-control[type="number"] {
+  font-variant-numeric: tabular-nums;
+}
+
+form > .panel:nth-child(3) .form-control[type="number"] {
+  color: #047857;
+  font-weight: 750;
+  background: linear-gradient(135deg, #ffffff, #f0fdf4);
+}
+
+form > .panel:nth-child(4) .form-control[type="number"] {
+  color: #b45309;
+  font-weight: 750;
+  background: linear-gradient(135deg, #ffffff, #fffbeb);
+}
+
+
+/* ============================================================
+   NG SELECT
+   ============================================================ */
+
+.custom-ng-select {
+
+  ::ng-deep .ng-select-container {
+    min-height: 41px !important;
+    border: 1.5px solid #dfe4ec !important;
+    border-radius: 0px !important;
+
+    background: linear-gradient(180deg, #ffffff, #fafbfe) !important;
+    box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.025);
+
+    transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  }
+
+  ::ng-deep .ng-select-container:hover {
+    border-color: #b9c2d3 !important;
+    background: #ffffff !important;
+  }
+
+  ::ng-deep.ng-select-focused .ng-select-container {
+    border-color: #6366f1 !important;
+    background: #ffffff !important;
+
+    box-shadow:
+      0 0 0 3px rgba(99, 102, 241, 0.10),
+      0 4px 12px rgba(99, 102, 241, 0.06) !important;
+  }
+
+  ::ng-deep .ng-placeholder {
+    color: #a1a9b8 !important;
+    font-size: 0.86rem;
+  }
+
+  ::ng-deep .ng-value {
+    color: #1e293b;
+    font-size: 0.86rem;
+    font-weight: 500;
+  }
+
+  ::ng-deep .ng-arrow-wrapper {
+    padding-right: 10px;
+  }
+
+  ::ng-deep .ng-arrow {
+    border-color: #64748b transparent transparent;
+  }
+
+  ::ng-deep .ng-dropdown-panel {
+    margin-top: 5px;
+    border: 1px solid #e2e8f0;
+    border-radius: 0px;
+
+    background: #ffffff;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.13);
+    overflow: hidden;
+  }
+
+  ::ng-deep .ng-option {
+    padding: 10px 13px;
+    font-size: 0.85rem;
+    color: #334155;
+
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  ::ng-deep .ng-option.ng-option-marked {
+    background: #f5f7ff !important;
+    color: #4338ca !important;
+  }
+
+  ::ng-deep .ng-option.ng-option-selected {
+    background: linear-gradient(90deg, #eef2ff, #f5f3ff) !important;
+    color: #4338ca !important;
+    font-weight: 650;
+  }
+}
+
+
+/* ============================================================
+   VALIDATION
+   ============================================================ */
+
+.text-danger.small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 5px;
+
+  color: #dc2626 !important;
+  font-size: 0.73rem;
+  font-weight: 650;
+
+  animation: validationFade 0.2s ease;
+
+  &::before {
+    content: "\ea21";
+    font-family: "remixicon" !important;
+    font-size: 0.85rem;
+  }
+}
+
+@keyframes validationFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ============================================================
+   UPDATE / CANCEL ACTION BAR
+   ============================================================ */
+
+.d-flex.gap-2.flex-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px !important;
+
+  padding: 16px 4px 6px;
+  margin-top: 5px;
+
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, .94) 28%,
+    #ffffff 70%
+  );
+
+  backdrop-filter: blur(5px);
+}
+
+
+/* ============================================================
+   UPDATE PRODUCT BUTTON
+   (Save button matter — Add Product oda maari rounded ah irukkanum,
+   idhu than exception, rest ellam sharp)
+   ============================================================ */
+
+.btn-primary-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 42px;
+  padding: 9px 21px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: linear-gradient(135deg, #4338ca 0%, #6366f1 55%, #7c3aed 100%);
+
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+
+  box-shadow: 0 6px 15px rgba(79, 70, 229, 0.25);
+
+  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(1.04);
+    box-shadow: 0 10px 23px rgba(79, 70, 229, 0.32);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.20);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+}
+
+
+/* ============================================================
+   CANCEL BUTTON
+   ============================================================ */
+
+.btn-soft {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  min-height: 42px;
+  padding: 9px 20px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 0px;
+
+  background: linear-gradient(135deg, #ffffff, #f5f7fa);
+
+  color: #475569;
+  font-size: 0.84rem;
+  font-weight: 650;
+
+  transition:
+    transform 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    color 0.22s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: #b91c1c;
+    box-shadow: 0 5px 13px rgba(15, 23, 42, 0.07);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+.btn-primary-custom i,
+.btn-soft i {
+  font-size: 0.95rem;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary-custom:hover:not(:disabled) i {
+  transform: translateX(1px);
+}
+
+.btn-soft:hover i {
+  transform: rotate(-8deg);
+}
+
+
+/* ============================================================
+   BOOTSTRAP ROW SPACING POLISH
+   ============================================================ */
+
+.row.g-3 {
+  --bs-gutter-y: 1rem;
+  --bs-gutter-x: 1rem;
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 991.98px) {
+  .panel {
+    padding: 21px 20px 24px;
+  }
+
+  .panel-head h3 {
+    font-size: 0.97rem;
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 767.98px) {
+
+  .page-title-block {
+    margin-bottom: 16px;
+
+    h1 {
+      font-size: 1.30rem;
+    }
+  }
+
+  h5.mb-3 {
+    font-size: 0.95rem;
+  }
+
+  .panel {
+    padding: 18px 16px 21px;
+    margin-bottom: 16px;
+    border-radius: 0px;
+
+    &::before {
+      width: 4px;
+    }
+  }
+
+  .panel-head {
+    margin-bottom: 17px;
+    padding-bottom: 12px;
+
+    h3 {
+      font-size: 0.92rem;
+      gap: 8px;
+
+      i {
+        width: 32px;
+        height: 32px;
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  .form-label-custom {
+    font-size: 0.78rem;
+  }
+
+  .form-control {
+    min-height: 40px;
+    font-size: 0.84rem;
+  }
+
+  .d-flex.gap-2.flex-wrap {
+    flex-direction: column;
+    align-items: stretch;
+
+    .btn-primary-custom,
+    .btn-soft {
+      width: 100%;
+      min-height: 42px;
+    }
+  }
+}
+
+
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+@media (max-width: 420px) {
+  .panel {
+    padding: 16px 13px 19px;
+  }
+
+  .panel-head h3 {
+    font-size: 0.88rem;
+
+    i {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+/* Global fix for ng-select appendTo="body" dropdowns */
+.ng-dropdown-panel {
+  z-index: 99999 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0px !important;
+  background: #ffffff !important;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.13) !important;
+}
+
+.ng-dropdown-panel .ng-option {
+  padding: 10px 13px !important;
+  font-size: 0.85rem !important;
+  color: #334155 !important;
+}
+
+.ng-dropdown-panel .ng-option.ng-option-marked {
+  background: #f5f7ff !important;
+  color: #4338ca !important;
+}
+
+.ng-dropdown-panel .ng-option.ng-option-selected {
+  background: linear-gradient(90deg, #eef2ff, #f5f3ff) !important;
+  color: #4338ca !important;
+  font-weight: 650 !important;
+}
+
+/* ============================================================
+   FIX: ng-select dynamic scroll-host marker
+   ------------------------------------------------------------
+   resolveDropdownAppendTarget() TS function ippo runtime-la
+   correct scrollable ancestor-ku "ng-select-scroll-host" nu oru
+   class add pannum. Andha container ku position:relative
+   kudukanum, illena appendTo positioning correct ah velai
+   seiyaadhu (dropdown wrong spot la render aagum).
+   ============================================================ */
+
+::ng-deep .ng-select-scroll-host {
+  position: relative;
+}

@@ -1,0 +1,25 @@
+<div class="error-page">
+  <div class="error-card">
+    <div class="error-icon-wrap tone-primary">
+      <i class="ri-compass-3-line"></i>
+    </div>
+
+    <div class="error-code">404</div>
+    <h1 class="error-title">Page not found</h1>
+    <p class="error-desc">
+      The page you're looking for doesn't exist or may have been moved.
+      Double-check the URL, or head back to somewhere that does.
+    </p>
+
+    <div class="error-actions">
+      <button class="error-btn primary" (click)="goHome()">
+        <i class="ri-home-4-line"></i> Go to {{ homeLabel }}
+      </button>
+      <button class="error-btn secondary" (click)="goBack()">
+        <i class="ri-arrow-left-line"></i> Go Back
+      </button>
+    </div>
+
+    <div class="error-brand">BORS IT SOLUTIONS</div>
+  </div>
+</div>

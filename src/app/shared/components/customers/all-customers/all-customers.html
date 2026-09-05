@@ -1,0 +1,428 @@
+<div class="page-title-block">
+
+    <div>
+        <h1>All Customers</h1>
+        <!-- <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb> -->
+    </div>
+
+    <button class="btn btn-success-custom btn-sm" (click)="refresh()">
+
+        <i class="ri-refresh-line me-1"></i>
+        Refresh
+
+    </button>
+
+</div>
+
+<div class="panel">
+
+    <!-- ===========================
+       FILTER AREA
+  ============================ -->
+
+    <div class="row align-items-end mb-3">
+
+        <!-- Records -->
+        <div class="col-lg-2">
+            <label class="form-label-custom">Records</label>
+
+            <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+                [clearable]="false">
+            </ng-select>
+        </div>
+
+        <!-- Search -->
+        <div class="col-lg-3">
+            <label class="form-label-custom">Search</label>
+
+            <div class="search-box">
+
+                <input class="form-control" placeholder="Search..." [(ngModel)]="searchText"
+                    (ngModelChange)="onSearch()" [ngModelOptions]="{standalone:true}">
+
+                <i *ngIf="!searchText" class="ri-search-line search-icon">
+                </i>
+                <button *ngIf="searchText" type="button" class="clear-btn" (click)="clearSearch()">
+                    <i class="ri-close-circle-fill"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Status -->
+
+        <div class="col-lg-4">
+
+            <label class="form-label-custom">
+                Status
+            </label>
+
+            <div class="status-filter">
+
+                <button class="status-btn active-btn" [class.active]="statusFilter=='A'" (click)="changeStatus('A')">
+
+                    Active
+
+                </button>
+
+                <button class="status-btn inactive-btn" [class.active]="statusFilter=='D'" (click)="changeStatus('D')">
+
+                    Inactive
+
+                </button>
+
+
+                <button class="status-btn" [class.active]="statusFilter=='ALL'" (click)="changeStatus('ALL')">
+
+                    Show All
+
+                </button>
+
+
+
+            </div>
+
+        </div>
+
+        <!-- View -->
+
+        <!-- <div class="col-lg-1">
+
+        <button
+            class="btn btn-primary-custom w-100"
+            (click)="viewCustomers()">
+
+            View
+
+        </button>
+
+    </div> -->
+
+        <!-- Clear -->
+
+        <!-- <div class="col-lg-1">
+
+        <button
+            class="btn btn-soft w-100"
+            (click)="clearFilter()">
+
+            Clear
+
+        </button>
+
+    </div> -->
+
+        <div class="export-actions justify-content-end mb-3 col-lg-3">
+
+            <button class="btn-icon-sm" title="Export Excel" (click)="exportExcel()">
+
+                <i class="ri-file-excel-2-line"></i>
+
+            </button>
+
+            <button class="btn-icon-sm" title="Export PDF" (click)="exportPdf()">
+
+                <i class="ri-file-pdf-2-line"></i>
+
+            </button>
+
+            <button class="btn-icon-sm" title="Print" (click)="printList()">
+
+                <i class="ri-printer-line"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ===========================
+       EXPORT
+  ============================ -->
+
+
+
+    <!-- ===========================
+       TABLE
+  ============================ -->
+
+    <div class="table-common-wrap">
+
+        <table class="table-common">
+
+            <thead>
+
+                <tr>
+
+                    <th>S.No</th>
+
+                    <th style="min-width:140px">
+
+                        Customer Code
+
+                    </th>
+
+                    <th style="min-width:220px">
+
+                        Customer Name
+
+                    </th>
+
+                    <th style="min-width:140px">
+
+                        Mobile Number
+
+                    </th>
+
+                    <th style="min-width:140px">
+
+                        Email
+
+                    </th>
+
+                    <th style="min-width:180px">
+
+                        GSTIN
+
+                    </th>
+
+                    <th style="min-width:180px">
+
+                        Billing City
+
+                    </th>
+
+                    <th style="min-width:180px">
+
+                        Billing State
+
+                    </th>
+
+                    <th style="min-width:140px">
+
+                        Company Code
+
+                    </th>
+
+                    <th style="min-width:140px">
+
+                        Branch Code
+
+                    </th>
+
+                    <th style="min-width:140px">
+
+                        Status
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let c of searchList; let i=index">
+
+                    <td>
+
+                        {{ (page-1)*pageSize+i+1 }}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Customer_Code}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Customer_Name}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Mobile_No}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Email_Id}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.GSTIN_Number}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Billing_City}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Billing_State}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Company_Code}}
+
+                    </td>
+
+                    <td>
+
+                        {{c.Branch_Code}}
+
+                    </td>
+
+                    <td>
+
+                        <span class="status-pill status-dot" [ngClass]="{
+
+                'active-status':c.Is_Active=='A',
+
+                'inactive-status':c.Is_Active!='A'
+
+              }" [title]="c.Is_Active=='A' ? 'Active' : 'Inactive'">
+
+                            {{c.Is_Active=='A' ? 'Active' : 'Inactive'}}
+
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                <tr *ngIf="searchList.length==0">
+
+                    <td colspan="11">
+
+                        <div class="empty-state">
+
+                            <img src="img/no-data.png" height="70">
+
+                            <h5 class="text-black">
+
+                                No Customers Found!
+
+                            </h5>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ===========================
+       PAGINATION
+  ============================ -->
+
+    <div class="pagination-bar" *ngIf="totalRecords">
+
+        <!-- <strong *ngIf="searchList.length">
+
+            Total Customers :
+
+            <span style="color:red">
+
+                {{totalRecords |
+
+                number:'1.2-2'}}
+
+            </span>
+
+        </strong> -->
+
+        <!-- ===========================
+       SHOWING
+  ============================ -->
+
+        <div class="text-muted mt-2 p-6">
+
+            Showing
+
+            <strong>
+
+                {{startRecord}}
+
+            </strong>
+
+            to
+
+            <strong>
+
+                {{endRecord}}
+
+            </strong>
+
+            of
+
+            <strong>
+
+                {{totalRecords}}
+
+            </strong>
+
+            entries
+
+        </div>
+
+        <div class="page-btns">
+
+            <button (click)="goToPage(page-1)" [disabled]="page==1">
+
+                <i class="ri-arrow-left-double-line"></i>
+
+                <i class="ri-arrow-left-double-line"></i>
+
+            </button>
+
+            <button (click)="goToPage(page-1)" [disabled]="page==1">
+
+                <i class="ri-arrow-left-double-line"></i>
+
+            </button>
+
+            <button *ngFor="let p of getPageNumbers()" [class.active]="p==page" (click)="goToPage(p)">
+
+                {{p}}
+
+            </button>
+
+            <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+
+                <i class="ri-arrow-right-double-line"></i>
+
+            </button>
+
+            <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+
+                <i class="ri-arrow-right-double-line"></i>
+
+                <i class="ri-arrow-right-double-line"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

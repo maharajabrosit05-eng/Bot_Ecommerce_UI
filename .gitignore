@@ -1,0 +1,55 @@
+# Dependencies
+node_modules/
+
+# Angular build output
+dist/
+out-tsc/
+.tmp/
+.angular/
+
+# Environment files
+src/environments/environment.ts
+src/environments/environment.*.ts
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# IDE / Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Coverage
+coverage/
+
+# Cache
+.cache/
+.nx/
+.sass-cache/
+
+# Local configuration
+.env
+.env.*
+!.env.example
+
+# Temporary files
+*.tmp
+*.temp
+
+# Build artifacts
+*.log
+
+# TypeScript
+*.tsbuildinfo

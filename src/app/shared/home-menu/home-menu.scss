@@ -1,0 +1,341 @@
+/* ===========================
+   Idhu illama, parent AdminLayout oda opaque
+   background (var(--bg)) video-ku mela paint aayidum
+   (fixed + negative z-index vaikura elements, stacking
+   context illama irundha, unrelated ancestor backgrounds
+   ku keela poidum). isolate pannina, indha component-ku
+   thani stacking context varum, so video sariya kaanum.
+=========================== */
+:host {
+  isolation: isolate;
+}
+
+/* .video-bg / .video-bg video rules ippo _common.scss la irundhu
+   varum (login page oda exact same rule already irukkuadhula,
+   duplicate ah illatha nu inga remove pannirukom). */
+
+.home-menu-page {
+    padding: 24px 28px 40px;
+}
+
+.home-menu-head {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.home-menu-head h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.home-menu-head p {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.home-menu-head.with-back {
+    align-items: center;
+}
+
+.back-btn {
+    
+    display: flex;
+
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    padding: 0 16px;
+    border: 1px solid #dbe3ee;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.back-btn:hover {
+    border-color: #4f46e5;
+    color: #4f46e5;
+    background: #f8fbff;
+}
+
+/*
+  ============================================================
+  GRID — row ku exact ah 5 cards, nadu naduvula (center) ah
+  align aagum. Row la 5 kum kammiya cards irundha (last row),
+  andha cards um center ah than nikkum (justify-content:center
+  vachi, columns fixed width ah irukurathala).
+  ============================================================
+*/
+
+/* ============================================================
+   MENU GRID
+============================================================ */
+
+.menu-grid{
+    display: grid;
+    grid-template-columns: repeat(5, 220px);
+    justify-content: center;
+    gap: 22px;
+    width: 100%;
+    margin-top: 150px;
+}
+
+/* ============================================================
+   MENU CARD
+============================================================ */
+
+.menu-card{
+    position: relative;
+
+    width: 220px;
+    min-height: 185px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 22px 18px;
+
+    background: #fff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 16px;
+
+    box-shadow: 0 6px 18px rgba(15,23,42,.08);
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: all .35s ease;
+}
+
+/* Top Gradient */
+
+.menu-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:4px;
+
+    background:linear-gradient(
+        90deg,
+        #4f46e5,
+        #7c3aed,
+        #06b6d4
+    );
+
+    transform:scaleX(0);
+
+    transform-origin:left;
+
+    transition:.35s;
+
+}
+
+/* Hover */
+
+.menu-card:hover{
+
+    transform:translateY(-6px);
+
+    border-color:#4f46e5;
+
+    box-shadow:
+
+        0 15px 30px rgba(79,70,229,.18),
+
+        0 5px 12px rgba(0,0,0,.08);
+
+    background:linear-gradient(
+        180deg,
+        #f8f7ff,
+        #ffffff
+    );
+
+}
+
+.menu-card:hover::before{
+
+    transform:scaleX(1);
+
+}
+
+.menu-card:active{
+
+    transform:translateY(-2px);
+
+}
+
+/* ============================================================
+   ICON
+============================================================ */
+
+.menu-card-icon{
+
+    width:68px;
+    height:68px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #eef2ff,
+        #dbeafe
+    );
+
+    color:#4f46e5;
+
+    transition:.35s;
+
+}
+
+.menu-card:hover .menu-card-icon{
+
+    background:linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+
+    color:#fff;
+
+    transform:scale(1.08);
+
+}
+
+.menu-card-icon i{
+
+    font-size:28px;
+
+}
+
+/* ============================================================
+   LABEL
+============================================================ */
+
+.menu-card-label{
+
+    font-size:14px;
+
+    font-weight:700;
+
+    color:#334155;
+
+    text-align:center;
+
+    line-height:1.45;
+
+    transition:.3s;
+
+}
+
+.menu-card:hover .menu-card-label{
+
+    color:#4338ca;
+
+}
+
+/* ============================================================
+   FOLDER ICON
+============================================================ */
+
+.menu-card-corner{
+
+    position:absolute;
+
+    top:12px;
+
+    right:12px;
+
+    font-size:17px;
+
+    color:#c7d2fe;
+
+    transition:.3s;
+
+}
+
+.menu-card:hover .menu-card-corner{
+
+    color:#7c3aed;
+
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width:1400px){
+
+    .menu-grid{
+
+        grid-template-columns:repeat(4,220px);
+
+    }
+
+}
+
+@media (max-width:1100px){
+
+    .menu-grid{
+
+        grid-template-columns:repeat(3,220px);
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .menu-grid{
+
+        grid-template-columns:repeat(2,210px);
+
+        gap:18px;
+
+    }
+
+}
+
+@media (max-width:520px){
+
+    .menu-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .menu-card{
+
+        width:100%;
+
+        min-height:170px;
+
+    }
+
+}

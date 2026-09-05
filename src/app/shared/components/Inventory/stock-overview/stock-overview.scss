@@ -1,0 +1,430 @@
+/* ============================================================
+   PAGE-LEVEL LOADER — same style as AppLoader (video based)
+============================================================ */
+
+.app-loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(244, 247, 252, 0.85);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.2s ease;
+}
+
+.app-loader-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.loader-video {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 50%;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.loader-text {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: var(--muted, #6b7280);
+}
+
+.dots {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 2px;
+
+  i {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary, #4f46e5);
+    animation: dotBounce 1.2s ease-in-out infinite;
+
+    &:nth-child(2) { animation-delay: 0.15s; }
+    &:nth-child(3) { animation-delay: 0.3s; }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ============================================================
+   PAGE SUBTITLE
+============================================================ */
+
+.page-subtitle {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* ============================================================
+   STOCK OVERVIEW — KPI CARDS
+============================================================ */
+
+.stock-kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  border: 1px solid var(--border, #e2e8f0);
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, .05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.stock-kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, .1);
+}
+
+.stock-kpi-card h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.stock-kpi-card p {
+  margin: 2px 0 0;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.kpi-icon {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+
+.kpi-indigo .kpi-icon { background: rgba(79, 70, 229, .12); color: #4f46e5; }
+.kpi-cyan   .kpi-icon { background: rgba(6, 182, 212, .12);  color: #0e7490; }
+.kpi-amber  .kpi-icon { background: rgba(217, 119, 6, .12);  color: #d97706; }
+.kpi-danger .kpi-icon { background: rgba(225, 29, 72, .12);  color: #e11d48; }
+
+/* ============================================================
+   STATUS TABS in filter row
+============================================================ */
+
+.status-tabs, .col-lg-4 .status-tab-btn {
+  margin-right: 8px;
+}
+
+/* ============================================================
+   TABLE — PRODUCT IMAGE THUMB
+============================================================ */
+
+.stock-thumb {
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+/* ============================================================
+   LOCATION CHIP
+============================================================ */
+
+.location-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+
+.location-chip i {
+  font-size: 13px;
+  color: #4f46e5;
+}
+
+/* ============================================================
+   QTY BADGE (current stock)
+============================================================ */
+
+.qty-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 8px;
+  background: #eef2ff;
+  color: #4338ca;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+/* ============================================================
+   STOCK STATUS PILL
+============================================================ */
+
+.stock-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+  min-width: 105px;
+  height: 27px;
+  padding: 0 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+.stock-status-pill i {
+  font-size: 13px;
+}
+
+.stock-status-pill.stock-ok {
+  background: #d1fae5;
+  color: #047857;
+  border: 1px solid #6ee7b7;
+}
+
+.stock-status-pill.stock-low {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+}
+
+.stock-status-pill.stock-out {
+  background: #ffe4e6;
+  color: #be123c;
+  border: 1px solid #fda4af;
+}
+
+/* ============================================================
+   ADD / REDUCE STOCK BUTTONS (row actions)
+============================================================ */
+
+.btn-icon-sm.add-stock {
+  background: #059669;
+  color: #fff;
+}
+.btn-icon-sm.add-stock:hover {
+  background: #047857;
+  transform: translateY(-2px);
+}
+
+.btn-icon-sm.reduce-stock {
+  background: #e11d48;
+  color: #fff;
+}
+.btn-icon-sm.reduce-stock:hover {
+  background: #be123c;
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+.empty-state-icon {
+  font-size: 46px;
+  color: #cbd5e1;
+}
+
+.empty-state-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* ============================================================
+   STOCK MODAL — comes down from TOP (uses global .custom-modal
+   base from all-products/common styles)
+============================================================ */
+
+.stock-modal {
+  max-width: 460px;
+}
+
+.custom-modal-head.mode-add {
+  border-bottom-color: #bbf7d0;
+}
+
+.custom-modal-head.mode-reduce {
+  border-bottom-color: #fecdd3;
+}
+
+.modal-head-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-head-title i {
+  font-size: 24px;
+}
+
+.custom-modal-head.mode-add .modal-head-title i { color: #059669; }
+.custom-modal-head.mode-reduce .modal-head-title i { color: #e11d48; }
+
+.modal-head-title h5 {
+  margin: 0;
+}
+
+.modal-close-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #64748b;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.modal-close-btn:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.req {
+  color: #e11d48;
+}
+
+.field-err {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #e11d48;
+}
+
+/* ============================================================
+   QTY STEPPER — manual typing + buttons both work
+============================================================ */
+
+.qty-stepper {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 42px;
+  width: 160px;
+  background: #fff;
+}
+
+.qty-btn {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 100%;
+  border: none;
+  background: #f1f5f9;
+  color: #4f46e5;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.qty-btn:hover {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+.qty-btn:active {
+  background: #c7d2fe;
+}
+
+.qty-input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-left: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  background: #fff;
+  -moz-appearance: textfield;
+}
+
+.qty-input:focus {
+  outline: none;
+  background: #f8fafc;
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ============================================================
+   READONLY LOGGED-IN USER FIELD (Updated By)
+============================================================ */
+
+.readonly-user-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0px;
+  background: #f8fafc;
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.readonly-user-field i {
+  font-size: 15px;
+  color: #4f46e5;
+}
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 576px) {
+  .stock-modal {
+    width: 92%;
+    max-width: 92%;
+  }
+}

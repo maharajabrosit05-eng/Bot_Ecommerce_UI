@@ -1,0 +1,33 @@
+/* Global styles */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { font-family: 'Inter', sans-serif; background: #f4f6fb; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; }
+
+/* ------------------------------------------------------------------------------
+   Bootstrap — ella pagesukum common ah. Variables ah namma theme color kum
+   match aaguravaru override pannitu, appuram bootstrap ah import pandrom.
+   (grid, buttons, forms, modal, breadcrumb ellam ithula irundhu than varum)
+   ------------------------------------------------------------------------------ */
+$primary: #4f7cff;
+$success: #2ecc71;
+$danger: #fd7272;
+$warning: #f6b93b;
+$info: #22c1c3;
+$border-radius: .625rem;
+$border-radius-sm: .5rem;
+$font-family-sans-serif: 'Inter', sans-serif;
+
+@import "bootstrap/scss/bootstrap";
+
+/* ------------------------------------------------------------------------------
+   Common style format — 1 file, ella components layum reuse pandrom
+   (src/app/shared/styles/_common.scss)
+   ------------------------------------------------------------------------------ */
+@import "app/shared/styles/common";
+
+/* ------------------------------------------------------------------------------
+   Error / status pages (404, network-error, server-error, forbidden)
+   ------------------------------------------------------------------------------ */
+@import "app/shared/styles/error-page";

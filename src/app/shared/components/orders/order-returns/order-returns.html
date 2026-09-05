@@ -1,0 +1,394 @@
+<!-- order-returns.html -->
+
+<div class="panel">
+
+    <div class="page-title-block">
+        <div>
+            <h1>Order Returns</h1>
+        </div>
+
+        <button class="btn btn-success-custom btn-sm" (click)="refresh()">
+            <i class="ri-refresh-line me-1"></i>
+            Refresh
+        </button>
+    </div>
+
+    <!-- ===========================
+       FILTER AREA
+  ============================ -->
+
+    <div class="row align-items-end mb-3">
+
+        <!-- Records -->
+        <div class="col-lg-2">
+            <label class="form-label-custom">Records</label>
+
+            <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+                [clearable]="false">
+            </ng-select>
+        </div>
+
+        <!-- Search -->
+        <div class="col-lg-3">
+            <label class="form-label-custom">Search</label>
+
+            <div class="search-box">
+                <input class="form-control" placeholder="Search anything in returns..." [(ngModel)]="searchText"
+                    (ngModelChange)="onSearch()" [ngModelOptions]="{standalone:true}">
+                <i *ngIf="!searchText" class="ri-search-line search-icon"></i>
+
+                <button *ngIf="searchText" type="button" class="clear-btn" (click)="clearSearch()">
+                    <i class="ri-close-circle-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Refund Status Filter -->
+        <div class="col-lg-3">
+            <label class="form-label-custom">Refund Status</label>
+
+            <ng-select class="custom-ng-select" [items]="refundStatusOptions" bindLabel="name" bindValue="id"
+                [(ngModel)]="refundStatusFilter" [ngModelOptions]="{standalone:true}"
+                (change)="onRefundStatusFilterChange()" [clearable]="false">
+            </ng-select>
+        </div>
+
+        <div class="export-actions justify-content-end mb-3 col-lg-4">
+            <button class="btn-icon-sm" title="Export Excel" (click)="exportExcel()">
+                <i class="ri-file-excel-2-line"></i>
+            </button>
+            <button class="btn-icon-sm" title="Export PDF" (click)="exportPdf()">
+                <i class="ri-file-pdf-2-line"></i>
+            </button>
+            <button class="btn-icon-sm" title="Print" (click)="printList()">
+                <i class="ri-printer-line"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ===========================
+       TABLE
+  ============================ -->
+
+    <div class="table-common-wrap">
+
+        <table class="table-common">
+
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th style="min-width:140px">Return Code</th>
+                    <th style="min-width:140px">Order Code</th>
+                    <th style="min-width:160px">Customer</th>
+                    <th style="min-width:180px">Product</th>
+                    <th style="min-width:90px">Return Qty</th>
+                    <th style="min-width:140px">Return Reason</th>
+                    <th style="min-width:120px">Refund Amount</th>
+                    <th style="min-width:130px">Refund Status</th>
+                    <th style="min-width:160px">Returned On</th>
+                    <th style="min-width:130px">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr *ngFor="let r of searchList; let i=index">
+
+                    <td>{{ (page-1)*pageSize+i+1 }}</td>
+
+                    <td><span class="order-code-chip">{{r.Return_Code}}</span></td>
+
+                    <td><span class="order-code-chip">{{r.Order_Code}}</span></td>
+
+                    <td>
+                        <div class="cell-stack">
+                            <strong>{{r.Customer_Name || '—'}}</strong>
+                            <span class="cell-sub">{{r.Customer_Code}}</span>
+                        </div>
+                    </td>
+
+                    <td>
+                        <span [title]="r.Product_Name">{{r.Product_Name || '—'}}</span>
+                    </td>
+
+                    <td>{{r.Return_Qty}}</td>
+
+                    <td>
+                        <span class="cell-sub" [title]="r.Return_Reason">{{r.Return_Reason || '—'}}</span>
+                    </td>
+
+                    <td><strong class="amount-text">₹{{r.Refund_Amount}}</strong></td>
+
+                    <td>
+                        <span class="status-pill" [ngClass]="refundStatusClass(r.Refund_Status)">
+                            {{refundStatusLabel(r.Refund_Status)}}
+                        </span>
+                    </td>
+
+                    <td>{{r.Returned_On_Date ? (r.Returned_On_Date | date:'dd MMM yyyy, hh:mm a') : (r.Returned_On || '—')}}</td>
+
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon-sm action-btn-view" title="View" (click)="openView(r)">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                            <button class="btn-icon-sm action-btn-payment" title="Process Refund"
+                                *ngIf="canProcessRefund(r)" (click)="openRefund(r)">
+                                <i class="ri-refund-2-line"></i>
+                            </button>
+                        </div>
+                    </td>
+
+                </tr>
+
+                <tr *ngIf="searchList.length==0">
+                    <td colspan="10">
+                        <div class="empty-state">
+                            <img src="img/no-data.png" height="70">
+                            <h5 class="text-black">No Returns Found!</h5>
+                            <p class="text-muted mb-0">Try clearing the search or refund status filter.</p>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- ===========================
+       PAGINATION
+  ============================ -->
+
+    <div class="pagination-bar" *ngIf="totalRecords">
+
+        <div class="text-muted mt-2 p-6">
+            Showing <strong>{{startRecord}}</strong> to <strong>{{endRecord}}</strong> of
+            <strong>{{totalRecords}}</strong> entries
+        </div>
+
+        <div class="page-btns">
+            <button (click)="goToPage(page-1)" [disabled]="page==1">
+                <i class="ri-arrow-left-double-line"></i><i class="ri-arrow-left-double-line"></i>
+            </button>
+            <button (click)="goToPage(page-1)" [disabled]="page==1">
+                <i class="ri-arrow-left-double-line"></i>
+            </button>
+            <button *ngFor="let p of getPageNumbers()" [class.active]="p==page" (click)="goToPage(p)">
+                {{p}}
+            </button>
+            <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+                <i class="ri-arrow-right-double-line"></i>
+            </button>
+            <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+                <i class="ri-arrow-right-double-line"></i><i class="ri-arrow-right-double-line"></i>
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+   VIEW RETURN MODAL
+============================ -->
+
+<div class="modal-overlay view-modal-overlay" *ngIf="showViewModal" (click)="closeView()">
+
+    <div class="modal-box modal-box-lg modal-enter-top modal-scroll-clean" (click)="$event.stopPropagation()">
+
+        <div class="view-header" [ngClass]="refundStatusClass(viewReturn?.Refund_Status)">
+
+            <button class="modal-close-btn" (click)="closeView()"><i class="ri-close-line"></i></button>
+
+            <span class="view-header-eyebrow">Return</span>
+            <h4 class="view-header-code">{{viewReturn?.Return_Code}}</h4>
+
+            <div class="view-header-meta">
+                <span class="status-pill status-pill-lg" [ngClass]="refundStatusClass(viewReturn?.Refund_Status)">
+                    {{refundStatusLabel(viewReturn?.Refund_Status)}}
+                </span>
+                <span class="view-header-date">
+                    <i class="ri-calendar-line"></i>
+                    <ng-container *ngIf="viewReturn?.Returned_On; else noDateTpl">
+                        Returned {{viewReturn?.Returned_On | date:'dd MMM yyyy, hh:mm a'}}
+                    </ng-container>
+                    <ng-template #noDateTpl>Return date unavailable</ng-template>
+                </span>
+            </div>
+
+        </div>
+
+        <div class="modal-body">
+
+            <!-- Summary Cards -->
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <span class="summary-icon"><i class="ri-user-3-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">Customer</span>
+                        <strong>{{viewReturn?.Customer_Name || '—'}}</strong>
+                        <span class="cell-sub">{{viewReturn?.Customer_Code}}</span>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <span class="summary-icon"><i class="ri-shopping-bag-3-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">Order</span>
+                        <strong>{{viewReturn?.Order_Code}}</strong>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <span class="summary-icon"><i class="ri-money-rupee-circle-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">Refund Amount</span>
+                        <strong class="amount-text">₹{{viewReturn?.Refund_Amount}}</strong>
+                    </div>
+                </div>
+
+                <div class="summary-card">
+                    <span class="summary-icon"><i class="ri-file-list-3-line"></i></span>
+                    <div class="cell-stack">
+                        <span class="summary-label">Return Reason</span>
+                        <strong>{{viewReturn?.Return_Reason || '—'}}</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Items -->
+            <h6 class="section-title"><i class="ri-shopping-bag-3-line me-1"></i>Order Items ({{viewItems.length}})</h6>
+
+            <ng-container *ngIf="!viewLoading; else itemsLoadingTpl">
+
+                <div class="items-grid" *ngIf="viewItems.length > 0">
+
+                    <div class="item-card" *ngFor="let it of viewItems">
+
+                        <div class="item-card-image">
+                            <div class="item-image-frame">
+                                <img *ngIf="itemImage(it)" [src]="itemImage(it)" [alt]="it.Product_Name">
+                                <i *ngIf="!itemImage(it)" class="ri-image-2-line"></i>
+                            </div>
+                            <span class="item-image-badge" *ngIf="it.Quantity > 0">
+                                Qty {{it.Quantity}}
+                            </span>
+                        </div>
+
+                        <div class="item-card-body">
+                            <strong class="item-card-name" [title]="it.Product_Name">{{it.Product_Name}}</strong>
+
+                            <div class="item-card-footer">
+                                <span class="item-card-qty">Qty {{it.Quantity}} &times; ₹{{it.Selling_Price}}</span>
+                                <strong class="item-card-subtotal">₹{{it.Subtotal || (it.Quantity *
+                                    it.Selling_Price)}}</strong>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="empty-inline" *ngIf="viewItems.length==0">
+                    <i class="ri-inbox-line"></i> No items
+                </div>
+
+                <!-- Refund history for this order -->
+                <h6 class="section-title mt-3"><i class="ri-refund-2-line me-1"></i>Refund History
+                    ({{viewRefunds.length}})</h6>
+
+                <ul class="timeline-pro" *ngIf="viewRefunds.length > 0">
+                    <li *ngFor="let ref of viewRefunds" [ngClass]="refundStatusClass(ref.Refund_Status)">
+                        <span class="timeline-icon">
+                            <i class="ri-refund-2-line"></i>
+                        </span>
+                        <div class="timeline-content">
+                            <div class="timeline-top-row">
+                                <span class="status-pill" [ngClass]="refundStatusClass(ref.Refund_Status)">
+                                    {{refundStatusLabel(ref.Refund_Status)}}
+                                </span>
+                                <span class="timeline-date">₹{{ref.Refund_Amount}}</span>
+                            </div>
+                            <div class="timeline-by" *ngIf="ref.Refund_TxnRef">
+                                <i class="ri-bank-card-line"></i> Txn Ref: {{ref.Refund_TxnRef}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="empty-inline" *ngIf="viewRefunds.length==0">
+                    <i class="ri-history-line"></i> No refund records yet
+                </div>
+
+            </ng-container>
+
+            <ng-template #itemsLoadingTpl>
+                <div class="inline-loading">
+                    <div class="spinner spinner-sm"></div>
+                    Loading return details...
+                </div>
+            </ng-template>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ===========================
+   PROCESS REFUND MODAL
+============================ -->
+
+<div class="modal-overlay" *ngIf="showRefundModal" (click)="closeRefund()">
+
+    <div class="modal-box modal-box-sm modal-enter-top modal-scroll-clean" (click)="$event.stopPropagation()">
+
+        <div class="modal-head modal-head-plain">
+            <div>
+                <h5>Process Refund</h5>
+                <span class="order-code-chip">{{refundTarget?.Return_Code}}</span>
+            </div>
+
+            <button type="button" class="edit-modal-close" title="Close" aria-label="Close" (click)="closeRefund()">
+                <i class="ri-close-circle-fill"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="current-status-row">
+                <span class="summary-label">Refund Amount</span>
+                <strong class="amount-text">₹{{refundTarget?.Refund_Amount}}</strong>
+            </div>
+
+            <label class="form-label-custom mt-3">Refund Transaction Ref <span class="text-danger">*</span></label>
+
+            <input type="text" class="form-control" [(ngModel)]="refundTxnRef" [ngModelOptions]="{standalone:true}"
+                placeholder="Bank / gateway refund transaction reference">
+
+            <div class="updating-as-row">
+                <i class="ri-shield-user-line"></i>
+                Processing as <strong>{{currentAdminLabel}}</strong>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-soft" (click)="closeRefund()">Cancel</button>
+            <button class="btn btn-primary-custom" [disabled]="refundSaving || !refundTxnRef.trim()"
+                (click)="confirmRefund()">
+                <i class="ri-loader-4-line spin-icon" *ngIf="refundSaving"></i>
+                <i class="ri-checkbox-circle-line" *ngIf="!refundSaving"></i>
+                {{refundSaving ? 'Processing...' : 'Mark Refund Processed'}}
+            </button>
+        </div>
+
+    </div>
+
+</div>

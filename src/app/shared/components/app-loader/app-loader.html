@@ -1,0 +1,22 @@
+@if (isLoading()) {
+  <div class="app-loader-overlay" role="status" aria-live="polite" aria-label="Loading">
+    <div class="app-loader-box">
+      <!-- FIX: spinning ring ku badhila, brand loading video (loop, muted,
+           autoplay) -- muted mandatory, illainna browser autoplay block pannum -->
+      <video
+        class="loader-video"
+        src="img/loading-logo.mp4"
+        autoplay
+        loop
+        muted
+        playsinline
+        disablePictureInPicture
+      ></video>
+
+      <span class="loader-text">
+        Loading
+        <span class="dots"><i></i><i></i><i></i></span>
+      </span>
+    </div>
+  </div>
+}

@@ -1,0 +1,99 @@
+<div class="panel">
+
+  <div class="page-title-block">
+    <div>
+      <h1>Control Panel Access</h1>
+      <!-- <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb> -->
+    </div>
+    <button class="btn btn-primary-custom btn-sm" (click)="save()" *ngIf="rows.length">
+      <i class="ri-save-line me-1"></i> Save
+    </button>
+  </div>
+
+  <div class="toolbar-row d-flex align-items-end gap-3 flex-wrap mb-3">
+
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Search</label>
+        <div class="search-box">
+          <input type="text" class="form-control" placeholder="Search Product..." [(ngModel)]="searchTerm"
+            (ngModelChange)="searchTerm" [ngModelOptions]="{standalone:true}">
+          <i *ngIf="!searchTerm" class="ri-search-line search-icon"></i>
+          <button *ngIf="searchTerm" type="button" class="clear-btn" (click)="clearSearch()">
+            <i class="ri-close-circle-fill"></i>
+          </button>
+        </div>
+      </div>
+
+    <div style="min-width:240px;">
+      <label class="form-label-custom">Role <span class="text-danger">*</span></label>
+      <select class="form-input-custom" [(ngModel)]="selectedRole" (ngModelChange)="onRoleChange()">
+        <option value="">-- Select Role --</option>
+        <option *ngFor="let r of roleOptions" [value]="r.Role_Code">{{ r.Role }}</option>
+      </select>
+    </div>
+
+    <button class="btn btn-primary-custom btn-sm" (click)="view()">
+      <i class="ri-eye-line me-1"></i> View
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-muted">Loading access data...</div>
+
+  <div *ngIf="!loading && loaded && !rows.length" class="empty-state">
+    <img src="img/no-data.png" alt="" height="70">
+    <h5 class="text-black">Idha role ku modules illa</h5>
+  </div>
+
+  <div *ngIf="!loading && rows.length" class="table-common-wrap">
+    <table class="table-common access-table">
+      <thead>
+        <tr>
+          <th>Home Menu</th>
+          <th>Module</th>
+          <th *ngFor="let key of accessKeys">
+            <div class="col-check-head">
+              <span>{{
+                key === 'opInsert' ? 'Insert' :
+                key === 'opEdit' ? 'Edit' :
+                key === 'opView' ? 'View' :
+                key === 'opFormView' ? 'Form View' :
+                key === 'opDelete' ? 'Delete' :
+                key === 'opExport' ? 'Export' :
+                key === 'opPrint' ? 'Print' : 'Full Access'
+                }}</span>
+              <div class="form-check form-switch m-0">
+                <input class="form-check-input" type="checkbox" role="switch" [checked]="isColumnAllChecked(key)"
+                  (change)="toggleColumn(key, $any($event.target).checked)" title="Check All" />
+              </div>
+              <small>Check All</small>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of filteredRows">
+          <td>{{ row.HomeMenu }}</td>
+          <td>{{ row.module }}</td>
+          <td *ngFor="let key of accessKeys">
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input" type="checkbox" role="switch" [(ngModel)]="row[key]"
+                (change)="key === 'opFullControl' ? toggleFullControl(row) : null" />
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="!filteredRows.length">
+          <td [attr.colspan]="2 + accessKeys.length">
+            <div class="empty-state">
+              <h5 class="text-black">No matching module found</h5>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="btn btn-primary-custom btn-sm mt-3" (click)="save()" *ngIf="rows.length">
+    <i class="ri-save-line me-1"></i> Save
+  </button>
+</div>

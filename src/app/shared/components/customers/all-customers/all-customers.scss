@@ -1,0 +1,57 @@
+.status-filter{
+
+    display:flex;
+
+    gap:6px;
+
+    align-items:center;
+
+}
+
+.status-btn{
+
+    height:34px;
+
+    padding:0 14px;
+
+    border:1px solid #d9d9d9;
+
+    background:#fff;
+
+    border-radius:4px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.status-btn:hover{
+
+    border-color:#4f46e5;
+
+}
+
+.status-btn.active{
+
+    background:#4f46e5;
+
+    color:#fff;
+
+}
+
+.active-btn.active{
+
+    background:#059669;
+
+}
+
+.inactive-btn.active{
+
+    background:#e11d48;
+
+}

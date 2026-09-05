@@ -1,0 +1,59 @@
+<div class="admin-shell">
+
+  <!-- ================================================================
+       TOP NAVBAR — sidebar ku pathila ippo ithu dhaan common shell.
+       Idhula company logo (left) + Home / Fullscreen / Profile (right)
+       mattum than irukum, extra edhum illa.
+       ================================================================ -->
+  <header class="app-navbar">
+
+    <a class="navbar-brand" routerLink="/home">
+      <img src="img/bros-logo.jpg" alt="Bros IT Solutions Logo">
+      <span>BROS IT <b>SOLUTIONS</b></span>
+    </a>
+
+    <div class="navbar-right">
+
+      <button type="button" class="nav-icon-btn" (click)="goBack()">
+
+        <i class="ri-arrow-left-line"></i>
+
+      </button>
+
+      <button class="nav-icon-btn" title="Home" routerLink="/home">
+        <i class="ri-home-4-line"></i>
+      </button>
+
+      <button class="nav-icon-btn" title="Full Screen" (click)="toggleFullScreen()">
+        <i [class]="isFullScreen ? 'ri-fullscreen-exit-line' : 'ri-fullscreen-line'"></i>
+      </button>
+
+      <div class="profile-menu-wrap" (click)="$event.stopPropagation()">
+        <button class="avatar-btn" (click)="toggleProfileMenu($event)">
+          <img class="avatar" src="img/admin-img.jfif" alt="profile">
+          <span class="avatar-name">{{ currentUser?.name || 'Admin User' }}</span>
+          <i class="ri-arrow-down-s-line" [class.rotated]="profileMenuOpen"></i>
+        </button>
+
+        <div class="profile-dropdown" *ngIf="profileMenuOpen">
+          <div class="profile-dropdown-head">
+            <img class="avatar" src="img/admin-img.jfif" alt="profile">
+            <div>
+              <b>{{ currentUser?.name || 'Admin User' }}</b>
+              <span>{{ currentUser?.email || 'admin@growthadmin.in' }}</span>
+            </div>
+          </div>
+          <a class="dropdown-item"><i class="ri-user-line"></i> My Profile</a>
+          <a class="dropdown-item"><i class="ri-settings-3-line"></i> Account Settings</a>
+          <a class="dropdown-item logout" (click)="logout()"><i class="ri-logout-box-r-line"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <!-- Ovvoru page um inga than render aagum -->
+    <router-outlet></router-outlet>
+  </main>
+
+</div>

@@ -1,0 +1,255 @@
+<!-- ===================== HERO / WELCOME BANNER ===================== -->
+<section class="hero-banner">
+  <div class="hero-content">
+    <span class="hero-eyebrow">BROS IT SOLUTIONS</span>
+    <h1>{{ greeting }}, Admin 👋</h1>
+    <p>{{ dateLabel }} · Here's what's happening with your business today.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary-custom btn-sm"><i class="ri-add-line me-1"></i> New Report</button>
+      <button class="btn btn-soft btn-sm"><i class="ri-download-2-line me-1"></i> Export</button>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-chip chip-revenue">
+      <i class="ri-arrow-up-line"></i>
+      <div><b>+24.8%</b><span>Revenue Growth</span></div>
+    </div>
+    <div class="hero-chip chip-orders">
+      <i class="ri-shopping-bag-3-line"></i>
+      <div><b>1,438</b><span>Orders This Month</span></div>
+    </div>
+    <div class="hero-ring">
+      <apx-chart [series]="revenueChart.series" [chart]="revenueChart.chart" [stroke]="revenueChart.stroke"
+        [fill]="revenueChart.fill" [markers]="revenueChart.markers" [legend]="revenueChart.legend"
+        [xaxis]="revenueChart.xaxis" [yaxis]="revenueChart.yaxis" [grid]="revenueChart.grid"
+        [colors]="revenueChart.colors" [dataLabels]="revenueChart.dataLabels" [tooltip]="revenueChart.tooltip">
+      </apx-chart>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== KPI STAT CARDS ===================== -->
+<section class="stat-grid">
+  <div class="stat-card" *ngFor="let s of statCards">
+    <div class="stat-top">
+      <div class="stat-icon" [style.background]="s.color + '1a'" [style.color]="s.color">
+        <i [class]="s.icon"></i>
+      </div>
+      <span class="stat-trend" [class.down]="!s.up">
+        <i class="ri-arrow-up-line" *ngIf="s.up"></i><i class="ri-arrow-down-line" *ngIf="!s.up"></i>
+        {{ s.delta }}
+      </span>
+    </div>
+    <div class="stat-meta">{{ s.label }}</div>
+    <div class="stat-display">
+      <span class="stat-value">{{ s.value }}</span>
+      <span class="stat-graph">
+        <apx-chart [series]="[{ name: s.label, data: s.spark }]" [chart]="sparkChart"
+          [stroke]="sparkStroke" [colors]="[s.color]" [fill]="sparkFill" [tooltip]="sparkTooltip"
+          [xaxis]="sparkXaxis" [yaxis]="sparkYaxis" [grid]="sparkGrid" [dataLabels]="sparkDataLabels">
+        </apx-chart>
+      </span>
+    </div>
+    <div class="stat-sub">📈 {{ s.sub }}</div>
+  </div>
+</section>
+
+<!-- ===================== REVENUE OVERVIEW ===================== -->
+<section class="panel revenue-panel">
+  <div class="panel-head">
+    <div>
+      <h3>Revenue Overview</h3>
+      <p class="panel-sub">Track monthly revenue & order performance</p>
+    </div>
+    <select class="mini-select"><option>Last 12 Months</option><option>Last 6 Months</option><option>Last 30 Days</option></select>
+  </div>
+  <apx-chart
+    [series]="revenueChart.series" [chart]="revenueChart.chart" [stroke]="revenueChart.stroke"
+    [fill]="revenueChart.fill" [legend]="revenueChart.legend" [xaxis]="revenueChart.xaxis"
+    [yaxis]="revenueChart.yaxis" [grid]="revenueChart.grid" [colors]="revenueChart.colors"
+    [dataLabels]="revenueChart.dataLabels" [tooltip]="revenueChart.tooltip">
+  </apx-chart>
+</section>
+
+<!-- ===================== SPLIT ANALYTICS ===================== -->
+<section class="split-grid">
+  <!-- Sales by Category -->
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>Sales by Category</h3>
+        <p class="panel-sub">Revenue distribution across categories</p>
+      </div>
+      <i class="ri-pie-chart-2-line panel-head-icon"></i>
+    </div>
+    <apx-chart
+      [series]="categoryChart.series" [chart]="categoryChart.chart" [labels]="categoryChart.labels"
+      [colors]="categoryChart.colors" [legend]="categoryChart.legend" [dataLabels]="categoryChart.dataLabels"
+      [plotOptions]="categoryChart.plotOptions" [tooltip]="categoryChart.tooltip">
+    </apx-chart>
+  </div>
+
+  <!-- Top Products -->
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>Top Selling Products</h3>
+        <p class="panel-sub">Best performers this month</p>
+      </div>
+      <a class="link-view" href="#"><i class="ri-arrow-right-up-line"></i></a>
+    </div>
+    <div class="product-row" *ngFor="let p of topProducts">
+      <span class="product-dot" [style.background]="p.color"></span>
+      <div class="product-info">
+        <div class="product-head">
+          <b>{{ p.name }}</b>
+          <span class="product-sold">{{ p.sold }} sold</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" [style.width.%]="p.pct" [style.background]="p.color"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WHAT'S WORKING / NEEDS ATTENTION ===================== -->
+<section class="two-col gap">
+  <div class="panel">
+    <h3>What's Working</h3>
+    <div class="sub-head">
+      <span>Top Campaigns</span>
+    </div>
+    <div class="list-row" *ngFor="let c of topCampaigns">
+      <span class="dot success"><i class="ri-checkbox-circle-fill"></i></span>
+      <span class="name">{{ c.name }}</span>
+      <span class="val">{{ c.value }}</span>
+      <span class="roas" [class.down]="!c.up">{{ c.up ? '▲' : '▼' }} {{ c.roas }}</span>
+    </div>
+
+    <div class="sub-head" style="margin-top:22px;">
+      <span>Channel Comparison</span>
+    </div>
+    <div class="channel-row" *ngFor="let ch of channelComparison">
+      <span class="dot" [ngStyle]="{color: ch.color}"><i class="ri-checkbox-circle-fill"></i></span>
+      <span class="name">{{ ch.name }}</span>
+      <span class="val">{{ ch.value }}</span>
+      <span class="delta up">▲ {{ ch.delta }}</span>
+      <div class="bar-track"><div class="bar-fill" [style.width.%]="ch.pct" [style.background]="ch.color"></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3>What Needs Attention <i class="ri-error-warning-line warn"></i></h3>
+    <div class="sub-head">
+      <span>Drop in conversions</span>
+      <span class="pill danger">From 5.9% → 5.2%</span>
+    </div>
+    <div class="drop-note"><span class="up">5.9%</span> from <b>5.9%</b> to <b>5.2%</b> this week</div>
+    <apx-chart
+      [series]="conversionDropChart.series" [chart]="conversionDropChart.chart"
+      [plotOptions]="conversionDropChart.plotOptions" [colors]="conversionDropChart.colors"
+      [legend]="conversionDropChart.legend" [dataLabels]="conversionDropChart.dataLabels"
+      [xaxis]="conversionDropChart.xaxis" [grid]="conversionDropChart.grid">
+    </apx-chart>
+
+    <div class="sub-head" style="margin-top:18px;">
+      <span>Alerts</span>
+      <span class="pill">Today</span>
+    </div>
+    <div class="alert-item" *ngFor="let a of alerts">
+      <i class="ri-flag-2-fill danger"></i>
+      <div>
+        <b>{{ a.title }}</b>
+        <p>{{ a.detail }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RECOMMENDATIONS ===================== -->
+<section class="panel">
+  <div class="panel-head"><h3>Recommendations <i class="ri-lightbulb-flash-line warn"></i></h3></div>
+  <div class="reco-item" *ngFor="let r of recommendations">
+    <i class="ri-checkbox-circle-fill" [ngClass]="'reco-'+r.tone"></i>
+    <div class="reco-body">
+      <b>{{ r.title }}</b>
+      <p>{{ r.detail }}</p>
+    </div>
+    <span class="reco-delta" [ngClass]="r.tone">{{ r.delta }}</span>
+  </div>
+</section>
+
+<!-- ===================== AUDIENCE INSIGHTS ===================== -->
+<section class="panel">
+  <h3>Audience Insights</h3>
+  <div class="audience-grid">
+    <div class="demo-block">
+      <div class="donut-wrap">
+        <apx-chart [series]="genderChart.series" [chart]="genderChart.chart" [labels]="genderChart.labels"
+          [colors]="genderChart.colors" [legend]="genderChart.legend" [dataLabels]="genderChart.dataLabels"
+          [plotOptions]="genderChart.plotOptions"></apx-chart>
+      </div>
+      <div class="demo-legend">
+        <span><i class="dot" style="background:#4f46e5"></i>Men <b>42%</b></span>
+        <span><i class="dot" style="background:#f6b93b"></i>Women <b>58%</b></span>
+      </div>
+    </div>
+
+    <div class="radial-block">
+      <div class="radial-item">
+        <apx-chart [series]="newVisitorsChart.series" [chart]="newVisitorsChart.chart" [colors]="newVisitorsChart.colors" [plotOptions]="newVisitorsChart.plotOptions"></apx-chart>
+        <span>New Visitors</span>
+      </div>
+      <div class="radial-item">
+        <apx-chart [series]="returningChart.series" [chart]="returningChart.chart" [colors]="returningChart.colors" [plotOptions]="returningChart.plotOptions"></apx-chart>
+        <span>Returning</span>
+      </div>
+      <div class="radial-item">
+        <apx-chart [series]="desktopChart.series" [chart]="desktopChart.chart" [colors]="desktopChart.colors" [plotOptions]="desktopChart.plotOptions"></apx-chart>
+        <span>Desktop</span>
+      </div>
+      <div class="radial-item">
+        <apx-chart [series]="emailChart.series" [chart]="emailChart.chart" [colors]="emailChart.colors" [plotOptions]="emailChart.plotOptions"></apx-chart>
+        <span>Email</span>
+      </div>
+    </div>
+
+    <div class="age-block">
+      <span class="age-title">Age Groups</span>
+      <div class="age-row" *ngFor="let a of ageBrackets">
+        <span>{{ a.label }}</span>
+        <div class="bar-track"><div class="bar-fill" [style.width.%]="a.pct"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RECENT ACTIVITY ===================== -->
+<section class="panel">
+  <div class="panel-head">
+    <div>
+      <h3>Recent Activity</h3>
+      <p class="panel-sub">Latest orders across campaigns</p>
+    </div>
+    <a class="btn btn-soft btn-sm" href="#"><i class="ri-arrow-right-line me-1"></i> View All</a>
+  </div>
+  <div class="table-common-wrap">
+    <table class="table-common">
+      <thead><tr><th>Lead ID</th><th>Customer</th><th>Source Campaign</th><th>Value</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let o of recentOrders">
+          <td><b class="lead-id">{{ o.id }}</b></td>
+          <td>
+            <div class="customer-cell">
+              <span class="customer-avatar" [style.background]="avatarColor(o.customer)">{{ initials(o.customer) }}</span>
+              <b>{{ o.customer }}</b>
+            </div>
+          </td>
+          <td>{{ o.channel }}</td>
+          <td><b>{{ o.amount }}</b></td>
+          <td><span class="status-pill" [ngClass]="o.status === 'Won' ? 'won' : 'pending'">{{ o.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+

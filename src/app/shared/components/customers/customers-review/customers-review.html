@@ -1,0 +1,557 @@
+<div class="panel">
+
+  <!-- =========================================================
+       PAGE HEADER
+  ========================================================== -->
+
+  <div class="page-title-block">
+
+    <div>
+      <h1>All Customers Reviews</h1>
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       FILTER / SEARCH ROW
+  ========================================================== -->
+
+  <div class="row align-items-end mb-3">
+
+    <!-- Records -->
+    <div class="col-lg-2 col-md-3 col-sm-6">
+
+      <label class="form-label-custom">
+        Records
+      </label>
+
+      <ng-select
+        class="custom-ng-select"
+        [items]="recordsOptions"
+        bindLabel="name"
+        bindValue="id"
+        [(ngModel)]="pageSize"
+        [ngModelOptions]="{ standalone: true }"
+        (change)="onRecordsChange(pageSize)"
+        [clearable]="false">
+      </ng-select>
+
+    </div>
+
+
+    <!-- Search -->
+    <div class="col-lg-3 col-md-4 col-sm-6">
+
+      <label class="form-label-custom">
+        Search
+      </label>
+
+      <div class="search-box">
+
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search review..."
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearch()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+
+        <i
+          *ngIf="!searchTerm"
+          class="ri-search-line search-icon">
+        </i>
+
+        <button
+          *ngIf="searchTerm"
+          type="button"
+          class="clear-btn"
+          (click)="clearSearch()">
+
+          <i class="ri-close-circle-fill"></i>
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- View -->
+    <div class="col-lg-1 col-md-2 col-sm-3">
+
+      <button
+        class="btn btn-primary-custom btn-sm w-100"
+        type="button"
+        (click)="viewReviews()">
+
+        <i class="ri-eye-line me-1"></i>
+        View
+
+      </button>
+
+    </div>
+
+
+    <!-- Clear -->
+    <div class="col-lg-1 col-md-2 col-sm-3">
+
+      <button
+        class="btn btn-soft btn-sm w-100"
+        type="button"
+        (click)="clearFilter()">
+
+        <i class="ri-filter-off-line me-1"></i>
+        Clear
+
+      </button>
+
+    </div>
+
+
+    <!-- Export -->
+    <div
+      class="export-actions justify-content-end col-lg-2 col-md-3 col-sm-6 ms-auto ps-3">
+
+      <div class="export-actions">
+
+        <button
+          type="button"
+          class="btn-icon-sm"
+          title="Export Excel"
+          (click)="exportExcel()">
+
+          <i class="ri-file-excel-2-line"></i>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn-icon-sm"
+          title="Export PDF"
+          (click)="exportPdf()">
+
+          <i class="ri-file-pdf-2-line"></i>
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn-icon-sm"
+          title="Print"
+          (click)="printList()">
+
+          <i class="ri-printer-line"></i>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       CUSTOMER REVIEW TABLE
+  ========================================================== -->
+
+  <div class="table-common-wrap">
+
+    <table class="table-common">
+
+      <!-- ================= TABLE HEADER ================= -->
+
+      <thead>
+
+        <tr>
+
+          <th>S.No</th>
+
+          <th style="min-width: 120px;">
+            Review Code
+          </th>
+
+          <th style="min-width: 120px;">
+            Customer Code
+          </th>
+
+          <th style="min-width: 160px;">
+            Customer Name
+          </th>
+
+          <th style="min-width: 220px;">
+            Email
+          </th>
+
+          <th style="min-width: 140px;">
+            Mobile No
+          </th>
+
+          <th style="min-width: 150px;">
+            Product Code
+          </th>
+
+          <th style="min-width: 160px;">
+            Product Name
+          </th>
+
+          <th style="min-width: 100px;">
+            Rating
+          </th>
+
+          <th style="min-width: 180px;">
+            Review Title
+          </th>
+
+          <th style="min-width: 350px;">
+            Review Message
+          </th>
+
+          <!-- <th style="min-width: 120px;">
+            Approved
+          </th> -->
+
+          <th style="min-width: 110px;">
+            Status
+          </th>
+
+          <!-- <th style="min-width: 120px;">
+            Created By
+          </th>
+
+          <th style="min-width: 180px;">
+            Created On
+          </th> -->
+
+          <th style="min-width: 110px;">
+            Action
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <!-- ================= TABLE BODY ================= -->
+
+      <tbody>
+
+        <tr
+          *ngFor="let review of searchList; let i = index">
+
+          <!-- S.No -->
+          <td>
+            {{ (page - 1) * pageSize + i + 1 }}
+          </td>
+
+
+          <!-- Review Code -->
+          <td>
+            <strong>
+              {{ review.Review_Code }}
+            </strong>
+          </td>
+
+
+          <!-- Customer Code -->
+          <td>
+            {{ review.Customer_Code }}
+          </td>
+
+
+          <!-- Customer Name -->
+          <td>
+            {{ review.Customer_Name }}
+          </td>
+
+
+          <!-- Email -->
+          <td>
+            {{ review.Email_Id }}
+          </td>
+
+
+          <!-- Mobile -->
+          <td>
+            {{ review.Mobile_No }}
+          </td>
+
+
+          <!-- Product Code -->
+          <td>
+            {{ review.Product_Code }}
+          </td>
+
+
+          <!-- Product Name -->
+          <td>
+            {{ review.Product_Name }}
+          </td>
+
+
+          <!-- Rating -->
+          <td>
+
+            <div class="rating-stars">
+
+              <i
+                *ngFor="let star of getStars(review.Rating)"
+                class="ri-star-fill"
+                [class.empty-star]="star === 0">
+              </i>
+
+              <span class="rating-number">
+                {{ review.Rating }}/5
+              </span>
+
+            </div>
+
+          </td>
+
+
+          <!-- Review Title -->
+          <td>
+
+            <strong class="review-title">
+              {{ review.Review_Title }}
+            </strong>
+
+          </td>
+
+
+          <!-- Review Message -->
+          <td>
+
+            <div
+              class="review-message"
+              [title]="review.Review_Message">
+
+              {{ review.Review_Message }}
+
+            </div>
+
+          </td>
+
+
+          <!-- Approved -->
+          <!-- <td>
+
+            <span
+              class="status-pill"
+              [ngClass]="{
+                'approved-status': review.Is_Approved === 'Y',
+                'pending-status': review.Is_Approved === 'N'
+              }">
+
+              <i
+                [class]="review.Is_Approved === 'Y'
+                  ? 'ri-checkbox-circle-fill'
+                  : 'ri-time-line'">
+              </i>
+
+              {{
+                review.Is_Approved === 'Y'
+                  ? 'Approved'
+                  : 'Pending'
+              }}
+
+            </span>
+
+          </td>
+ -->
+
+          <!-- Active Status -->
+          <td>
+
+            <span
+              class="status-pill"
+              [ngClass]="{
+                'active-status': review.Is_Active === 'A',
+                'inactive-status': review.Is_Active === 'D'
+              }">
+
+              {{ review.Is_Active === 'A'
+                ? 'Active'
+                : 'Inactive'
+              }}
+
+            </span>
+
+          </td>
+
+
+          <!-- Created By -->
+          <!-- <td>
+            {{ review.Created_By }}
+          </td> -->
+
+
+          <!-- Created On -->
+          <!-- <td>
+            {{ review.Created_On }}
+          </td> -->
+
+
+          <!-- Action -->
+          <td>
+
+            <div class="action-btns">
+
+              <button
+                type="button"
+                class="btn-icon-sm delete"
+                title="Delete"
+                (click)="deleteReview(review)">
+
+                <i class="ri-delete-bin-line"></i>
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+
+        <!-- ================= NO DATA ================= -->
+
+        <tr *ngIf="searchList.length === 0">
+
+          <td colspan="16">
+
+            <div class="empty-state">
+
+              <img
+                src="img/no-data.png"
+                alt="No data"
+                height="70">
+
+              <h5 class="text-black">
+                No Customer Reviews Found!
+              </h5>
+
+              <p class="text-muted mb-0">
+                Try changing your search term.
+              </p>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- =========================================================
+       PAGINATION
+  ========================================================== -->
+
+  <div
+    class="pagination-bar"
+    *ngIf="totalRecords > 0">
+
+    <!-- Entry Information -->
+
+    <div class="text-muted mt-2">
+
+      Showing
+
+      <strong>
+        {{ startRecord }}
+      </strong>
+
+      to
+
+      <strong>
+        {{ endRecord }}
+      </strong>
+
+      of
+
+      <strong>
+        {{ totalRecords }}
+      </strong>
+
+      entries
+
+    </div>
+
+
+    <!-- Pagination Buttons -->
+
+    <div class="page-btns">
+
+      <!-- First -->
+      <button
+        type="button"
+        (click)="goToPage(1)"
+        [disabled]="page === 1"
+        title="First">
+
+        <i class="ri-arrow-left-double-line"></i>
+
+      </button>
+
+
+      <!-- Previous -->
+      <button
+        type="button"
+        (click)="goToPage(page - 1)"
+        [disabled]="page === 1"
+        title="Previous">
+
+        <i class="ri-arrow-left-s-line"></i>
+
+      </button>
+
+
+      <!-- Page Numbers -->
+      <button
+        type="button"
+        *ngFor="let p of getPageNumbers()"
+        [class.active]="p === page"
+        (click)="goToPage(p)">
+
+        {{ p }}
+
+      </button>
+
+
+      <!-- Next -->
+      <button
+        type="button"
+        (click)="goToPage(page + 1)"
+        [disabled]="page === totalPages"
+        title="Next">
+
+        <i class="ri-arrow-right-s-line"></i>
+
+      </button>
+
+
+      <!-- Last -->
+      <button
+        type="button"
+        (click)="goToPage(totalPages)"
+        [disabled]="page === totalPages"
+        title="Last">
+
+        <i class="ri-arrow-right-double-line"></i>
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

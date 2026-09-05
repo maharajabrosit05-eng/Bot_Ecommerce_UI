@@ -1,0 +1,882 @@
+<form
+  [formGroup]="productForm"
+  (ngSubmit)="onSubmit()"
+  novalidate
+  class="add-product-form"
+>
+
+  <!-- ============================================================
+       PRODUCT DETAILS
+  ============================================================ -->
+
+  <div class="panel product-panel">
+
+    <!-- PAGE TITLE -->
+    <div
+      class="page-title-block"
+      *ngIf="!isPanelMode"
+    >
+
+      <div>
+        <h1>Add Product</h1>
+        <p class="page-subtitle">
+          Create and configure a new product
+        </p>
+      </div>
+
+      <a
+        routerLink="/masters"
+        class="btn btn-success-custom btn-sm"
+      >
+        <i class="ri-add-line me-1"></i>
+        Add Masters
+      </a>
+
+    </div>
+
+
+    <!-- PANEL MODE TITLE -->
+
+    <h5
+      class="panel-mode-title"
+      *ngIf="isPanelMode"
+    >
+      <span class="title-icon">
+        <i class="ri-add-circle-line"></i>
+      </span>
+
+      Add Product
+    </h5>
+
+
+    <!-- SECTION HEADER -->
+
+    <div class="panel-head">
+
+      <h3>
+        <span class="section-icon product-icon">
+          <i class="ri-add-circle-line"></i>
+        </span>
+
+        Product Details
+      </h3>
+
+    </div>
+
+
+    <!-- FIELDS -->
+
+    <div class="row g-3">
+
+
+      <!-- CATEGORY -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Category
+          <span class="text-danger">*</span>
+        </label>
+
+        <ng-select
+          #firstField
+          class="custom-ng-select"
+          [items]="categoryOptions"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select category"
+          formControlName="CategoryId"
+          [clearable]="true"
+          [searchable]="true"
+          [closeOnSelect]="true"
+          appendTo="body"
+        >
+        </ng-select>
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['CategoryId'].invalid
+          "
+        >
+          Category is required
+        </div>
+
+      </div>
+
+
+      <!-- BRAND -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Brand
+          <span class="text-danger">*</span>
+        </label>
+
+        <ng-select
+          class="custom-ng-select"
+          [items]="brandOptions"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select brand"
+          formControlName="BrandId"
+          [clearable]="true"
+          [searchable]="true"
+          [closeOnSelect]="true"
+          appendTo="body"
+        >
+        </ng-select>
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['BrandId'].invalid
+          "
+        >
+          Brand is required
+        </div>
+
+      </div>
+
+
+      <!-- HSN -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          HSN
+        </label>
+
+        <ng-select
+          class="custom-ng-select"
+          [items]="hsnOptions"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select HSN"
+          formControlName="HSNCode"
+          [clearable]="true"
+          [searchable]="true"
+          [closeOnSelect]="true"
+          appendTo="body"
+        >
+        </ng-select>
+
+      </div>
+
+
+      <!-- WARRANTY -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Warranty
+        </label>
+
+        <ng-select
+          class="custom-ng-select"
+          [items]="warrantyOptions"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select warranty"
+          formControlName="WarrantyMonths"
+          [clearable]="true"
+          [searchable]="true"
+          [closeOnSelect]="true"
+          appendTo="body"
+        >
+        </ng-select>
+
+      </div>
+
+
+      <!-- COLOR -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Color
+        </label>
+
+        <ng-select
+          class="custom-ng-select"
+          [items]="colorOptions"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select Color"
+          formControlName="Color"
+          [clearable]="true"
+          [searchable]="true"
+          [closeOnSelect]="true"
+          appendTo="body"
+        >
+        </ng-select>
+
+      </div>
+
+
+      <!-- UOM -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Product UOM
+        </label>
+
+        <ng-select
+          class="custom-ng-select"
+          [items]="umoOptions"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select UOM"
+          formControlName="ProductUOM"
+          [clearable]="true"
+          [searchable]="true"
+          [closeOnSelect]="true"
+          appendTo="body"
+        >
+        </ng-select>
+
+      </div>
+
+
+      <!-- TAX -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Tax
+          <span class="text-danger">*</span>
+        </label>
+
+        <ng-select
+          class="custom-ng-select"
+          [items]="taxOptions"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="Select tax"
+          formControlName="TaxId"
+          [clearable]="true"
+          [searchable]="true"
+          [closeOnSelect]="true"
+          appendTo="body"
+        >
+        </ng-select>
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['TaxId'].invalid
+          "
+        >
+          Tax is required
+        </div>
+
+      </div>
+
+
+      <!-- STAR RATING -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Star Rating
+          <span class="text-muted">
+            (1 to 5)
+          </span>
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="StarRating"
+          placeholder="e.g. 4.5"
+          min="1"
+          max="5"
+          step="0.5"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['StarRating'].invalid
+          "
+        >
+          Star rating must be between 1 and 5
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCT NAME -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Product Name
+          <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="ProductName"
+          placeholder="e.g. Dell 21.5&quot; LED Monitor"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['ProductName'].invalid
+          "
+        >
+          Product name is required
+        </div>
+
+      </div>
+
+
+      <!-- MODEL -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Model No
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="ModelNo"
+          placeholder="e.g. D2222H"
+        >
+
+      </div>
+
+
+      <!-- PRODUCT CODE -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Product Code
+          <small class="text-muted">
+            (auto-generated)
+          </small>
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="ProductCode"
+          placeholder="Generated after save"
+        >
+
+      </div>
+
+
+      <!-- SKU -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          SKU
+          <small class="text-muted">
+            (auto-generated)
+          </small>
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="SKU"
+          placeholder="Generated after save"
+        >
+
+      </div>
+
+
+      <!-- BARCODE -->
+
+      <div class="col-12 col-md-6 col-lg-4">
+
+        <label class="form-label-custom">
+          Barcode
+          <small class="text-muted">
+            (auto-generated)
+          </small>
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="Barcode"
+          placeholder="Generated after save"
+        >
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ============================================================
+       DESCRIPTION
+  ============================================================ -->
+
+  <div class="panel description-panel">
+
+    <div class="panel-head">
+
+      <h3>
+
+        <span class="section-icon description-icon">
+          <i class="ri-file-text-line"></i>
+        </span>
+
+        Description
+
+      </h3>
+
+    </div>
+
+
+    <div class="row g-3">
+
+      <div class="col-12">
+
+        <label class="form-label-custom">
+          Short Description
+
+          <span class="text-muted">
+            (max 500 chars)
+          </span>
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="ShortDescription"
+          maxlength="500"
+          placeholder="One line highlight of the product"
+        >
+
+      </div>
+
+
+      <div class="col-12">
+
+        <label class="form-label-custom">
+          Description
+        </label>
+
+        <textarea
+          class="form-control"
+          rows="4"
+          formControlName="Description"
+          placeholder="Full product description..."
+        ></textarea>
+
+      </div>
+
+
+      <div class="col-12">
+
+        <label class="form-label-custom">
+          Specifications
+          <span class="text-muted">
+            (technical spec sheet, key-value points etc.)
+          </span>
+        </label>
+
+        <textarea
+          class="form-control"
+          rows="4"
+          formControlName="Specifications"
+          placeholder="e.g. Screen Size: 21.5 inch&#10;Resolution: 1920x1080&#10;Ports: HDMI, VGA"
+        ></textarea>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ============================================================
+       PRICING
+  ============================================================ -->
+
+  <div class="panel pricing-panel">
+
+    <div class="panel-head">
+
+      <h3>
+
+        <span class="section-icon pricing-icon">
+          <i class="ri-price-tag-3-line"></i>
+        </span>
+
+        Pricing
+
+      </h3>
+
+    </div>
+
+
+    <div class="row g-3">
+
+
+      <!-- PURCHASE -->
+
+      <div class="col-6 col-md-4 col-lg-3">
+
+        <label class="form-label-custom">
+          Purchase Price (₹)
+          <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="PurchasePrice"
+          placeholder="0.00"
+          min="0"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['PurchasePrice'].invalid
+          "
+        >
+          Purchase price is required
+        </div>
+
+      </div>
+
+
+      <!-- SELLING -->
+
+      <div class="col-6 col-md-4 col-lg-3">
+
+        <label class="form-label-custom">
+          Selling Price (₹)
+          <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="SellingPrice"
+          placeholder="0.00"
+          min="0"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['SellingPrice'].invalid
+          "
+        >
+          Selling price is required
+        </div>
+
+      </div>
+
+
+      <!-- MRP -->
+
+      <div class="col-6 col-md-4 col-lg-3">
+
+        <label class="form-label-custom">
+          MRP (₹)
+          <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="MRP"
+          placeholder="0.00"
+          min="0"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['MRP'].invalid
+          "
+        >
+          MRP is required
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ============================================================
+       STOCK
+  ============================================================ -->
+
+  <div class="panel stock-panel">
+
+    <div class="panel-head">
+
+      <h3>
+
+        <span class="section-icon stock-icon">
+          <i class="ri-stack-line"></i>
+        </span>
+
+        Stock Details
+
+      </h3>
+
+    </div>
+
+
+    <div class="row g-3">
+
+
+      <!-- CURRENT STOCK -->
+
+      <div class="col-6 col-md-4 col-lg-3">
+
+        <label class="form-label-custom">
+          Current Stock
+          <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="CurrentStock"
+          placeholder="0"
+          min="0"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['CurrentStock'].invalid
+          "
+        >
+          Current stock is required
+        </div>
+
+      </div>
+
+
+      <!-- MINIMUM -->
+
+      <div class="col-6 col-md-4 col-lg-3">
+
+        <label class="form-label-custom">
+          Minimum Stock
+          <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="MinimumStock"
+          placeholder="0"
+          min="0"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['MinimumStock'].invalid
+          "
+        >
+          Minimum stock is required
+        </div>
+
+      </div>
+
+
+      <!-- MAXIMUM -->
+
+      <div class="col-6 col-md-4 col-lg-3">
+
+        <label class="form-label-custom">
+          Maximum Stock
+          <span class="text-danger">*</span>
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="MaximumStock"
+          placeholder="0"
+          min="0"
+        >
+
+        <div
+          class="text-danger small mt-1"
+          *ngIf="
+            submitted &&
+            f['MaximumStock'].invalid
+          "
+        >
+          Maximum stock is required
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ============================================================
+       PRODUCT IMAGE (S3)
+  ============================================================ -->
+
+  <div class="panel image-panel">
+
+    <div class="panel-head">
+
+      <h3>
+
+        <span class="section-icon">
+          <i class="ri-image-line"></i>
+        </span>
+
+        Product Image
+
+      </h3>
+
+    </div>
+
+    <div class="row g-3">
+
+      <div class="col-12 col-md-6">
+
+        <label class="form-label-custom">
+          Upload Image
+        </label>
+
+        <input
+          type="file"
+          class="form-control"
+          accept="image/png,image/jpeg,image/webp"
+          (change)="onProductImageSelect($event)"
+        >
+
+        <div class="small text-muted mt-1">
+          PNG/JPG/WEBP. Save panna, idhu automatic ah AWS S3 la upload aagum.
+        </div>
+
+      </div>
+
+      <div class="col-12 col-md-6" *ngIf="productImagePreview">
+
+        <label class="form-label-custom">
+          Preview
+        </label>
+
+        <div class="d-flex align-items-center gap-3">
+
+          <img
+            [src]="productImagePreview"
+            alt="Product preview"
+            style="width:96px;height:96px;object-fit:cover;border-radius:8px;border:1px solid #ddd;"
+          >
+
+          <button
+            type="button"
+            class="btn btn-outline-danger btn-sm"
+            (click)="removeProductImage()"
+          >
+            Remove
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ============================================================
+       ACTION BUTTONS
+  ============================================================ -->
+
+  <div class="product-action-bar">
+
+    <button
+      type="submit"
+      class="btn btn-primary-custom"
+      [disabled]="saving"
+    >
+
+      <i
+        class="ri-save-line"
+        *ngIf="!saving"
+      ></i>
+
+      <i
+        class="ri-loader-4-line ri-spin"
+        *ngIf="saving"
+      ></i>
+
+      {{ saving ? 'Saving...' : 'Save Product' }}
+
+    </button>
+
+
+    <button
+      type="button"
+      class="btn btn-soft reset-btn"
+      (click)="onReset()"
+      [disabled]="saving"
+    >
+
+      <i class="ri-refresh-line"></i>
+
+      Reset
+
+    </button>
+
+
+    <button
+      type="button"
+      class="btn btn-soft cancel-btn"
+      *ngIf="isPanelMode"
+      (click)="onCancelClick()"
+      [disabled]="saving"
+    >
+
+      <i class="ri-close-line"></i>
+
+      Cancel
+
+    </button>
+
+  </div>
+
+</form>

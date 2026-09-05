@@ -1,0 +1,60 @@
+<div class="video-bg">
+  <video
+    #bgVideo
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto">
+    <source src="img/video-2.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="home-menu-page">
+
+  <!-- ================= Level 1: Home Menu groups ================= -->
+  <ng-container *ngIf="!activeGroup">
+    <!-- <div class="home-menu-head">
+      <h1>Menu</h1>
+      <p>Select a module to continue</p>
+    </div> -->
+
+    <div class="menu-grid">
+      <button type="button" class="menu-card" *ngFor="let item of menu" (click)="openItem(item)">
+        <span class="menu-card-icon"><i [class]="item.icon"></i></span>
+        <span class="menu-card-label">{{ item.label }}</span>
+        <span class="menu-card-corner" *ngIf="item.children?.length"><i class="ri-folder-2-fill"></i></span>
+      </button>
+    </div>
+  </ng-container>
+
+  <!-- ================= Level 2: modules of the selected group ================= -->
+  <ng-container *ngIf="activeGroup">
+    <div class="home-menu-head with-back">
+
+      <!-- <div>
+        <h1>{{ activeGroup.label }}</h1>
+        <p>Select a screen to continue</p>
+      </div> -->
+
+      <button type="button" class="back-btn" (click)="backToGroups()">
+        <i class="ri-arrow-left-line"></i>
+        Back
+      </button>
+
+    </div>
+
+    <div class="menu-grid">
+      <button type="button" class="menu-card" *ngFor="let child of activeGroup.children" (click)="openItem(child)">
+        <span class="menu-card-icon"><i [class]="child.icon"></i></span>
+        <span class="menu-card-label">{{ child.label }}</span>
+      </button>
+    </div>
+
+    <div class="empty-state" *ngIf="!activeGroup.children?.length">
+      <i class="ri-inbox-line"></i>
+      No screens found under {{ activeGroup.label }}
+    </div>
+  </ng-container>
+
+</div>

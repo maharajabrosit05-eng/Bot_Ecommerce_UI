@@ -1,0 +1,42 @@
+<div class="sidebar-overlay" [class.show]="isOpen" (click)="onClose()"></div>
+
+<aside class="sidebar" [class.open]="isOpen">
+  <div class="sidebar-brand">
+    <div class="brand-mark">
+      <img src="img/bros-logo.jpg" alt="Bros IT Solutions Logo">
+    </div>
+    <span>BROS IT <b>SOLUTIONS</b></span>
+    <button class="close-btn" (click)="onClose()"><i class="ri-close-line"></i></button>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ng-container *ngFor="let item of menu">
+      <a class="nav-item" [class.active]="activeLink === item.label" [class.has-children]="!!item.children"
+        (click)="toggleChildren(item)">
+        <i [class]="item.icon"></i>
+        <span>{{ item.label }}</span>
+        <i class="ri-arrow-down-s-line chevron" *ngIf="item.children" [class.rotated]="item.open"></i>
+      </a>
+
+      <div class="submenu" *ngIf="item.children" [class.expanded]="item.open">
+        <a class="submenu-item" *ngFor="let child of item.children" [routerLink]="child.link" routerLinkActive="active"
+          (click)="setActive(child.label)">
+
+          <i [class]="child.icon"></i>
+
+          <span>{{ child.label }}</span>
+
+        </a>
+      </div>
+    </ng-container>
+  </nav>
+
+  <div class="sidebar-footer">
+    <img class="avatar" src="img/admin-img.jfif" alt="profile">
+
+    <div>
+      <b>Admin User</b>
+      <span>Store Manager</span>
+    </div>
+  </div>
+</aside>

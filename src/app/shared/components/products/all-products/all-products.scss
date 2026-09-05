@@ -1,0 +1,93 @@
+/* ================= Right Side Slide Panel (Add / Edit Product) ================= */
+
+.side-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1040;
+}
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 50%;
+  max-width: 1200px;
+  background: #fff;
+  box-shadow: -4px 0 18px rgba(0, 0, 0, 0.15);
+  z-index: 1050;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  overflow: visible;
+
+  &.open {
+    transform: translateX(0);
+  }
+}
+
+.side-panel-body {
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px 24px 40px;
+}
+
+/* FIX: close button ippo .side-panel oda child ah than iruku, so
+   parent transform (slide) oda automatic ah move aagum. Aana adhu
+   mattum podhaadhu -- panel close aana nerathulayum button DOM la
+   iruku nu, edge overflow karana konjam "peek" aaga saanchu.
+   Adhukaga ippo opacity + pointer-events ah kooda .open class oda
+   tie pannirukom -- panel open aagumbodhu mattum button fade-in +
+   slide rendum SAME TIME nadakkum, close aana odane buttonum
+   udane mara (invisible + unclickable) aagidum. */
+.side-panel-close-btn {
+  position: absolute;
+  top: 50%;
+  left: -56px;
+  transform: translateY(-50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50% 0% 0% 50%;
+  border: none;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1060;
+  font-size: 24px;
+  color: #4f46e5;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: background 0.2s ease, opacity 0.25s ease 0s, pointer-events 0s linear 0.3s;
+
+  i {
+    line-height: 1;
+  }
+}
+
+.side-panel.open .side-panel-close-btn {
+  opacity: 1;
+  pointer-events: auto;
+  transition: background 0.2s ease, opacity 0.25s ease 0.15s, pointer-events 0s;
+}
+
+.side-panel-close-btn:hover {
+  background: #f3f4f6;
+  transform: translateY(-50%) scale(1.06);
+}
+
+@media (max-width: 992px) {
+  .side-panel {
+    width: 92%;
+  }
+
+  .side-panel-close-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    left: -20px;
+  }
+}

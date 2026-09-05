@@ -1,0 +1,149 @@
+<div class="panel">
+  <div class="page-title-block">
+    <div>
+      <h1>Home Menu Group</h1>
+      <!-- <app-breadcrumb [items]="breadcrumbs"></app-breadcrumb> -->
+    </div>
+    <button class="btn btn-primary-custom btn-sm" (click)="openAddModal()">
+      <i class="ri-add-line me-1"></i> Add Home Menu
+    </button>
+  </div>
+
+
+  <div class="toolbar-row">
+
+    <div class="row align-items-end mb-3 w-100">
+
+      <!-- Records -->
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Records</label>
+        <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+          [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+          [clearable]="false">
+        </ng-select>
+      </div>
+
+      <!-- Search -->
+      <div class="col-lg-2 col-md-2">
+        <label class="form-label-custom">Search</label>
+        <div class="search-box">
+          <input type="text" class="form-control" placeholder="Search Product..." [(ngModel)]="searchTerm"
+            (ngModelChange)="onSearch()" [ngModelOptions]="{standalone:true}">
+          <i *ngIf="!searchTerm" class="ri-search-line search-icon"></i>
+          <button *ngIf="searchTerm" type="button" class="clear-btn" (click)="clearSearch()">
+            <i class="ri-close-circle-fill"></i>
+          </button>
+        </div>
+      </div>
+
+      
+
+
+    </div>
+
+    <div class="table-common-wrap mt-3">
+      <table class="table-common">
+        <thead>
+          <tr>
+            <th *ngFor="let col of columns">{{ col.label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of searchList; let i = index">
+            <ng-container *ngFor="let col of columns">
+              <td *ngIf="col.type === 'action'">
+                <app-action-buttons [row]="row" (edit)="openEditModal($event)" (delete)="remove($event)">
+                </app-action-buttons>
+              </td>
+              <td *ngIf="col.type === 'status'">
+                <span class="status-pill status-dot" [ngClass]="{
+                'active-status': row.Is_Active === 'A',
+                'inactive-status': row.Is_Active !== 'A'
+              }" [title]="row.Is_Active === 'A' ? 'Active' : 'Inactive'">
+                  {{ row.Is_Active === 'A' ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td *ngIf="!col.type && col.key === 'sno'">{{ (page - 1) * pageSize + i + 1 }}</td>
+              <td *ngIf="!col.type && col.key !== 'sno'">{{ row[col.key] }}</td>
+            </ng-container>
+          </tr>
+
+          <tr *ngIf="searchList.length === 0">
+            <td [attr.colspan]="columns.length">
+              <div class="empty-state">
+                <img src="img/no-data.png" alt="" height="70">
+                <h5 class="text-black">No Home Menu Found!</h5>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-bar" *ngIf="totalRecords">
+
+      <div class="text-muted mt-2 ">
+        Showing
+        <strong>{{ startRecord }}</strong>
+        to
+        <strong>{{ endRecord }}</strong>
+        of
+        <strong>{{ totalRecords }}</strong>
+        entries
+      </div>
+
+      <div class="page-btns">
+        <button (click)="goToPage(page - 1)" [disabled]="page === 1"><i class="ri-arrow-left-double-line"></i><i
+            class="ri-arrow-left-double-line"></i></button>
+        <button (click)="goToPage(page - 1)" [disabled]="page === 1"><i class="ri-arrow-left-double-line"></i></button>
+
+        <button *ngFor="let p of getPageNumbers()" [class.active]="p === page" (click)="goToPage(p)">{{ p }}</button>
+
+        <button (click)="goToPage(page + 1)" [disabled]="page === totalPages"><i
+            class="ri-arrow-right-double-line"></i></button>
+        <button (click)="goToPage(page + 1)" [disabled]="page === totalPages"><i
+            class="ri-arrow-right-double-line"></i><i class="ri-arrow-right-double-line"></i></button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ================= Add / Edit Modal ================= -->
+  <div class="custom-modal-backdrop" *ngIf="showModal" (click)="closeModal()"></div>
+
+  <div class="custom-modal" *ngIf="showModal">
+    <form (ngSubmit)="save()" novalidate>
+      <div class="custom-modal-head">
+        <h5>{{ isEditMode ? 'Edit' : 'Add' }} Home Menu</h5>
+        <button type="button" class="btn-icon-sm" (click)="closeModal()"><i class="ri-close-line"></i></button>
+      </div>
+
+      <div class="custom-modal-body">
+
+        <div class="mb-3">
+          <label class="form-label-custom">Home Menu Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-input-custom" [(ngModel)]="form.HomeMenu" name="HomeMenu"
+            placeholder="Ex: PRODUCTS" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label-custom">Display Order <span class="text-danger">*</span></label>
+          <input type="number" class="form-input-custom" [(ngModel)]="form.Display_Order" name="Display_Order"
+            placeholder="Ex: 1" />
+        </div>
+
+        <div class="mb-1 d-flex align-items-center gap-2 active-toggle-row">
+          <label for="" class="mb-0">Is Active</label>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input toggle-larger" type="checkbox" role="switch" [checked]="isActiveChecked"
+              (change)="isActiveChecked = $any($event.target).checked" name="Is_Active" />
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-modal-footer">
+        <button type="button" class="btn btn-soft" (click)="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary-custom">{{ isEditMode ? 'Update' : 'Save' }}</button>
+      </div>
+    </form>
+  </div>

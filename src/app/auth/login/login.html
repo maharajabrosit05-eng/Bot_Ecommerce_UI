@@ -1,0 +1,61 @@
+<div class="video-bg">
+  <video
+    #bgVideo
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto">
+    <source src="img/video-login.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="overlay"></div>
+<div class="login-page">
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-mark">
+        <img src="img/bros-logo.jpg" alt="Bros IT Solutions">
+      </div>
+
+      <span>BROS IT <b>SOLUTIONS</b></span>
+    </div>
+    <p class="sub">Login to access your dashboard</p>
+
+    <div class="error-banner" *ngIf="errorMessage()">
+      <i class="ri-error-warning-line"></i> {{ errorMessage() }}
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="field">
+        <label>User Name</label>
+
+        <input type="text" formControlName="userName" placeholder="Enter User Name">
+
+        <div class="field-err" *ngIf="form.get('userName')?.touched && form.get('userName')?.invalid">
+
+          User Name is required.
+
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <div class="pass-wrap">
+          <input [type]="showPassword() ? 'text' : 'password'" formControlName="password" placeholder="Enter password">
+          <i [class]="showPassword() ? 'ri-eye-off-line' : 'ri-eye-line'" (click)="togglePassword()"></i>
+        </div>
+        <div class="field-err" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+          Password must be at least 6 characters.
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn" [disabled]="loading()">
+        <span *ngIf="!loading()">Login to Dashboard</span>
+        <span *ngIf="loading()"><i class="ri-loader-4-line spin"></i> Signing in...</span>
+      </button>
+
+
+    </form>
+  </div>
+</div>
