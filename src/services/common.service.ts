@@ -249,118 +249,183 @@ export class CommonService {
     return this.http.get(`${this.baseUrl}/api/customer/Get_CustomerReviewList`);
   }
 
- DeleteCustomerReview(reviewCode: string) {
-  return this.http.get(
-    `${this.baseUrl}/api/customer/DeleteCustomerReview`,
-    {
-      params: {
-        Review_Code: reviewCode
+  DeleteCustomerReview(reviewCode: string) {
+    return this.http.get(
+      `${this.baseUrl}/api/customer/DeleteCustomerReview`,
+      {
+        params: {
+          Review_Code: reviewCode
+        }
       }
-    }
-  );
-}
-  
-
-
-GetAllOrders() {
-  return this.http.get(`${this.baseUrl}/api/order/AllOrders`);
-}
-
-OrderTracking(orderCode: string) {
-  return this.http.get(`${this.baseUrl}/api/order/OrderTracking?Order_Code=${orderCode}`);
-}
-
-UpdateOrderStatus(body: any) {
-  return this.http.post(`${this.baseUrl}/api/order/UpdateOrderStatus`, body);
-}
+    );
+  }
 
 
 
+  GetAllOrders() {
+    return this.http.get(`${this.baseUrl}/api/order/AllOrders`);
+  }
 
-GetItemStockList() {
-  return this.http.get(`${this.baseUrl}/api/Stock/ItemStockList`);
-}
+  OrderTracking(orderCode: string) {
+    return this.http.get(`${this.baseUrl}/api/order/OrderTracking?Order_Code=${orderCode}`);
+  }
 
-
-GetStockList(productCode?: string) {
-  const params: any = {};
-  if (productCode) { params.Product_Code = productCode; }
-  return this.http.get(`${this.baseUrl}/api/Stock/StockList`, { params });
-}
-
-
-GetStockByProduct(productCode: string) {
-  return this.http.get(`${this.baseUrl}/api/Stock/StockByProduct`, {
-    params: { Product_Code: productCode }
-  });
-}
+  UpdateOrderStatus(body: any) {
+    return this.http.post(`${this.baseUrl}/api/order/UpdateOrderStatus`, body);
+  }
 
 
-AddStockQty(data: { Product_Code: string; Location_Code: string; Qty: number; Updated_By?: string }) {
-  return this.http.post(`${this.baseUrl}/api/Stock/AddStock`, data);
-}
 
 
-ReduceStockQty(data: { Product_Code: string; Location_Code: string; Qty: number; Updated_By?: string }) {
-  return this.http.post(`${this.baseUrl}/api/Stock/ReduceStock`, data);
-}
+  GetItemStockList() {
+    return this.http.get(`${this.baseUrl}/api/Stock/ItemStockList`);
+  }
 
 
-SaveStockDirect(data: any) {
-  return this.http.post(`${this.baseUrl}/api/Stock/SaveStock`, data);
-}
+  GetStockList(productCode?: string) {
+    const params: any = {};
+    if (productCode) { params.Product_Code = productCode; }
+    return this.http.get(`${this.baseUrl}/api/Stock/StockList`, { params });
+  }
 
 
-DeleteStockRow(productCode: string, locationCode: string) {
-  return this.http.get(`${this.baseUrl}/api/Stock/DeleteStock`, {
-    params: { Product_Code: productCode, Location_Code: locationCode }
-  });
-}
+  GetStockByProduct(productCode: string) {
+    return this.http.get(`${this.baseUrl}/api/Stock/StockByProduct`, {
+      params: { Product_Code: productCode }
+    });
+  }
 
 
-GetCancelledOrderList(customerCode?: string, orderCode?: string) {
-  const params: any = {};
-  if (customerCode) { params.Customer_Code = customerCode; }
-  if (orderCode) { params.Order_Code = orderCode; }
-  return this.http.get(`${this.baseUrl}/api/order/CancelledOrderList`, { params });
-}
+  AddStockQty(data: { Product_Code: string; Location_Code: string; Qty: number; Updated_By?: string }) {
+    return this.http.post(`${this.baseUrl}/api/Stock/AddStock`, data);
+  }
 
 
-GetReturnedOrderList(customerCode?: string, orderCode?: string) {
-  const params: any = {};
-  if (customerCode) { params.Customer_Code = customerCode; }
-  if (orderCode) { params.Order_Code = orderCode; }
-  return this.http.get(`${this.baseUrl}/api/order/ReturnedOrderList`, { params });
-}
+  ReduceStockQty(data: { Product_Code: string; Location_Code: string; Qty: number; Updated_By?: string }) {
+    return this.http.post(`${this.baseUrl}/api/Stock/ReduceStock`, data);
+  }
 
 
-CancelOrder(data: any) {
-  return this.http.post(`${this.baseUrl}/api/order/CancelOrder`, data);
-}
+  SaveStockDirect(data: any) {
+    return this.http.post(`${this.baseUrl}/api/Stock/SaveStock`, data);
+  }
 
 
-ReturnOrderItem(data: any) {
-  return this.http.post(`${this.baseUrl}/api/order/ReturnOrderItem`, data);
-}
+  DeleteStockRow(productCode: string, locationCode: string) {
+    return this.http.get(`${this.baseUrl}/api/Stock/DeleteStock`, {
+      params: { Product_Code: productCode, Location_Code: locationCode }
+    });
+  }
 
 
-ProcessRefund(data: any) {
-  return this.http.post(`${this.baseUrl}/api/order/ProcessRefund`, data);
-}
+  GetCancelledOrderList(customerCode?: string, orderCode?: string) {
+    const params: any = {};
+    if (customerCode) { params.Customer_Code = customerCode; }
+    if (orderCode) { params.Order_Code = orderCode; }
+    return this.http.get(`${this.baseUrl}/api/order/CancelledOrderList`, { params });
+  }
 
 
-OrderCancelReturnDetails(orderCode: string) {
-  return this.http.get(`${this.baseUrl}/api/order/OrderCancelReturnDetails`, {
-    params: { Order_Code: orderCode }
-  });
-}
+  GetReturnedOrderList(customerCode?: string, orderCode?: string) {
+    const params: any = {};
+    if (customerCode) { params.Customer_Code = customerCode; }
+    if (orderCode) { params.Order_Code = orderCode; }
+    return this.http.get(`${this.baseUrl}/api/order/ReturnedOrderList`, { params });
+  }
 
 
-MarkPaymentReceived(data: any) {
-  return this.http.post(`${this.baseUrl}/api/order/MarkPaymentReceived`, data);
-}
+  CancelOrder(data: any) {
+    return this.http.post(`${this.baseUrl}/api/order/CancelOrder`, data);
+  }
 
 
+  ReturnOrderItem(data: any) {
+    return this.http.post(`${this.baseUrl}/api/order/ReturnOrderItem`, data);
+  }
+
+
+  ProcessRefund(data: any) {
+    return this.http.post(`${this.baseUrl}/api/order/ProcessRefund`, data);
+  }
+
+
+  OrderCancelReturnDetails(orderCode: string) {
+    return this.http.get(`${this.baseUrl}/api/order/OrderCancelReturnDetails`, {
+      params: { Order_Code: orderCode }
+    });
+  }
+
+
+  MarkPaymentReceived(data: any) {
+    return this.http.post(`${this.baseUrl}/api/order/MarkPaymentReceived`, data);
+  }
+
+
+  // =================================================================
+  // ⭐ ADD THESE METHODS INTO YOUR EXISTING common.service.ts
+  //    (paste inside the CommonService class, anywhere after the
+  //    PRODUCTS section — just following the same style as
+  //    GetAllProducts / SaveProduct / UpdateProduct / DeleteProduct)
+  // =================================================================
+
+  // ---------------------------------------------------------------
+  // HOME PAGE BANNER  (api/HomePageBanner/*)
+  // ---------------------------------------------------------------
+
+  /** Active banners for hero slider -> GET api/HomePageBanner/BannerList */
+  GetBannerList() {
+    return this.http.get(`${this.baseUrl}/api/HomePageBanner/BannerList`);
+  }
+
+  /** Add Banner -> POST api/HomePageBanner/SaveBanner */
+  SaveBanner(data: any) {
+    return this.http.post(`${this.baseUrl}/api/HomePageBanner/SaveBanner`, data);
+  }
+
+  /** Update Banner -> POST api/HomePageBanner/UpdateBanner */
+  UpdateBanner(data: any) {
+    return this.http.post(`${this.baseUrl}/api/HomePageBanner/UpdateBanner`, data);
+  }
+
+  /** Delete Banner (soft delete) -> GET api/HomePageBanner/DeleteBanner?Banner_Code=... */
+  DeleteBanner(bannerCode: string) {
+    return this.http.get(`${this.baseUrl}/api/HomePageBanner/DeleteBanner`, {
+      params: { Banner_Code: bannerCode }
+    });
+  }
+
+  // ---------------------------------------------------------------
+  // ADVERTISEMENT  (api/Advertisement/*)
+  // ---------------------------------------------------------------
+
+  /** All active ads (every slot) -> GET api/Advertisement/AdvertisementList */
+  GetAdvertisementList() {
+    return this.http.get(`${this.baseUrl}/api/Advertisement/AdvertisementList`);
+  }
+
+  /** Add Advertisement -> POST api/Advertisement/SaveAdvertisement */
+  SaveAdvertisement(data: any) {
+    return this.http.post(`${this.baseUrl}/api/Advertisement/SaveAdvertisement`, data);
+  }
+
+  /** Update Advertisement -> POST api/Advertisement/UpdateAdvertisement */
+  UpdateAdvertisement(data: any) {
+    return this.http.post(`${this.baseUrl}/api/Advertisement/UpdateAdvertisement`, data);
+  }
+
+  /** Delete Advertisement (soft delete) -> GET api/Advertisement/DeleteAdvertisement?Advertisement_Code=... */
+  DeleteAdvertisement(adCode: string) {
+    return this.http.get(`${this.baseUrl}/api/Advertisement/DeleteAdvertisement`, {
+      params: { Advertisement_Code: adCode }
+    });
+  }
+
+
+  GetContactEnquiryList(search?: string) {
+    const params: any = {};
+    if (search) { params.search = search; }
+    return this.http.get(`${this.baseUrl}/api/ContactUs/List`, { params });
+  }
 
 
 }

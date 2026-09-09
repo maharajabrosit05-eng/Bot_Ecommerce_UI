@@ -1,0 +1,864 @@
+<div class="panel">
+
+  <div class="page-title-block">
+    <div>
+      <h1>Home Banner &amp; Advertisement</h1>
+    </div>
+
+    <button type="button" class="btn btn-success-custom btn-sm" (click)="openAddPanel()">
+      <i class="ri-add-line me-1"></i>
+      {{ activeTab === 'banner' ? 'Add Banner' : 'Add Advertisement' }}
+    </button>
+  </div>
+
+
+  <!-- =====================================================
+       TAB BUTTONS — Home Banner / Advertisement
+       ====================================================== -->
+  <div class="ad-tabs mb-3">
+
+    <button type="button" class="ad-tab-btn" [class.active]="activeTab === 'banner'" (click)="switchTab('banner')">
+
+      <i class="ri-image-2-line"></i>
+      Home Banner
+
+    </button>
+
+
+    <button type="button" class="ad-tab-btn" [class.active]="activeTab === 'advertisement'"
+      (click)="switchTab('advertisement')">
+
+      <i class="ri-advertisement-line"></i>
+      Advertisement
+
+    </button>
+
+  </div>
+
+
+  <!-- =====================================================
+       HOME BANNER TABLE
+       ====================================================== -->
+  <div class="col-lg-12" *ngIf="activeTab === 'banner'">
+
+    <!-- ⭐ RECORDS + SEARCH (Banner) -->
+    <div class="row align-items-end mb-3">
+
+      <!-- Records -->
+      <div class="col-lg-2">
+
+        <label class="form-label-custom">Records</label>
+
+        <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+          [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+          [clearable]="false" [searchable]="false">
+        </ng-select>
+
+      </div>
+
+
+      <!-- Search -->
+      <div class="col-lg-3">
+
+        <label class="form-label-custom">Search</label>
+
+        <div class="search-box">
+
+          <input class="form-control" placeholder="Search banner..." [(ngModel)]="bannerSearchText"
+            (ngModelChange)="filterBanners()" [ngModelOptions]="{standalone:true}">
+
+          <i *ngIf="!bannerSearchText" class="ri-search-line search-icon"></i>
+
+          <button *ngIf="bannerSearchText" type="button" class="clear-btn" (click)="clearBannerSearch()">
+
+            <i class="ri-close-circle-fill"></i>
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="table-common-wrap">
+
+      <table class="table-common">
+
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th style="min-width:80px">Image</th>
+            <th style="min-width:200px">Title</th>
+            <th style="min-width:220px">Redirect URL</th>
+            <th style="min-width:120px">Order</th>
+            <th style="min-width:120px">Status</th>
+            <th style="min-width:120px">Action</th>
+          </tr>
+        </thead>
+
+
+        <tbody>
+
+          <tr *ngFor="let b of pagedBannerList; let i = index">
+
+            <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+
+            <td>
+              <img [src]="getImageSrc(b.Image_Url)" (error)="onImageError($event)" alt=""
+                style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
+            </td>
+
+            <td class="cell-left">
+              {{ b.Banner_Title || '-' }}
+            </td>
+
+            <td class="cell-wrap">
+              {{ b.Redirect_Url || '-' }}
+            </td>
+
+            <td>
+              {{ b.Display_Order }}
+            </td>
+
+            <td>
+
+              <span class="status-pill status-dot" [ngClass]="{
+                  'active-status': b.Is_Active === 'A',
+                  'inactive-status': b.Is_Active === 'D'
+                }">
+
+                {{ b.Is_Active === 'A' ? 'Active' : 'Inactive' }}
+
+              </span>
+
+            </td>
+
+            <td>
+
+              <div class="action-btns">
+
+                <button class="btn-icon-sm edit" title="Edit" (click)="openEditPanel(b)">
+
+                  <i class="ri-edit-line"></i>
+
+                </button>
+
+
+                <button class="btn-icon-sm delete" title="Delete" (click)="deleteBanner(b)">
+
+                  <i class="ri-delete-bin-line"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+
+          <tr *ngIf="!loadingList && !pagedBannerList.length">
+
+            <td colspan="7">
+
+              <div class="empty-state">
+
+                <img src="img/no-data.png" alt="" height="70">
+
+                <h5 class="text-black">
+
+                  {{ bannerSearchText
+                  ? 'No Banners Found for Current Search!'
+                  : 'No Banners Found!' }}
+
+                </h5>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- ⭐ PAGINATION (Banner) -->
+    <div class="pagination-bar" *ngIf="totalRecords">
+
+      <div class="text-muted mt-2 p-6">
+
+        Showing
+        <strong>{{ startRecord }}</strong>
+        to
+        <strong>{{ endRecord }}</strong>
+        of
+        <strong>{{ totalRecords }}</strong>
+        entries
+
+      </div>
+
+      <div class="page-btns">
+
+        <button (click)="goToPage(page-1)" [disabled]="page==1">
+          <i class="ri-arrow-left-double-line"></i>
+        </button>
+
+        <button *ngFor="let p of getPageNumbers()" [class.active]="p==page" (click)="goToPage(p)">
+          {{ p }}
+        </button>
+
+        <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+          <i class="ri-arrow-right-double-line"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       ADVERTISEMENT TABLE
+       ====================================================== -->
+  <div class="col-lg-12" *ngIf="activeTab === 'advertisement'">
+
+
+    <!-- =====================================================
+         ⭐ RECORDS + SEARCH + SLOT + COUNT (Advertisement)
+         ====================================================== -->
+    <div class="row align-items-end mb-3">
+
+      <!-- 1. Records -->
+      <div class="col-lg-2">
+
+        <label class="form-label-custom">Records</label>
+
+        <ng-select class="custom-ng-select" [items]="recordsOptions" bindLabel="name" bindValue="id"
+          [(ngModel)]="pageSize" [ngModelOptions]="{standalone:true}" (change)="onRecordsChange(pageSize)"
+          [clearable]="false" [searchable]="false">
+        </ng-select>
+
+      </div>
+
+
+      <!-- 2. Search -->
+      <div class="col-lg-3">
+
+        <label class="form-label-custom">Search</label>
+
+        <div class="search-box">
+
+          <input class="form-control" placeholder="Search advertisement..." [(ngModel)]="adSearchText"
+            (ngModelChange)="filterAdvertisements()" [ngModelOptions]="{standalone:true}">
+
+          <i *ngIf="!adSearchText" class="ri-search-line search-icon"></i>
+
+          <button *ngIf="adSearchText" type="button" class="clear-btn" (click)="clearAdSearch()">
+
+            <i class="ri-close-circle-fill"></i>
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- 3. Slot -->
+      <div class="col-lg-3">
+
+        <label class="form-label-custom">Slot</label>
+
+        <ng-select class="custom-ng-select" [items]="slotFilterOptions" bindLabel="name" bindValue="id"
+          [(ngModel)]="selectedSlot" (ngModelChange)="filterAdvertisements()" [clearable]="false" [searchable]="false">
+        </ng-select>
+
+      </div>
+
+
+      <!-- 4. Total advertisement count -->
+      <div class="col-lg-2">
+
+        <label class="form-label-custom">&nbsp;</label>
+
+        <div class="ad-result-count">
+
+          <span>{{ filteredAdList.length }}</span>
+
+          Advertisement{{ filteredAdList.length === 1 ? '' : 's' }}
+
+        </div>
+
+      </div>
+
+
+      <!-- 5. Clear filter -->
+      <div class="col-lg-2" *ngIf="adSearchText || selectedSlot !== 0">
+
+        <label class="form-label-custom">&nbsp;</label>
+
+        <button type="button" class="ad-clear-filter-btn w-100" (click)="clearAdFilters()">
+
+          <i class="ri-refresh-line"></i>
+          Clear
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ADVERTISEMENT TABLE
+         ====================================================== -->
+    <div class="table-common-wrap">
+
+      <table class="table-common">
+
+        <thead>
+
+          <tr>
+
+            <th>S.No</th>
+
+            <th style="min-width:80px">
+              Image
+            </th>
+
+            <th style="min-width:180px">
+              Slot
+            </th>
+
+            <th style="min-width:180px">
+              Title
+            </th>
+
+            <th style="min-width:220px">
+              Redirect URL
+            </th>
+
+            <th style="min-width:120px">
+              Order
+            </th>
+
+            <th style="min-width:140px">
+              Start Date
+            </th>
+
+            <th style="min-width:140px">
+              End Date
+            </th>
+
+            <th style="min-width:120px">
+              Status
+            </th>
+
+            <th style="min-width:120px">
+              Action
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr *ngFor="let a of pagedAdList; let i = index">
+
+
+            <td>
+              {{ (page - 1) * pageSize + i + 1 }}
+            </td>
+
+
+            <td>
+
+              <img [src]="getImageSrc(a.Image_Url)" (error)="onImageError($event)" alt=""
+                style="width:44px;height:44px;object-fit:cover;border-radius:6px;border:1px solid #ddd;">
+
+            </td>
+
+
+            <td>
+
+              <span class="slot-badge">
+                {{ getSlotLabel(a.Slot_No) }}
+              </span>
+
+            </td>
+
+
+            <td class="cell-left">
+
+              {{ a.Ad_Title || '-' }}
+
+            </td>
+
+
+            <td class="cell-wrap">
+
+              {{ a.Redirect_Url || '-' }}
+
+            </td>
+
+
+            <td>
+
+              {{ a.Display_Order }}
+
+            </td>
+
+
+            <td>
+
+              {{ a.Start_Date
+              ? (a.Start_Date | date:'dd-MM-yyyy')
+              : '-' }}
+
+            </td>
+
+
+            <td>
+
+              {{ a.End_Date
+              ? (a.End_Date | date:'dd-MM-yyyy')
+              : '-' }}
+
+            </td>
+
+
+            <td>
+
+              <span class="status-pill status-dot" [ngClass]="{
+                  'active-status': a.Is_Active === 'A',
+                  'inactive-status': a.Is_Active === 'D'
+                }">
+
+                {{ a.Is_Active === 'A' ? 'Active' : 'Inactive' }}
+
+              </span>
+
+            </td>
+
+
+            <td>
+
+              <div class="action-btns">
+
+                <button class="btn-icon-sm edit" title="Edit" (click)="openEditPanel(a)">
+
+                  <i class="ri-edit-line"></i>
+
+                </button>
+
+
+                <button class="btn-icon-sm delete" title="Delete" (click)="deleteAdvertisement(a)">
+
+                  <i class="ri-delete-bin-line"></i>
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+
+
+          <!-- NO DATA -->
+          <tr *ngIf="!loadingList && !pagedAdList.length">
+
+            <td colspan="10">
+
+              <div class="empty-state">
+
+                <img src="img/no-data.png" alt="" height="70">
+
+                <h5 class="text-black">
+
+                  {{ adSearchText || selectedSlot !== 0
+                  ? 'No Advertisements Found for Current Filter!'
+                  : 'No Advertisements Found!' }}
+
+                </h5>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- ⭐ PAGINATION (Advertisement) -->
+    <div class="pagination-bar" *ngIf="totalRecords">
+
+      <div class="text-muted mt-2 p-6">
+
+        Showing
+        <strong>{{ startRecord }}</strong>
+        to
+        <strong>{{ endRecord }}</strong>
+        of
+        <strong>{{ totalRecords }}</strong>
+        entries
+
+      </div>
+
+      <div class="page-btns">
+
+        <button (click)="goToPage(page-1)" [disabled]="page==1">
+          <i class="ri-arrow-left-double-line"></i>
+        </button>
+
+        <button *ngFor="let p of getPageNumbers()" [class.active]="p==page" (click)="goToPage(p)">
+          {{ p }}
+        </button>
+
+        <button (click)="goToPage(page+1)" [disabled]="page==totalPages">
+          <i class="ri-arrow-right-double-line"></i>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     RIGHT SIDE SLIDE PANEL
+     ========================================================== -->
+
+<div class="side-panel-overlay" *ngIf="showPanel" (click)="closePanel()">
+</div>
+
+
+<div class="side-panel" [class.open]="showPanel">
+
+
+  <button type="button" class="side-panel-close-btn" (click)="closePanel()" title="Close">
+
+    <i class="ri-arrow-right-s-line"></i>
+
+  </button>
+
+
+  <div class="side-panel-body" *ngIf="showPanel">
+
+
+    <!-- =================================================
+         HOME BANNER FORM
+         ================================================== -->
+
+    <ng-container *ngIf="activeTab === 'banner'">
+
+      <div class="panel-form-head">
+
+        <h4>
+          {{ panelMode === 'edit'
+          ? 'Edit Banner'
+          : 'Add Banner' }}
+        </h4>
+
+      </div>
+
+
+      <form [formGroup]="bannerForm" (ngSubmit)="saveBanner()">
+
+
+        <div class="row g-3">
+
+
+          <div class="col-12">
+
+            <label class="form-label-custom">
+              Banner Image
+              <span class="text-danger">*</span>
+            </label>
+
+
+            <div class="image-upload-box">
+
+              <img [src]="bannerImagePreview || defaultImage" (error)="onImageError($event)" alt="preview" />
+
+              <input type="file" accept="image/*" (change)="onBannerImagePick($event)" />
+
+            </div>
+
+
+            <div class="field-err" *ngIf="bannerForm.get('Image_Url')?.invalid &&
+                     bannerForm.get('Image_Url')?.touched">
+
+              Banner image is required.
+
+            </div>
+
+          </div>
+
+
+          <div class="col-12">
+
+            <label class="form-label-custom">
+              Title
+            </label>
+
+            <input type="text" class="form-control" formControlName="Banner_Title" placeholder="e.g. Diwali Mega Sale">
+
+          </div>
+
+
+          <div class="col-12">
+
+            <label class="form-label-custom">
+              Redirect URL
+            </label>
+
+            <input type="text" class="form-control" formControlName="Redirect_Url"
+              placeholder="/products?category=Laptop">
+
+          </div>
+
+
+          <div class="col-12">
+
+            <label class="form-label-custom">
+              Display Order
+            </label>
+
+            <input type="number" class="form-control" formControlName="Display_Order" min="0">
+
+          </div>
+
+
+        </div>
+
+
+        <div class="panel-form-actions">
+
+          <button type="button" class="btn-soft" (click)="closePanel()">
+
+            Cancel
+
+          </button>
+
+
+          <button type="submit" class="btn-success-custom">
+
+            <i class="ri-save-line me-1"></i>
+
+            {{
+            panelMode === 'edit'
+            ? 'Update Banner'
+            : 'Save Banner'
+            }}
+
+          </button>
+
+        </div>
+
+
+      </form>
+
+    </ng-container>
+
+
+
+    <!-- =================================================
+         ADVERTISEMENT FORM
+         ================================================== -->
+
+    <ng-container *ngIf="activeTab === 'advertisement'">
+
+
+      <div class="panel-form-head">
+
+        <h4>
+
+          {{
+          panelMode === 'edit'
+          ? 'Edit Advertisement'
+          : 'Add Advertisement'
+          }}
+
+        </h4>
+
+      </div>
+
+
+      <form [formGroup]="adForm" (ngSubmit)="saveAdvertisement()">
+
+
+        <div class="row g-3">
+
+
+          <div class="col-12">
+
+            <label class="form-label-custom">
+
+              Advertisement Image
+
+              <span class="text-danger">*</span>
+
+            </label>
+
+
+            <div class="image-upload-box">
+
+              <img [src]="adImagePreview || defaultImage" (error)="onImageError($event)" alt="preview" />
+
+              <input type="file" accept="image/*" (change)="onAdImagePick($event)" />
+
+            </div>
+
+
+            <div class="field-err" *ngIf="adForm.get('Image_Url')?.invalid &&
+                     adForm.get('Image_Url')?.touched">
+
+              Advertisement image is required.
+
+            </div>
+
+          </div>
+
+
+
+          <!-- SLOT -->
+          <div class="col-12">
+
+            <label class="form-label-custom">
+
+              Slot Position
+
+              <span class="text-danger">*</span>
+
+            </label>
+
+
+            <ng-select class="custom-ng-select" [items]="slotOptions" bindLabel="name" bindValue="id"
+              formControlName="Slot_No" [clearable]="false" [searchable]="false">
+
+            </ng-select>
+
+          </div>
+
+
+
+          <div class="col-12">
+
+            <label class="form-label-custom">
+              Title
+            </label>
+
+            <input type="text" class="form-control" formControlName="Ad_Title" placeholder="e.g. Diwali Offer">
+
+          </div>
+
+
+
+          <div class="col-12">
+
+            <label class="form-label-custom">
+              Redirect URL
+            </label>
+
+            <input type="text" class="form-control" formControlName="Redirect_Url"
+              placeholder="/products?category=Mobile">
+
+          </div>
+
+
+
+          <div class="col-6">
+
+            <label class="form-label-custom">
+              Display Order
+            </label>
+
+            <input type="number" class="form-control" formControlName="Display_Order" min="0">
+
+          </div>
+
+
+          <div class="col-6"></div>
+
+
+
+          <div class="col-6">
+
+            <label class="form-label-custom">
+              Start Date
+            </label>
+
+            <input type="date" class="form-control" formControlName="Start_Date">
+
+          </div>
+
+
+          <div class="col-6">
+
+            <label class="form-label-custom">
+              End Date
+            </label>
+
+            <input type="date" class="form-control" formControlName="End_Date">
+
+          </div>
+
+
+        </div>
+
+
+        <div class="panel-form-actions">
+
+          <button type="button" class="btn-soft" (click)="closePanel()">
+
+            Cancel
+
+          </button>
+
+
+          <button type="submit" class="btn-success-custom">
+
+            <i class="ri-save-line me-1"></i>
+
+            {{
+            panelMode === 'edit'
+            ? 'Update Advertisement'
+            : 'Save Advertisement'
+            }}
+
+          </button>
+
+        </div>
+
+
+      </form>
+
+    </ng-container>
+
+
+  </div>
+
+</div>

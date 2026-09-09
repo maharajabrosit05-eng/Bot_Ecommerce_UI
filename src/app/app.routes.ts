@@ -18,11 +18,15 @@ import { PendingOrders } from './shared/components/orders/pending-orders/pending
 import { CancelOrders } from './shared/components/orders/cancel-orders/cancel-orders';
 
 
+import { ContactFormDetails } from './shared/components/contact-form-details/contact-form-details/contact-form-details';
+
 import { StockOverview } from './shared/components/Inventory/stock-overview/stock-overview';
 import { LowStockAlert } from './shared/components/Inventory/low-stock-alert/low-stock-alert';
 
 import { AllCustomers } from './shared/components/customers/all-customers/all-customers';
 import { CustomersReview } from './shared/components/customers/customers-review/customers-review';
+
+import { Advertisement } from './shared/components/advertisement/advertisement/advertisement';
 
 // ============ Control Panel pages (puthusa add pannirikom) ============
 import { MasterMenuGroup } from './pages/control-panel/master-menu-group/master-menu-group';
@@ -33,6 +37,8 @@ import { NotFound } from './pages/not-found/not-found';
 import { NetworkError } from './pages/network-error/network-error';
 import { ServerError } from './pages/server-error/server-error';
 import { Forbidden } from './pages/forbidden/forbidden';
+
+
 
 export const routes: Routes = [
 
@@ -81,7 +87,9 @@ export const routes: Routes = [
       { path: 'low_stock_alert', component: LowStockAlert },
 
 
+      { path: 'advertisement', component: Advertisement },
 
+      { path: 'contact-form-details', component: ContactFormDetails },
 
       { path: 'all_customers', component: AllCustomers },
       { path: 'customer_review', component: CustomersReview },
